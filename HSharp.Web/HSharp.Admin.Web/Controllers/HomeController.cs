@@ -135,6 +135,15 @@ namespace HSharp.Admin.Web.Controllers
             new SessionHelper().WriteSession("CaptchaCode", captchaCode.Item2);
             return File(bytes, @"image/jpeg");
         }
+
+        public async Task<ActionResult> GetMessageCount()
+        {
+            TData<int> obj = new TData<int>();
+            obj.Tag = 1;
+            obj.Data = 22;
+            await Task.CompletedTask;
+            return Json(obj);
+        }
         #endregion
 
         #region 提交数据

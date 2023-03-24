@@ -286,3 +286,24 @@ CREATE TABLE IF NOT EXISTS `SysLogOperate` (
   `ExecuteTime`        int(11)         NOT NULL       COMMENT '执行时间',
   PRIMARY KEY (`Id`)
 ) ENGINE=InnoDB COMMENT '操作日志表';
+
+DROP TABLE IF EXISTS `SysMessageContent`;
+CREATE TABLE IF NOT EXISTS `SysMessageContent` (
+  `Id`                  bigint(20)      NOT NULL,
+  `BaseCreateTime`    datetime        NOT NULL,
+  `BaseCreatorId`     bigint(20)      NOT NULL,  
+  `Content`            varchar(500)     NOT NULL      COMMENT '站内信内容',
+  `SendUserId`         bigint(20)      NOT NULL       COMMENT '发送人ID', 
+  `Remark`              text            NOT NULL      COMMENT '备注',
+  PRIMARY KEY (`Id`)
+) ENGINE=InnoDB COMMENT '站内信';
+
+DROP TABLE IF EXISTS `SysMessageUser`;
+CREATE TABLE IF NOT EXISTS `SysMessageUser` (
+  `Id`                  bigint(20)      NOT NULL,
+  `BaseCreateTime`    datetime        NOT NULL,
+  `MessageId`           bigint(20)      NOT NULL,  
+  `ReceiveUserId`       bigint(20)      NOT NULL       COMMENT '发送人ID', 
+  `IsRead`              int(11)         NOT NULL       COMMENT '查看状态(0未读 1已读)',
+  PRIMARY KEY (`Id`)
+) ENGINE=InnoDB COMMENT '站内信用户表';
