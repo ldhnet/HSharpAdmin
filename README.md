@@ -4,7 +4,7 @@
  
 | HSharpAdmin 版本 | .NET Core 版本 | 是否支持 | 链接 | Developer |
 |:-----|:-----|:-----|:-----|:-----|
-| 6.0 | 6.0 | 支持 | [HSharpAdmin-Net6](https://gitee.com/ldh/HSharpAdmin/) | [lidonghui](https://gitee.com/ldhnet) |
+| 6.0 | 6.0 | 支持 | [HSharpAdmin-Net6](https://gitee.com/ldhnet/HSharpAdmin/) | [lidonghui](https://gitee.com/ldhnet) |
  
 
 ## 内置功能
@@ -27,10 +27,10 @@
    
 ## 演示图
 
-![登录页面](https://gitee.com/ldh/HSharpAdmin/master/YiSha.Web/YiSha.Admin.Web/wwwroot/image/demo_1.jpg)
-![登录进去首页](https://gitee.com/ldh/HSharpAdmin/master/YiSha.Web/YiSha.Admin.Web/wwwroot/image/demo_2.png)
-![用户列表](https://gitee.com/ldh/HSharpAdmin/master/YiSha.Web/YiSha.Admin.Web/wwwroot/image/demo_3.png)
-![用户列表修改](https://gitee.com/ldh/HSharpAdmin/master/YiSha.Web/YiSha.Admin.Web/wwwroot/image/demo_4.png)
+![登录页面](https://gitee.com/ldhnet/HSharpAdmin/master/YiSha.Web/YiSha.Admin.Web/wwwroot/image/demo_1.jpg)
+![登录进去首页](https://gitee.com/ldhnet/HSharpAdmin/master/YiSha.Web/YiSha.Admin.Web/wwwroot/image/demo_2.png)
+![用户列表](https://gitee.com/ldhnet/HSharpAdmin/master/YiSha.Web/YiSha.Admin.Web/wwwroot/image/demo_3.png)
+![用户列表修改](https://gitee.com/ldhnet/HSharpAdmin/master/YiSha.Web/YiSha.Admin.Web/wwwroot/image/demo_4.png)
 
 ## 如何参与开源项目
 
