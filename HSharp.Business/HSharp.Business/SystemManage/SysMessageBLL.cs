@@ -8,6 +8,7 @@ using HSharp.Util.Model;
 using HSharp.Entity.SystemManage;
 using HSharp.Model.Param.SystemManage;
 using HSharp.Service.SystemManage;
+using NPOI.POIFS.FileSystem;
 
 namespace HSharp.Business.SystemManage
 {
@@ -21,27 +22,27 @@ namespace HSharp.Business.SystemManage
         private SysMessageService sysMessageService = new SysMessageService();
 
         #region 获取数据
-        public async Task<TData<List<SysMessageEntity>>> GetList(SysMessageListParam param)
+        public async Task<TData<List<SysMessageContentEntity>>> GetList(SysMessageListParam param)
         {
-            TData<List<SysMessageEntity>> obj = new TData<List<SysMessageEntity>>();
+            TData<List<SysMessageContentEntity>> obj = new TData<List<SysMessageContentEntity>>();
             obj.Data = await sysMessageService.GetList(param);
             obj.Total = obj.Data.Count;
             obj.Tag = 1;
             return obj;
         }
 
-        public async Task<TData<List<SysMessageEntity>>> GetPageList(SysMessageListParam param, Pagination pagination)
+        public async Task<TData<List<SysMessageContentEntity>>> GetPageList(SysMessageListParam param, Pagination pagination)
         {
-            TData<List<SysMessageEntity>> obj = new TData<List<SysMessageEntity>>();
+            TData<List<SysMessageContentEntity>> obj = new TData<List<SysMessageContentEntity>>();
             obj.Data = await sysMessageService.GetPageList(param, pagination);
             obj.Total = pagination.TotalCount;
             obj.Tag = 1;
             return obj;
         }
 
-        public async Task<TData<SysMessageEntity>> GetEntity(long id)
+        public async Task<TData<SysMessageContentEntity>> GetEntity(long id)
         {
-            TData<SysMessageEntity> obj = new TData<SysMessageEntity>();
+            TData<SysMessageContentEntity> obj = new TData<SysMessageContentEntity>();
             obj.Data = await sysMessageService.GetEntity(id);
             if (obj.Data != null)
             {
@@ -49,15 +50,35 @@ namespace HSharp.Business.SystemManage
             }
             return obj;
         }
+        public async Task<TData<int>> GetUnreadCount(long userId)
+        {
+            TData<int> obj = new TData<int>();
+            int count = await sysMessageService.GetUnreadCount(userId);
+            obj.Data = count;
+            obj.Tag = count > 0 ? 1 : 0;
+            return obj;
+        }
         #endregion
 
         #region 提交数据
-        public async Task<TData<string>> SaveForm(SysMessageEntity entity)
+        public async Task<TData<string>> SaveForm(SysMessageContentEntity entity)
         {
             TData<string> obj = new TData<string>();
             await sysMessageService.SaveForm(entity);
             obj.Data = entity.Id.ParseToString();
             obj.Tag = 1;
+            return obj;
+        }
+
+        public async Task<TData> SendUnreadMessageToUser(long userId)
+        {
+            TData obj = new TData(); 
+            var result = await sysMessageService.IsExistRead(userId);
+            obj.Tag = 1;
+            if (result.Item1)
+            {
+                await sysMessageService.AddUnreadMessage(userId, result.Item2);           
+            }     
             return obj;
         }
 
@@ -68,6 +89,7 @@ namespace HSharp.Business.SystemManage
             obj.Tag = 1;
             return obj;
         }
+
         #endregion
 
         #region 私有方法

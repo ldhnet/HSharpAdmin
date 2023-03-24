@@ -14,6 +14,7 @@ using HSharp.Entity.SystemManage;
 using HSharp.Model.Param.SystemManage;
 using HSharp.Web.Code;
 using Newtonsoft.Json.Linq;
+using NPOI.POIFS.FileSystem;
 
 namespace HSharp.Service.SystemManage
 {
@@ -25,28 +26,54 @@ namespace HSharp.Service.SystemManage
     public class SysMessageService :  RepositoryFactory
     {
         #region 获取数据
-        public async Task<List<SysMessageEntity>> GetList(SysMessageListParam param)
+        public async Task<List<SysMessageContentEntity>> GetList(SysMessageListParam param)
         {
             var expression = ListFilter(param);
             var list = await this.BaseRepository().FindList(expression);
             return list.ToList();
         }
 
-        public async Task<List<SysMessageEntity>> GetPageList(SysMessageListParam param, Pagination pagination)
+        public async Task<List<SysMessageContentEntity>> GetPageList(SysMessageListParam param, Pagination pagination)
         {
             var expression = ListFilter(param);
             var list= await this.BaseRepository().FindList(expression, pagination);
             return list.ToList();
         }
 
-        public async Task<SysMessageEntity> GetEntity(long id)
+        public async Task<SysMessageContentEntity> GetEntity(long id)
         {
-            return await this.BaseRepository().FindEntity<SysMessageEntity>(id);
+            return await this.BaseRepository().FindEntity<SysMessageContentEntity>(id);
         }
+        public async Task<int> GetUnreadCount(long userId)
+        {
+            var expUser = LinqExtensions.True<SysMessageUserEntity>();
+            expUser = expUser.And(c => c.ReceiveUserId == userId && c.IsRead == 0); 
+            var list = await this.BaseRepository().FindList(expUser);
+            return list.Count();
+        }
+        public async Task<Tuple<bool, List<long>>> IsExistRead(long userId)
+        {
+            var expUser = LinqExtensions.True<SysMessageUserEntity>();
+            expUser = expUser.And(c => c.ReceiveUserId == userId);
+            var listUser = await this.BaseRepository().FindList(expUser);
+            var msgIds = listUser.ToList().Select(c => c.MessageId).ToList();
+            var expCpntent = LinqExtensions.True<SysMessageContentEntity>();
+            expCpntent= expCpntent.And(c => !msgIds.Contains(c.Id??0));
+            var listMsg = await this.BaseRepository().FindList(expCpntent);
+            if (listMsg.Any())
+            {
+                return new(true, listMsg.Select(c => c.Id.ParseToLong()).ToList());
+            }
+            else
+            {
+                return new(false, new List<long>());
+            }
+        }
+
         #endregion
 
         #region 提交数据
-        public async Task SaveForm(SysMessageEntity entity)
+        public async Task SaveForm(SysMessageContentEntity entity)
         {
             if (entity.SendUserId.IsNullOrZero())
             {
@@ -68,18 +95,32 @@ namespace HSharp.Service.SystemManage
                 await this.BaseRepository().Update(entity);
             }
         }
-
+        public async Task AddUnreadMessage(long userId, List<long> entityList)
+        {
+            var entityUserList = new List<SysMessageUserEntity>();
+            foreach (var msgId in entityList)
+            {
+                SysMessageUserEntity entity = new();
+                entity.Create();
+                entity.ReceiveUserId = userId;
+                entity.MessageId = msgId;
+                entity.BaseCreateTime = DateTime.Now;
+                entity.IsRead = 0;
+                entityUserList.Add(entity);
+            }
+            await this.BaseRepository().Insert(entityUserList);
+        }
         public async Task DeleteForm(string ids)
         {
             long[] idArr = TextHelper.SplitToArray<long>(ids, ',');
-            await this.BaseRepository().Delete<SysMessageEntity>(idArr);
+            await this.BaseRepository().Delete<SysMessageContentEntity>(idArr);
         }
         #endregion
 
         #region 私有方法
-        private Expression<Func<SysMessageEntity, bool>> ListFilter(SysMessageListParam param)
+        private Expression<Func<SysMessageContentEntity, bool>> ListFilter(SysMessageListParam param)
         {
-            var expression = LinqExtensions.True<SysMessageEntity>();
+            var expression = LinqExtensions.True<SysMessageContentEntity>();
             if (param != null)
             {
             }

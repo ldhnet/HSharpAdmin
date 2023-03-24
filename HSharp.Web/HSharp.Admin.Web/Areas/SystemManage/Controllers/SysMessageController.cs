@@ -43,7 +43,7 @@ namespace HSharp.Admin.Web.Areas.SystemManage.Controllers
         [AuthorizeFilter("system:sysmessage:search")]
         public async Task<ActionResult> GetListJson(SysMessageListParam param)
         {
-            TData<List<SysMessageEntity>> obj = await sysMessageBLL.GetList(param);
+            TData<List<SysMessageContentEntity>> obj = await sysMessageBLL.GetList(param);
             return Json(obj);
         }
 
@@ -51,14 +51,14 @@ namespace HSharp.Admin.Web.Areas.SystemManage.Controllers
         [AuthorizeFilter("system:sysmessage:search")]
         public async Task<ActionResult> GetPageListJson(SysMessageListParam param, Pagination pagination)
         {
-            TData<List<SysMessageEntity>> obj = await sysMessageBLL.GetPageList(param, pagination);
+            TData<List<SysMessageContentEntity>> obj = await sysMessageBLL.GetPageList(param, pagination);
             return Json(obj);
         }
 
         [HttpGet]
         public async Task<ActionResult> GetFormJson(long id)
         {
-            TData<SysMessageEntity> obj = await sysMessageBLL.GetEntity(id);
+            TData<SysMessageContentEntity> obj = await sysMessageBLL.GetEntity(id);
             return Json(obj);
         }
         #endregion
@@ -66,7 +66,7 @@ namespace HSharp.Admin.Web.Areas.SystemManage.Controllers
         #region 提交数据
         [HttpPost]
         [AuthorizeFilter("system:sysmessage:add,system:sysmessage:edit")]
-        public async Task<ActionResult> SaveFormJson(SysMessageEntity entity)
+        public async Task<ActionResult> SaveFormJson(SysMessageContentEntity entity)
         {
             TData<string> obj = await sysMessageBLL.SaveForm(entity);
             return Json(obj);

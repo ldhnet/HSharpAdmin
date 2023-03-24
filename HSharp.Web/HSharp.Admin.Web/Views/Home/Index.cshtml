@@ -226,7 +226,7 @@
 
     function messageWarning() {
         ys.ajax({
-            url: '@Url.Content("~/Home/GetMessageCount")',
+            url: '@Url.Content("~/Home/GetMessageCount?userId=" + @operatorInfo.UserId)',
             type: "get",
             success: function (obj) {
                 if (obj.Tag == 1) {

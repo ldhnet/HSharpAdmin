@@ -11,7 +11,7 @@ namespace HSharp.Entity.SystemManage
     /// 描 述：站内信实体类
     /// </summary>
     [Table("SysMessageContent")]
-    public class SysMessageEntity : BaseCreateEntity
+    public class SysMessageContentEntity : BaseCreateEntity
     {
         /// <summary>
         /// 站内信内容

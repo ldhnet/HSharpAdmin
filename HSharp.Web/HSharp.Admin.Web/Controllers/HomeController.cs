@@ -26,7 +26,7 @@ namespace HSharp.Admin.Web.Controllers
         private UserBLL userBLL = new UserBLL();
         private LogLoginBLL logLoginBLL = new LogLoginBLL();
         private MenuAuthorizeBLL menuAuthorizeBLL = new MenuAuthorizeBLL();
-
+        private SysMessageBLL sysMessageBLL = new SysMessageBLL();
         #region 视图功能
         [HttpGet]
         [AuthorizeFilter]
@@ -136,12 +136,9 @@ namespace HSharp.Admin.Web.Controllers
             return File(bytes, @"image/jpeg");
         }
 
-        public async Task<ActionResult> GetMessageCount()
+        public async Task<ActionResult> GetMessageCount(long userId)
         {
-            TData<int> obj = new TData<int>();
-            obj.Tag = 1;
-            obj.Data = 22;
-            await Task.CompletedTask;
+            var obj = await sysMessageBLL.GetUnreadCount(userId);
             return Json(obj);
         }
         #endregion
@@ -194,6 +191,10 @@ namespace HSharp.Admin.Web.Controllers
             };
             AsyncTaskHelper.StartTask(taskAction);
 
+            Action taskAddUnreadMsg = async () => {
+               await sysMessageBLL.SendUnreadMessageToUser(userObj.Data.Id.ParseToLong());
+            };
+            AsyncTaskHelper.StartTask(taskAddUnreadMsg);
             obj.Tag = userObj.Tag;
             obj.Message = userObj.Message;
             return Json(obj);
