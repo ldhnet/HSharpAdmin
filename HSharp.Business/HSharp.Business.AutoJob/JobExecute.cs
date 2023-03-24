@@ -10,6 +10,7 @@ using HSharp.Service.SystemManage;
 using HSharp.Util;
 using HSharp.Util.Extension;
 using HSharp.Util.Model;
+using HSharp.Business.AutoJob.Job;
 
 namespace HSharp.Business.AutoJob
 {

@@ -45,21 +45,15 @@ namespace HSharp.Service.SystemManage
             return await this.BaseRepository().FindEntity<SysMessageContentEntity>(id);
         }
         public async Task<int> GetUnreadCount(long userId)
-        {
-            var expUser = LinqExtensions.True<SysMessageUserEntity>();
-            expUser = expUser.And(c => c.ReceiveUserId == userId && c.IsRead == 0); 
-            var list = await this.BaseRepository().FindList(expUser);
+        { 
+            var list = await this.BaseRepository().FindList<SysMessageUserEntity>(c => c.ReceiveUserId == userId && c.IsRead == 0);
             return list.Count();
         }
         public async Task<Tuple<bool, List<long>>> IsExistRead(long userId)
-        {
-            var expUser = LinqExtensions.True<SysMessageUserEntity>();
-            expUser = expUser.And(c => c.ReceiveUserId == userId);
-            var listUser = await this.BaseRepository().FindList(expUser);
-            var msgIds = listUser.ToList().Select(c => c.MessageId).ToList();
-            var expCpntent = LinqExtensions.True<SysMessageContentEntity>();
-            expCpntent= expCpntent.And(c => !msgIds.Contains(c.Id??0));
-            var listMsg = await this.BaseRepository().FindList(expCpntent);
+        {  
+            var listUser = await this.BaseRepository().FindList<SysMessageUserEntity>(c=>c.ReceiveUserId == userId);       
+            var msgIds = listUser.ToList().Select(c => c.MessageId).ToList();   
+            var listMsg = await this.BaseRepository().FindList<SysMessageContentEntity>(c => !msgIds.Contains(c.Id ?? 0));
             if (listMsg.Any())
             {
                 return new(true, listMsg.Select(c => c.Id.ParseToLong()).ToList());

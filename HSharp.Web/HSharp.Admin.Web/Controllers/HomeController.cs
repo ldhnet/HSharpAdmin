@@ -17,6 +17,7 @@ using HSharp.Util;
 using HSharp.Entity.OrganizationManage;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
+using HSharp.Web.Code.State;
 
 namespace HSharp.Admin.Web.Controllers
 {

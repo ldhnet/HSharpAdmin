@@ -8,10 +8,10 @@ using System.Text;
 using HSharp.Util;
 using HSharp.Util.Extension;
 using HSharp.Util.Model;
-using HSharp.Data;
 using HSharp.Data.Repository;
 using HSharp.Entity.OrganizationManage;
 using HSharp.Model.Param.OrganizationManage;
+using HSharp.Data;
 
 namespace HSharp.Service.OrganizationManage
 {

@@ -9,8 +9,9 @@ using System.Web;
 using Microsoft.AspNetCore.Session;
 using Microsoft.AspNetCore.Http.Extensions;
 using Newtonsoft.Json;
+using HSharp.Util;
 
-namespace HSharp.Util
+namespace HSharp.Web.Code.State
 {
     public class SessionHelper
     {

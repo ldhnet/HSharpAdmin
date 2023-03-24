@@ -7,8 +7,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 using HSharp.Util.Extension;
+using HSharp.Util;
 
-namespace HSharp.Util
+namespace HSharp.Web.Code.State
 {
     public class CookieHelper
     {

@@ -72,12 +72,12 @@ namespace HSharp.Business.SystemManage
 
         public async Task<TData> SendUnreadMessageToUser(long userId)
         {
-            TData obj = new TData(); 
-            var result = await sysMessageService.IsExistRead(userId);
+            TData obj = new TData();
+            (bool isUnRead, List<long> msgIds) = await sysMessageService.IsExistRead(userId);
             obj.Tag = 1;
-            if (result.Item1)
+            if (isUnRead)
             {
-                await sysMessageService.AddUnreadMessage(userId, result.Item2);           
+                await sysMessageService.AddUnreadMessage(userId, msgIds);           
             }     
             return obj;
         }

@@ -1,24 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.Common;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using HSharp.Data;
+﻿using HSharp.Data;
 using HSharp.Data.EF;
 using HSharp.Data.Repository;
-using HSharp.Entity;
 using HSharp.Entity.OrganizationManage;
 using HSharp.Entity.SystemManage;
 using HSharp.Model.Result.SystemManage;
 using HSharp.Util;
 using HSharp.Util.Model;
+using System;
+using System.Collections.Generic;
+using System.Data.Common;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace HSharp.Service.SystemManage
 {
     public class DatabaseTableMySqlService : RepositoryFactory, IDatabaseTableService
     {
         #region 获取数据
+
         public async Task<List<TableInfo>> GetTableList(string tableName)
         {
             StringBuilder strSql = new StringBuilder();
@@ -52,7 +52,7 @@ namespace HSharp.Service.SystemManage
         public async Task<List<TableFieldInfo>> GetTableFieldList(string tableName)
         {
             StringBuilder strSql = new StringBuilder();
-            strSql.Append(@"SELECT COLUMN_NAME TableColumn, 
+            strSql.Append(@"SELECT COLUMN_NAME TableColumn,
 		                           DATA_TYPE Datatype,
 		                           (CASE COLUMN_KEY WHEN 'PRI' THEN COLUMN_NAME ELSE '' END) TableIdentity,
 		                           REPLACE(REPLACE(SUBSTRING(COLUMN_TYPE,LOCATE('(',COLUMN_TYPE)),'(',''),')','') FieldLength,
@@ -65,9 +65,11 @@ namespace HSharp.Service.SystemManage
             var list = await this.BaseRepository().FindList<TableFieldInfo>(strSql.ToString(), parameter.ToArray());
             return list.ToList();
         }
-        #endregion
+
+        #endregion 获取数据
 
         #region 公有方法
+
         public async Task<bool> DatabaseBackup(string database, string backupPath)
         {
             string backupFile = string.Format("{0}\\{1}_{2}.bak", backupPath, database, DateTime.Now.ToString("yyyyMMddHHmmss"));
@@ -83,6 +85,7 @@ namespace HSharp.Service.SystemManage
         public async Task SyncDatabase()
         {
             #region 同步SqlServer数据库
+
             await SyncSqlServerTable<AreaEntity>();
             await SyncSqlServerTable<AutoJobEntity>();
             await SyncSqlServerTable<AutoJobLogEntity>();
@@ -97,8 +100,10 @@ namespace HSharp.Service.SystemManage
             await SyncSqlServerTable<RoleEntity>();
             await SyncSqlServerTable<UserEntity>();
             await SyncSqlServerTable<UserBelongEntity>();
-            #endregion
+
+            #endregion 同步SqlServer数据库
         }
+
         private async Task SyncSqlServerTable<T>() where T : class, new()
         {
             string sqlServerConnectionString = "Server=localhost;Database=HSharpAdmin;User Id=sa;Password=123456;";
@@ -107,7 +112,8 @@ namespace HSharp.Service.SystemManage
             await new SqlServerDatabase(sqlServerConnectionString).Delete<T>(p => true);
             await new SqlServerDatabase(sqlServerConnectionString).Insert<T>(list);
         }
-        #endregion
+
+        #endregion 公有方法
 
         #region 私有方法
 
@@ -149,11 +155,13 @@ namespace HSharp.Service.SystemManage
                 }
             }
         }
+
         private string GetDatabase()
         {
             string database = HtmlHelper.Resove(GlobalContext.SystemConfig.DBConnectionString, "database=", ";");
             return database;
         }
-        #endregion
+
+        #endregion 私有方法
     }
 }

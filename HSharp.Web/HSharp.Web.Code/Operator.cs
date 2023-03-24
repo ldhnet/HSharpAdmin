@@ -9,6 +9,7 @@ using System.Web;
 using HSharp.Util;
 using HSharp.Util.Extension;
 using HSharp.Cache.Factory;
+using HSharp.Web.Code.State;
 
 namespace HSharp.Web.Code
 {

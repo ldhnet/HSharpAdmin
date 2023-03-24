@@ -1,24 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Text;
-using System.Text.Encodings.Web;
-using System.Text.Unicode;
-using Newtonsoft.Json.Serialization;
-using Microsoft.Extensions.FileProviders;
-using Microsoft.AspNetCore.DataProtection;
-using Microsoft.Extensions.Hosting;
+﻿using HSharp.Admin.Web.Controllers;
+using HSharp.Admin.Web.Hubs;
+using HSharp.Util;
+using HSharp.Util.Model;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using HSharp.Util;
-using HSharp.Util.Model;
-using HSharp.Admin.Web.Controllers;
-using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.FileProviders;
+using Microsoft.Extensions.Hosting;
+using Newtonsoft.Json.Serialization;
+using System.IO;
+using System.Text;
+using System.Text.Encodings.Web;
+using System.Text.Unicode;
 
 namespace HSharp.Admin.Web
 {
@@ -66,6 +62,8 @@ namespace HSharp.Admin.Web
 
             services.AddOptions();
 
+            services.AddSignalR();
+
             services.AddDataProtection().PersistKeysToFileSystem(new DirectoryInfo(GlobalContext.HostingEnvironment.ContentRootPath + Path.DirectorySeparatorChar + "DataProtection"));
 
             Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);  // 注册Encoding
@@ -111,6 +109,7 @@ namespace HSharp.Admin.Web
             {
                 endpoints.MapControllerRoute("areas", "{area:exists}/{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
+                endpoints.MapHub<ChatHub>("/chathub");
             });
             GlobalContext.ServiceProvider = app.ApplicationServices;
         }

@@ -8,7 +8,7 @@ using HSharp.Business.SystemManage;
 using HSharp.Util;
 using HSharp.Util.Model;
 
-namespace HSharp.Business.AutoJob
+namespace HSharp.Business.AutoJob.Job
 {
     public class DatabasesBackupJob : IJobTask
     {

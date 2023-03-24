@@ -1,14 +1,13 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
-using System.Collections.Generic;
-using Microsoft.EntityFrameworkCore;
-using NUnit.Framework;
-using HSharp.Data;
+﻿using HSharp.Data;
 using HSharp.Data.Repository;
 using HSharp.Entity.SystemManage;
 using HSharp.Model.Param.SystemManage;
 using HSharp.Service.SystemManage;
 using HSharp.Util.Model;
+using NUnit.Framework;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace HSharp.DataTest
 {

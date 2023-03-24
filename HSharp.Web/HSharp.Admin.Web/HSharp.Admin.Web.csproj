@@ -33,4 +33,8 @@
     <ProjectReference Include="..\..\HSharp.Util\HSharp.Util\HSharp.Util.csproj" />
     <ProjectReference Include="..\HSharp.Web.Code\HSharp.Web.Code.csproj" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\lib\signalr\" />
+  </ItemGroup>
 </Project>

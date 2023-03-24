@@ -1,23 +1,23 @@
-﻿using System;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using HSharp.Util;
-using HSharp.Util.Extension;
-using HSharp.Util.Model;
+﻿using HSharp.Data;
 using HSharp.Data.Repository;
 using HSharp.Entity.SystemManage;
 using HSharp.Model.Param.SystemManage;
-using System.Text;
+using HSharp.Util;
+using HSharp.Util.Extension;
+using HSharp.Util.Model;
+using System;
+using System.Collections.Generic;
 using System.Data.Common;
-using HSharp.Data;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace HSharp.Service.SystemManage
 {
     public class LogApiService : RepositoryFactory
     {
         #region 获取数据
+
         public async Task<List<LogApiEntity>> GetList(LogApiListParam param)
         {
             var strSql = new StringBuilder();
@@ -38,9 +38,11 @@ namespace HSharp.Service.SystemManage
         {
             return await this.BaseRepository().FindEntity<LogApiEntity>(id);
         }
-        #endregion
+
+        #endregion 获取数据
 
         #region 提交数据
+
         public async Task SaveForm(LogApiEntity entity)
         {
             if (entity.Id.IsNullOrZero())
@@ -64,9 +66,11 @@ namespace HSharp.Service.SystemManage
         {
             await this.BaseRepository().ExecuteBySql("truncate table SysLogApi");
         }
-        #endregion
+
+        #endregion 提交数据
 
         #region 私有方法
+
         private List<DbParameter> ListFilter(LogApiListParam param, StringBuilder strSql)
         {
             strSql.Append(@"SELECT  a.Id,
@@ -116,6 +120,7 @@ namespace HSharp.Service.SystemManage
             }
             return parameter;
         }
-        #endregion
+
+        #endregion 私有方法
     }
 }
