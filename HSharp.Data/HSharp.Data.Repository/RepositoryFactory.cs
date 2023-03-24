@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using HSharp.Data.EF;
+﻿using HSharp.Data.EF;
 using HSharp.Util;
+using System;
 
 namespace HSharp.Data.Repository
 {
@@ -21,14 +17,17 @@ namespace HSharp.Data.Repository
                     DbHelper.DbType = DatabaseType.SqlServer;
                     database = new SqlServerDatabase(dbConnectionString);
                     break;
+
                 case "MySql":
                     DbHelper.DbType = DatabaseType.MySql;
                     database = new MySqlDatabase(dbConnectionString);
                     break;
+
                 case "Oracle":
                     DbHelper.DbType = DatabaseType.Oracle;
                     // 支持Oracle或是更多数据库请参考上面SqlServer或是MySql的写法
                     break;
+
                 default:
                     throw new Exception("未找到数据库配置");
             }

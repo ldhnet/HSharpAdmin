@@ -1,13 +1,12 @@
-﻿using System;
-using System.Reflection;
-using System.Text;
+﻿using HSharp.Util.Model;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.Extensions.Hosting;
-using HSharp.Util.Model;
-using Microsoft.AspNetCore.Http;
+using System;
+using System.Reflection;
+using System.Text;
 
 namespace HSharp.Util
 {

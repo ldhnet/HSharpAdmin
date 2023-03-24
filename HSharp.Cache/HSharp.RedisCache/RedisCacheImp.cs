@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using HSharp.Cache.Interface;
+using HSharp.Util;
 using Newtonsoft.Json;
 using StackExchange.Redis;
-using HSharp.Cache.Interface;
-using HSharp.Util;
+using System;
+using System.Collections.Generic;
 
 namespace HSharp.RedisCache
 {
@@ -73,6 +72,7 @@ namespace HSharp.RedisCache
         }
 
         #region Hash
+
         public int SetHashFieldCache<T>(string key, string fieldKey, T fieldValue)
         {
             return SetHashFieldCache<T>(key, new Dictionary<string, T> { { fieldKey, fieldValue } });
@@ -146,7 +146,8 @@ namespace HSharp.RedisCache
             }
             return dict;
         }
-        #endregion
+
+        #endregion Hash
 
         public void Dispose()
         {

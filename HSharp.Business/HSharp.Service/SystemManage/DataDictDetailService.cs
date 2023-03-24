@@ -1,20 +1,21 @@
-﻿using System;
-using System.Linq;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using HSharp.Data.Repository;
+using HSharp.Entity.SystemManage;
+using HSharp.Model.Param.SystemManage;
 using HSharp.Util;
 using HSharp.Util.Extension;
 using HSharp.Util.Model;
-using HSharp.Data.Repository;
-using HSharp.Entity.SystemManage;
-using HSharp.Model.Param.SystemManage;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
 
 namespace HSharp.Service.SystemManage
 {
     public class DataDictDetailService : RepositoryFactory
     {
         #region 获取数据
+
         public async Task<List<DataDictDetailEntity>> GetList(DataDictDetailListParam param)
         {
             var expression = ListFilter(param);
@@ -56,9 +57,11 @@ namespace HSharp.Service.SystemManage
             }
             return this.BaseRepository().IQueryable(expression).Count() > 0 ? true : false;
         }
-        #endregion
+
+        #endregion 获取数据
 
         #region 提交数据
+
         public async Task SaveForm(DataDictDetailEntity entity)
         {
             if (entity.Id.IsNullOrZero())
@@ -78,9 +81,11 @@ namespace HSharp.Service.SystemManage
             long[] idArr = TextHelper.SplitToArray<long>(ids, ',');
             await this.BaseRepository().Delete<DataDictDetailEntity>(idArr);
         }
-        #endregion
+
+        #endregion 提交数据
 
         #region 私有方法
+
         private Expression<Func<DataDictDetailEntity, bool>> ListFilter(DataDictDetailListParam param)
         {
             var expression = LinqExtensions.True<DataDictDetailEntity>();
@@ -103,6 +108,7 @@ namespace HSharp.Service.SystemManage
             }
             return expression;
         }
-        #endregion
+
+        #endregion 私有方法
     }
 }

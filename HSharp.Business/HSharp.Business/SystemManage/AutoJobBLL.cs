@@ -1,14 +1,12 @@
-﻿using System;
-using System.Linq;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using HSharp.Entity.SystemManage;
+using HSharp.Enum;
+using HSharp.Model.Param.SystemManage;
+using HSharp.Service.SystemManage;
 using HSharp.Util;
 using HSharp.Util.Extension;
 using HSharp.Util.Model;
-using HSharp.Entity.SystemManage;
-using HSharp.Model.Param.SystemManage;
-using HSharp.Service.SystemManage;
-using HSharp.Enum;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace HSharp.Business.SystemManage
 {
@@ -17,6 +15,7 @@ namespace HSharp.Business.SystemManage
         private AutoJobService autoJobService = new AutoJobService();
 
         #region 获取数据
+
         public async Task<TData<List<AutoJobEntity>>> GetList(AutoJobListParam param)
         {
             TData<List<AutoJobEntity>> obj = new TData<List<AutoJobEntity>>();
@@ -42,9 +41,11 @@ namespace HSharp.Business.SystemManage
             obj.Tag = 1;
             return obj;
         }
-        #endregion
+
+        #endregion 获取数据
 
         #region 提交数据
+
         public async Task<TData<string>> SaveForm(AutoJobEntity entity)
         {
             TData<string> obj = new TData<string>();
@@ -86,10 +87,7 @@ namespace HSharp.Business.SystemManage
             obj.Tag = 1;
             return obj;
         }
-        #endregion
 
-        #region 私有方法
-        #endregion
+        #endregion 提交数据
     }
 }
-

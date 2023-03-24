@@ -1,29 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.IO;
-using System.Threading.Tasks;
-using System.Linq.Expressions;
-using System.Data;
-using System.Data.Common;
-using HSharp.Data.Repository;
+﻿using HSharp.Data.Repository;
 using HSharp.Entity.OrganizationManage;
 using HSharp.Enum.OrganizationManage;
 using HSharp.Model.Param.OrganizationManage;
 using HSharp.Util;
-using HSharp.Util.Model;
 using HSharp.Util.Extension;
-using HSharp.Enum;
-using HSharp.Entity;
-using HSharp.Data.EF;
-using HSharp.Service.SystemManage;
+using HSharp.Util.Model;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
+using System.Threading.Tasks;
 
 namespace HSharp.Service.OrganizationManage
 {
     public class UserService : RepositoryFactory
     {
         #region 获取数据
+
         public async Task<List<UserEntity>> GetList(UserListParam param)
         {
             var expression = ListFilter(param);
@@ -71,9 +64,11 @@ namespace HSharp.Service.OrganizationManage
             }
             return this.BaseRepository().IQueryable(expression).Count() > 0 ? true : false;
         }
-        #endregion
+
+        #endregion 获取数据
 
         #region 提交数据
+
         public async Task UpdateUser(UserEntity entity)
         {
             await this.BaseRepository().Update(entity);
@@ -161,9 +156,11 @@ namespace HSharp.Service.OrganizationManage
             await entity.Modify();
             await this.BaseRepository().Update(entity);
         }
-        #endregion
+
+        #endregion 提交数据
 
         #region 私有方法
+
         private Expression<Func<UserEntity, bool>> ListFilter(UserListParam param)
         {
             var expression = LinqExtensions.True<UserEntity>();
@@ -202,6 +199,7 @@ namespace HSharp.Service.OrganizationManage
             }
             return expression;
         }
-        #endregion
+
+        #endregion 私有方法
     }
 }

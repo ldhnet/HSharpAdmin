@@ -1,27 +1,28 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.IO;
-using System.Text;
-using System.Threading.Tasks;
-using System.Data;
-using System.Web;
-using Newtonsoft.Json.Linq;
-using HSharp.Data.Repository;
+﻿using HSharp.Business.Cache;
 using HSharp.CodeGenerator.Model;
+using HSharp.Data.Repository;
+using HSharp.Entity;
+using HSharp.Entity.SystemManage;
+using HSharp.Enum.SystemManage;
 using HSharp.Util;
 using HSharp.Util.Extension;
 using HSharp.Util.Model;
-using HSharp.Entity.SystemManage;
-using HSharp.Enum.SystemManage;
-using HSharp.Business.Cache;
-using HSharp.Entity;
+using Newtonsoft.Json.Linq;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Web;
 
 namespace HSharp.CodeGenerator.Template
 {
     public class SingleTableTemplate
     {
         #region GetBaseConfig
+
         public BaseConfigModel GetBaseConfig(string path, string userName, string tableName, string tableDescription, List<string> tableFieldList)
         {
             path = GetProjectRootPath(path);
@@ -33,6 +34,7 @@ namespace HSharp.CodeGenerator.Template
             baseConfigModel.TableNameUpper = tableName;
 
             #region FileConfigModel
+
             baseConfigModel.FileConfig = new FileConfigModel();
             baseConfigModel.FileConfig.ClassPrefix = TableMappingHelper.GetClassNamePrefix(tableName);
             baseConfigModel.FileConfig.ClassDescription = tableDescription;
@@ -47,9 +49,11 @@ namespace HSharp.CodeGenerator.Template
             baseConfigModel.FileConfig.ControllerName = string.Format("{0}Controller", baseConfigModel.FileConfig.ClassPrefix);
             baseConfigModel.FileConfig.PageIndexName = string.Format("{0}Index", baseConfigModel.FileConfig.ClassPrefix);
             baseConfigModel.FileConfig.PageFormName = string.Format("{0}Form", baseConfigModel.FileConfig.ClassPrefix);
-            #endregion
 
-            #region OutputConfigModel          
+            #endregion FileConfigModel
+
+            #region OutputConfigModel
+
             baseConfigModel.OutputConfig = new OutputConfigModel();
             baseConfigModel.OutputConfig.OutputModule = string.Empty;
             baseConfigModel.OutputConfig.OutputEntity = Path.Combine(path, "HSharp.Entity");
@@ -64,29 +68,36 @@ namespace HSharp.CodeGenerator.Template
             {
                 baseConfigModel.OutputConfig.ModuleList = new List<string> { "TestManage" };
             }
-            #endregion
+
+            #endregion OutputConfigModel
 
             #region PageIndexModel
+
             baseConfigModel.PageIndex = new PageIndexModel();
             baseConfigModel.PageIndex.IsSearch = 1;
             baseConfigModel.PageIndex.IsPagination = 1;
             baseConfigModel.PageIndex.ButtonList = new List<string>();
             baseConfigModel.PageIndex.ColumnList = new List<string>();
             baseConfigModel.PageIndex.ColumnList.AddRange(tableFieldList.Take(defaultField));
-            #endregion
+
+            #endregion PageIndexModel
 
             #region PageFormModel
+
             baseConfigModel.PageForm = new PageFormModel();
             baseConfigModel.PageForm.ShowMode = 1;
             baseConfigModel.PageForm.FieldList = new List<string>();
             baseConfigModel.PageForm.FieldList.AddRange(tableFieldList.Take(defaultField));
-            #endregion
+
+            #endregion PageFormModel
 
             return baseConfigModel;
         }
-        #endregion
+
+        #endregion GetBaseConfig
 
         #region BuildEntity
+
         public string BuildEntity(BaseConfigModel baseConfigModel, DataTable dt)
         {
             StringBuilder sb = new StringBuilder();
@@ -144,9 +155,11 @@ namespace HSharp.CodeGenerator.Template
 
             return sb.ToString();
         }
-        #endregion
+
+        #endregion BuildEntity
 
         #region BuildEntityParam
+
         public string BuildEntityParam(BaseConfigModel baseConfigModel)
         {
             StringBuilder sb = new StringBuilder();
@@ -169,9 +182,11 @@ namespace HSharp.CodeGenerator.Template
 
             return sb.ToString();
         }
-        #endregion
+
+        #endregion BuildEntityParam
 
         #region BuildService
+
         public string BuildService(BaseConfigModel baseConfigModel, DataTable dt)
         {
             string baseEntity = GetBaseEntity(dt);
@@ -260,9 +275,11 @@ namespace HSharp.CodeGenerator.Template
             sb.AppendLine("}");
             return sb.ToString();
         }
-        #endregion
+
+        #endregion BuildService
 
         #region BuildBusiness
+
         public string BuildBusiness(BaseConfigModel baseConfigModel)
         {
             StringBuilder sb = new StringBuilder();
@@ -345,9 +362,11 @@ namespace HSharp.CodeGenerator.Template
             sb.AppendLine("}");
             return sb.ToString();
         }
-        #endregion
+
+        #endregion BuildBusiness
 
         #region BuildController
+
         public string BuildController(BaseConfigModel baseConfigModel)
         {
             string modulePrefix = GetModulePrefix(baseConfigModel);
@@ -439,12 +458,15 @@ namespace HSharp.CodeGenerator.Template
             sb.AppendLine("}");
             return sb.ToString();
         }
-        #endregion
+
+        #endregion BuildController
 
         #region BuildIndex
+
         public string BuildIndex(BaseConfigModel baseConfigModel)
         {
             #region 初始化集合
+
             if (baseConfigModel.PageIndex.ButtonList == null)
             {
                 baseConfigModel.PageIndex.ButtonList = new List<string>();
@@ -453,7 +475,8 @@ namespace HSharp.CodeGenerator.Template
             {
                 baseConfigModel.PageIndex.ColumnList = new List<string>();
             }
-            #endregion
+
+            #endregion 初始化集合
 
             StringBuilder sb = new StringBuilder();
             sb.AppendLine("@{");
@@ -463,6 +486,7 @@ namespace HSharp.CodeGenerator.Template
             sb.AppendLine("    <div class=\"row\">");
 
             #region 是否显示搜索
+
             if (baseConfigModel.PageIndex.IsSearch == 1)
             {
                 string fieldName = TextHelper.GetCustomValue(baseConfigModel.PageIndex.ColumnList.FirstOrDefault(), "fieldName");
@@ -480,9 +504,11 @@ namespace HSharp.CodeGenerator.Template
                 sb.AppendLine("            </div>");
                 sb.AppendLine("        </div>");
             }
-            #endregion
+
+            #endregion 是否显示搜索
 
             #region 是否显示工具栏
+
             if (baseConfigModel.PageIndex.ButtonList.Where(p => p != "btnSearch").Any())
             {
                 sb.AppendLine("        <div class=\"btn-group-sm hidden-xs\" id=\"toolbar\">");
@@ -500,7 +526,8 @@ namespace HSharp.CodeGenerator.Template
                 }
                 sb.AppendLine("        </div>");
             }
-            #endregion
+
+            #endregion 是否显示工具栏
 
             sb.AppendLine("        <div class=\"col-sm-12 select-table table-striped\">");
             sb.AppendLine("            <table id=\"gridTable\" data-mobile-responsive=\"true\"></table>");
@@ -546,6 +573,7 @@ namespace HSharp.CodeGenerator.Template
             sb.AppendLine("");
 
             #region 新增和修改方法
+
             if (baseConfigModel.PageIndex.ButtonList.Where(p => p == "btnAdd" || p == "btnEdit").Any())
             {
                 sb.AppendLine("    function showSaveForm(bAdd) {");
@@ -571,11 +599,13 @@ namespace HSharp.CodeGenerator.Template
                 sb.AppendLine("        });");
                 sb.AppendLine("    }");
             }
-            #endregion
+
+            #endregion 新增和修改方法
 
             sb.AppendLine("");
 
             #region 删除方法
+
             if (baseConfigModel.PageIndex.ButtonList.Where(p => p == "btnDelete").Any())
             {
                 sb.AppendLine("    function deleteForm() {");
@@ -600,22 +630,28 @@ namespace HSharp.CodeGenerator.Template
                 sb.AppendLine("        }");
                 sb.AppendLine("    }");
             }
-            #endregion
+
+            #endregion 删除方法
 
             sb.AppendLine("</script>");
             return sb.ToString();
         }
-        #endregion
+
+        #endregion BuildIndex
 
         #region BuildForm
+
         public string BuildForm(BaseConfigModel baseConfigModel)
         {
             #region 初始化集合
+
             if (baseConfigModel.PageForm.FieldList == null)
             {
                 baseConfigModel.PageForm.FieldList = new List<string>();
             }
-            #endregion
+
+            #endregion 初始化集合
+
             StringBuilder sb = new StringBuilder();
             sb.AppendLine("@{");
             sb.AppendLine("    Layout = \"~/Views/Shared/_FormWhite.cshtml\";");
@@ -625,6 +661,7 @@ namespace HSharp.CodeGenerator.Template
             sb.AppendLine("    <form id=\"form\" class=\"form-horizontal m\">");
 
             #region 表单控件
+
             if (baseConfigModel.PageForm.FieldList.Count > 0)
             {
                 string field = string.Empty;
@@ -670,7 +707,8 @@ namespace HSharp.CodeGenerator.Template
                         break;
                 }
             }
-            #endregion
+
+            #endregion 表单控件
 
             sb.AppendLine("    </form>");
             sb.AppendLine("</div>");
@@ -729,9 +767,11 @@ namespace HSharp.CodeGenerator.Template
             sb.AppendLine("");
             return sb.ToString();
         }
-        #endregion
+
+        #endregion BuildForm
 
         #region BuildMenu
+
         public string BuildMenu(BaseConfigModel baseConfigModel)
         {
             StringBuilder sb = new StringBuilder();
@@ -757,15 +797,18 @@ namespace HSharp.CodeGenerator.Template
             sb.AppendLine();
             return sb.ToString();
         }
-        #endregion
+
+        #endregion BuildMenu
 
         #region CreateCode
+
         public async Task<List<KeyValue>> CreateCode(BaseConfigModel baseConfigModel, string code)
         {
             List<KeyValue> result = new List<KeyValue>();
             JObject param = code.ToJObject();
 
             #region 实体类
+
             if (!string.IsNullOrEmpty(param["CodeEntity"].ParseToString()))
             {
                 string codeEntity = HttpUtility.HtmlDecode(param["CodeEntity"].ToString());
@@ -776,9 +819,11 @@ namespace HSharp.CodeGenerator.Template
                     result.Add(new KeyValue { Key = "实体类", Value = codePath });
                 }
             }
-            #endregion
+
+            #endregion 实体类
 
             #region 实体查询类
+
             if (!param["CodeEntityParam"].IsEmpty())
             {
                 string codeListEntity = HttpUtility.HtmlDecode(param["CodeEntityParam"].ToString());
@@ -789,9 +834,11 @@ namespace HSharp.CodeGenerator.Template
                     result.Add(new KeyValue { Key = "实体查询类", Value = codePath });
                 }
             }
-            #endregion
+
+            #endregion 实体查询类
 
             #region 服务类
+
             if (!param["CodeService"].IsEmpty())
             {
                 string codeService = HttpUtility.HtmlDecode(param["CodeService"].ToString());
@@ -802,9 +849,11 @@ namespace HSharp.CodeGenerator.Template
                     result.Add(new KeyValue { Key = "服务类", Value = codePath });
                 }
             }
-            #endregion
+
+            #endregion 服务类
 
             #region 业务类
+
             if (!param["CodeBusiness"].IsEmpty())
             {
                 string codeBusiness = HttpUtility.HtmlDecode(param["CodeBusiness"].ToString());
@@ -815,9 +864,11 @@ namespace HSharp.CodeGenerator.Template
                     result.Add(new KeyValue { Key = "业务类", Value = codePath });
                 }
             }
-            #endregion
+
+            #endregion 业务类
 
             #region 控制器
+
             if (!param["CodeController"].IsEmpty())
             {
                 string codeController = HttpUtility.HtmlDecode(param["CodeController"].ToString());
@@ -828,9 +879,11 @@ namespace HSharp.CodeGenerator.Template
                     result.Add(new KeyValue { Key = "控制器", Value = codePath });
                 }
             }
-            #endregion
+
+            #endregion 控制器
 
             #region 列表页
+
             if (!param["CodeIndex"].IsEmpty())
             {
                 string codeIndex = HttpUtility.HtmlDecode(param["CodeIndex"].ToString());
@@ -886,9 +939,11 @@ namespace HSharp.CodeGenerator.Template
                     new MenuCache().Remove();
                 }
             }
-            #endregion
+
+            #endregion 列表页
 
             #region 表单页
+
             if (!param["CodeForm"].IsEmpty())
             {
                 string codeSave = HttpUtility.HtmlDecode(param["CodeForm"].ToString());
@@ -899,7 +954,8 @@ namespace HSharp.CodeGenerator.Template
                     result.Add(new KeyValue { Key = "表单页", Value = codePath });
                 }
             }
-            #endregion
+
+            #endregion 表单页
 
             return result;
         }
@@ -918,10 +974,13 @@ namespace HSharp.CodeGenerator.Template
             }
             return obj;
         }
-        #endregion
+
+        #endregion CreateCode
 
         #region 私有方法
+
         #region GetProjectRootPath
+
         private string GetProjectRootPath(string path)
         {
             path = path.ParseToString();
@@ -934,9 +993,11 @@ namespace HSharp.CodeGenerator.Template
             }
             return path;
         }
-        #endregion
+
+        #endregion GetProjectRootPath
 
         #region SetClassDescription
+
         private void SetClassDescription(string type, BaseConfigModel baseConfigModel, StringBuilder sb)
         {
             sb.AppendLine("    /// <summary>");
@@ -945,9 +1006,11 @@ namespace HSharp.CodeGenerator.Template
             sb.AppendLine("    /// 描 述：" + baseConfigModel.FileConfig.ClassDescription + type);
             sb.AppendLine("    /// </summary>");
         }
-        #endregion
+
+        #endregion SetClassDescription
 
         #region GetButtonAuthorizeList
+
         private List<KeyValue> GetButtonAuthorizeList()
         {
             var list = new List<KeyValue>();
@@ -957,7 +1020,10 @@ namespace HSharp.CodeGenerator.Template
             list.Add(new KeyValue { Key = "btnDelete", Value = "delete", Description = "删除" });
             return list;
         }
-        #endregion 
+
+        #endregion GetButtonAuthorizeList
+
+
 
         private string GetModulePrefix(BaseConfigModel baseConfigModel)
         {
@@ -1047,6 +1113,7 @@ namespace HSharp.CodeGenerator.Template
             }
             return line;
         }
-        #endregion
+
+        #endregion 私有方法
     }
 }

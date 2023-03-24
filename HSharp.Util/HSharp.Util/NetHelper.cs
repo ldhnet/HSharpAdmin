@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Sockets;
-using System.Text;
-using System.Threading.Tasks;
-using System.Web;
+﻿using HSharp.Util.Browser;
 using HSharp.Util.Extension;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
-using HSharp.Util.Browser;
+using System;
+using System.Net;
+using System.Net.Sockets;
 
 namespace HSharp.Util
 {

@@ -1,15 +1,12 @@
-﻿using System;
-using System.Linq;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using HSharp.Util;
-using HSharp.Util.Extension;
-using HSharp.Util.Model;
+﻿using HSharp.Entity.OrganizationManage;
 using HSharp.Entity.SystemManage;
 using HSharp.Model.Param.SystemManage;
-using HSharp.Service.SystemManage;
-using HSharp.Entity.OrganizationManage;
 using HSharp.Service.OrganizationManage;
+using HSharp.Service.SystemManage;
+using HSharp.Util.Extension;
+using HSharp.Util.Model;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace HSharp.Business.SystemManage
 {
@@ -18,6 +15,7 @@ namespace HSharp.Business.SystemManage
         private LogApiService logApiService = new LogApiService();
 
         #region 获取数据
+
         public async Task<TData<List<LogApiEntity>>> GetList(LogApiListParam param)
         {
             TData<List<LogApiEntity>> obj = new TData<List<LogApiEntity>>();
@@ -56,9 +54,11 @@ namespace HSharp.Business.SystemManage
             obj.Tag = 1;
             return obj;
         }
-        #endregion
+
+        #endregion 获取数据
 
         #region 提交数据
+
         public async Task<TData<string>> SaveForm(LogApiEntity entity)
         {
             TData<string> obj = new TData<string>();
@@ -83,9 +83,7 @@ namespace HSharp.Business.SystemManage
             obj.Tag = 1;
             return obj;
         }
-        #endregion
 
-        #region 私有方法
-        #endregion
+        #endregion 提交数据
     }
 }

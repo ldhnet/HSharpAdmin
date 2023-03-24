@@ -1,13 +1,14 @@
 ﻿using System;
-using System.IO;
 using System.Drawing;
 using System.Drawing.Imaging;
+using System.IO;
 
 namespace HSharp.Util
 {
     public class CaptchaHelper
     {
         #region 得到验证码
+
         /// <summary>
         /// Tuple第一个值是表达式，第二个值是表达式结果
         /// </summary>
@@ -35,6 +36,7 @@ namespace HSharp.Util
                     }
                     value = first - second;
                     break;
+
                 case '*': value = first * second; break;
             }
 
@@ -46,9 +48,11 @@ namespace HSharp.Util
             randomCode += "=?";
             return new Tuple<string, int>(randomCode, value);
         }
-        #endregion
+
+        #endregion 得到验证码
 
         #region 生成验证码图片
+
         /// <summary>
         /// 生成验证码图片
         /// </summary>
@@ -142,6 +146,7 @@ namespace HSharp.Util
                 return ms.GetBuffer();
             }
         }
-        #endregion
+
+        #endregion 生成验证码图片
     }
 }

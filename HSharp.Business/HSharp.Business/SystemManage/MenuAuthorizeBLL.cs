@@ -1,19 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using HSharp.Business.Cache;
-using HSharp.Business.OrganizationManage;
-using HSharp.Entity.OrganizationManage;
+﻿using HSharp.Business.Cache;
 using HSharp.Entity.SystemManage;
 using HSharp.Enum;
 using HSharp.Enum.SystemManage;
 using HSharp.Model.Result;
-using HSharp.Service.SystemManage;
 using HSharp.Util.Extension;
 using HSharp.Util.Model;
 using HSharp.Web.Code;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace HSharp.Business.SystemManage
 {
@@ -23,6 +19,7 @@ namespace HSharp.Business.SystemManage
         private MenuCache menuCache = new MenuCache();
 
         #region 获取数据
+
         public async Task<TData<List<MenuAuthorizeInfo>>> GetAuthorizeList(OperatorInfo user)
         {
             TData<List<MenuAuthorizeInfo>> obj = new TData<List<MenuAuthorizeInfo>>();
@@ -72,6 +69,7 @@ namespace HSharp.Business.SystemManage
             obj.Tag = 1;
             return obj;
         }
-        #endregion
+
+        #endregion 获取数据
     }
 }

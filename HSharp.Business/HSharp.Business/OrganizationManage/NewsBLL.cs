@@ -1,14 +1,11 @@
-﻿using System;
-using System.Linq;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using HSharp.Util;
-using HSharp.Util.Extension;
-using HSharp.Util.Model;
+﻿using HSharp.Business.SystemManage;
 using HSharp.Entity.OrganizationManage;
 using HSharp.Model.Param.OrganizationManage;
 using HSharp.Service.OrganizationManage;
-using HSharp.Business.SystemManage;
+using HSharp.Util.Extension;
+using HSharp.Util.Model;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace HSharp.Business.OrganizationManage
 {
@@ -18,6 +15,7 @@ namespace HSharp.Business.OrganizationManage
         private NewsService newsService = new NewsService();
 
         #region 获取数据
+
         public async Task<TData<List<NewsEntity>>> GetList(NewsListParam param)
         {
             TData<List<NewsEntity>> obj = new TData<List<NewsEntity>>();
@@ -63,9 +61,11 @@ namespace HSharp.Business.OrganizationManage
             obj.Tag = 1;
             return obj;
         }
-        #endregion
+
+        #endregion 获取数据
 
         #region 提交数据
+
         public async Task<TData<string>> SaveForm(NewsEntity entity)
         {
             TData<string> obj = new TData<string>();
@@ -83,9 +83,7 @@ namespace HSharp.Business.OrganizationManage
             obj.Tag = 1;
             return obj;
         }
-        #endregion
 
-        #region 私有方法
-        #endregion
+        #endregion 提交数据
     }
 }

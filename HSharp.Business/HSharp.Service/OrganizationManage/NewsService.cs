@@ -1,23 +1,22 @@
-﻿using System;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using System.Data.Common;
-using System.Text;
-using HSharp.Util;
-using HSharp.Util.Extension;
-using HSharp.Util.Model;
+﻿using HSharp.Data;
 using HSharp.Data.Repository;
 using HSharp.Entity.OrganizationManage;
 using HSharp.Model.Param.OrganizationManage;
-using HSharp.Data;
+using HSharp.Util;
+using HSharp.Util.Extension;
+using HSharp.Util.Model;
+using System.Collections.Generic;
+using System.Data.Common;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace HSharp.Service.OrganizationManage
 {
     public class NewsService : RepositoryFactory
     {
         #region 获取数据
+
         public async Task<List<NewsEntity>> GetList(NewsListParam param)
         {
             var strSql = new StringBuilder();
@@ -54,9 +53,11 @@ namespace HSharp.Service.OrganizationManage
             sort++;
             return sort;
         }
-        #endregion
+
+        #endregion 获取数据
 
         #region 提交数据
+
         public async Task SaveForm(NewsEntity entity)
         {
             if (entity.Id.IsNullOrZero())
@@ -76,9 +77,11 @@ namespace HSharp.Service.OrganizationManage
             long[] idArr = TextHelper.SplitToArray<long>(ids, ',');
             await this.BaseRepository().Delete<NewsEntity>(idArr);
         }
-        #endregion
+
+        #endregion 提交数据
 
         #region 私有方法
+
         private List<DbParameter> ListFilter(NewsListParam param, StringBuilder strSql, bool bNewsContent = false)
         {
             strSql.Append(@"SELECT  a.Id,
@@ -137,6 +140,7 @@ namespace HSharp.Service.OrganizationManage
             }
             return parameter;
         }
-        #endregion
+
+        #endregion 私有方法
     }
 }

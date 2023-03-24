@@ -52,7 +52,7 @@ namespace HSharp.DataTest
         /// </summary>
         /// <returns></returns>
         [Test]
-        public async Task LinqGetSqlTest()
+        public void LinqGetSqlTest()
         {
             string sort = "RoleSort";
             bool isAsc = false;

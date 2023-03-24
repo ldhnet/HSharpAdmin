@@ -1,16 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
-using Quartz;
-using Quartz.Impl.Triggers;
+﻿using HSharp.Business.AutoJob.Job;
 using HSharp.Entity.SystemManage;
 using HSharp.Enum;
 using HSharp.Service.SystemManage;
 using HSharp.Util;
 using HSharp.Util.Extension;
 using HSharp.Util.Model;
-using HSharp.Business.AutoJob.Job;
+using Quartz;
+using Quartz.Impl.Triggers;
+using System;
+using System.Threading.Tasks;
 
 namespace HSharp.Business.AutoJob
 {
@@ -48,13 +46,15 @@ namespace HSharp.Business.AutoJob
                                 }
 
                                 #region 执行任务
+
                                 switch (context.JobDetail.Key.Name)
                                 {
                                     case "数据库备份":
                                         obj = await new DatabasesBackupJob().Start();
                                         break;
                                 }
-                                #endregion
+
+                                #endregion 执行任务
                             }
                         }
                     }
@@ -72,14 +72,17 @@ namespace HSharp.Business.AutoJob
                         if (dbJobEntity.JobStatus == StatusEnum.Yes.ParseToInt())
                         {
                             #region 更新下次运行时间
+
                             await autoJobService.SaveForm(new AutoJobEntity
                             {
                                 Id = dbJobEntity.Id,
                                 NextStartTime = context.NextFireTimeUtc.Value.DateTime.AddHours(8)
                             });
-                            #endregion
+
+                            #endregion 更新下次运行时间
 
                             #region 记录执行状态
+
                             await autoJobLogService.SaveForm(new AutoJobLogEntity
                             {
                                 JobGroupName = context.JobDetail.Key.Group,
@@ -87,7 +90,8 @@ namespace HSharp.Business.AutoJob
                                 LogStatus = obj.Tag,
                                 Remark = obj.Message
                             });
-                            #endregion
+
+                            #endregion 记录执行状态
                         }
                     }
                 }

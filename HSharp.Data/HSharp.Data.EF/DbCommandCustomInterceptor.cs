@@ -1,8 +1,8 @@
-﻿using System.Data.Common;
-using System.Threading;
+﻿using HSharp.Util;
 using Microsoft.EntityFrameworkCore.Diagnostics;
+using System.Data.Common;
+using System.Threading;
 using System.Threading.Tasks;
-using HSharp.Util;
 
 namespace HSharp.Data.EF
 {

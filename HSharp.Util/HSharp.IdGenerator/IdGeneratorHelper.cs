@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using HSharp.Util;
-using HSharp.Util.Extension;
+﻿using HSharp.Util;
 
 namespace HSharp.IdGenerator
 {
@@ -23,6 +17,7 @@ namespace HSharp.IdGenerator
         {
             snowflake = new Snowflake(SnowFlakeWorkerId, 0, 0);
         }
+
         public static IdGeneratorHelper Instance
         {
             get
@@ -30,6 +25,7 @@ namespace HSharp.IdGenerator
                 return instance;
             }
         }
+
         public long GetId()
         {
             return snowflake.NextId();

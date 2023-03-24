@@ -1,4 +1,8 @@
-﻿using System;
+﻿using HSharp.Util.Extension;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Storage;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Data;
@@ -7,16 +11,13 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Storage;
-using HSharp.Util.Extension;
 
 namespace HSharp.Data.EF
 {
     public class SqlServerDatabase : IDatabase
     {
         #region 构造函数
+
         /// <summary>
         /// 构造方法
         /// </summary>
@@ -24,20 +25,25 @@ namespace HSharp.Data.EF
         {
             dbContext = new SqlServerDbContext(connString);
         }
-        #endregion
+
+        #endregion 构造函数
 
         #region 属性
+
         /// <summary>
         /// 获取 当前使用的数据访问上下文对象
         /// </summary>
         public DbContext dbContext { get; set; }
+
         /// <summary>
         /// 事务对象
         /// </summary>
         public IDbContextTransaction dbContextTransaction { get; set; }
-        #endregion
+
+        #endregion 属性
 
         #region 事务提交
+
         /// <summary>
         /// 事务开始
         /// </summary>
@@ -52,6 +58,7 @@ namespace HSharp.Data.EF
             dbContextTransaction = await dbContext.Database.BeginTransactionAsync();
             return this;
         }
+
         /// <summary>
         /// 提交当前操作的结果
         /// </summary>
@@ -85,6 +92,7 @@ namespace HSharp.Data.EF
                 }
             }
         }
+
         /// <summary>
         /// 把当前操作回滚成未提交状态
         /// </summary>
@@ -94,6 +102,7 @@ namespace HSharp.Data.EF
             await this.dbContextTransaction.DisposeAsync();
             await this.Close();
         }
+
         /// <summary>
         /// 关闭连接 内存回收
         /// </summary>
@@ -101,9 +110,11 @@ namespace HSharp.Data.EF
         {
             await dbContext.DisposeAsync();
         }
-        #endregion
+
+        #endregion 事务提交
 
         #region 执行 SQL 语句
+
         public async Task<int> ExecuteBySql(string strSql)
         {
             if (dbContextTransaction == null)
@@ -116,6 +127,7 @@ namespace HSharp.Data.EF
                 return dbContextTransaction == null ? await this.CommitTrans() : 0;
             }
         }
+
         public async Task<int> ExecuteBySql(string strSql, params DbParameter[] dbParameter)
         {
             if (dbContextTransaction == null)
@@ -128,6 +140,7 @@ namespace HSharp.Data.EF
                 return dbContextTransaction == null ? await this.CommitTrans() : 0;
             }
         }
+
         public async Task<int> ExecuteByProc(string procName)
         {
             if (dbContextTransaction == null)
@@ -140,6 +153,7 @@ namespace HSharp.Data.EF
                 return dbContextTransaction == null ? await this.CommitTrans() : 0;
             }
         }
+
         public async Task<int> ExecuteByProc(string procName, params DbParameter[] dbParameter)
         {
             if (dbContextTransaction == null)
@@ -152,14 +166,17 @@ namespace HSharp.Data.EF
                 return dbContextTransaction == null ? await this.CommitTrans() : 0;
             }
         }
-        #endregion
+
+        #endregion 执行 SQL 语句
 
         #region 对象实体 添加、修改、删除
+
         public async Task<int> Insert<T>(T entity) where T : class
         {
             dbContext.Entry<T>(entity).State = EntityState.Added;
             return dbContextTransaction == null ? await this.CommitTrans() : 0;
         }
+
         public async Task<int> Insert<T>(IEnumerable<T> entities) where T : class
         {
             foreach (var entity in entities)
@@ -179,12 +196,14 @@ namespace HSharp.Data.EF
             }
             return -1;
         }
+
         public async Task<int> Delete<T>(T entity) where T : class
         {
             dbContext.Set<T>().Attach(entity);
             dbContext.Set<T>().Remove(entity);
             return dbContextTransaction == null ? await this.CommitTrans() : 0;
         }
+
         public async Task<int> Delete<T>(IEnumerable<T> entities) where T : class
         {
             foreach (var entity in entities)
@@ -194,11 +213,13 @@ namespace HSharp.Data.EF
             }
             return dbContextTransaction == null ? await this.CommitTrans() : 0;
         }
+
         public async Task<int> Delete<T>(Expression<Func<T, bool>> condition) where T : class, new()
         {
             IEnumerable<T> entities = await dbContext.Set<T>().Where(condition).ToListAsync();
             return entities.Count() > 0 ? await Delete(entities) : 0;
         }
+
         public async Task<int> Delete<T>(long keyValue) where T : class
         {
             IEntityType entityType = DbContextExtension.GetEntityType<T>(dbContext);
@@ -210,6 +231,7 @@ namespace HSharp.Data.EF
             }
             return -1;
         }
+
         public async Task<int> Delete<T>(long[] keyValue) where T : class
         {
             IEntityType entityType = DbContextExtension.GetEntityType<T>(dbContext);
@@ -221,6 +243,7 @@ namespace HSharp.Data.EF
             }
             return -1;
         }
+
         public async Task<int> Delete<T>(string propertyName, long propertyValue) where T : class
         {
             IEntityType entityType = DbContextExtension.GetEntityType<T>(dbContext);
@@ -250,6 +273,7 @@ namespace HSharp.Data.EF
             }
             return dbContextTransaction == null ? await this.CommitTrans() : 0;
         }
+
         public async Task<int> Update<T>(IEnumerable<T> entities) where T : class
         {
             foreach (var entity in entities)
@@ -258,12 +282,14 @@ namespace HSharp.Data.EF
             }
             return dbContextTransaction == null ? await this.CommitTrans() : 0;
         }
+
         public async Task<int> UpdateAllField<T>(T entity) where T : class
         {
             dbContext.Set<T>().Attach(entity);
             dbContext.Entry(entity).State = EntityState.Modified;
             return dbContextTransaction == null ? await this.CommitTrans() : 0;
         }
+
         public async Task<int> Update<T>(Expression<Func<T, bool>> condition) where T : class, new()
         {
             IEnumerable<T> entities = await dbContext.Set<T>().Where(condition).ToListAsync();
@@ -274,13 +300,16 @@ namespace HSharp.Data.EF
         {
             return dbContext.Set<T>().Where(condition);
         }
-        #endregion
+
+        #endregion 对象实体 添加、修改、删除
 
         #region 对象实体 查询
+
         public async Task<T> FindEntity<T>(object keyValue) where T : class
         {
             return await dbContext.Set<T>().FindAsync(keyValue);
         }
+
         public async Task<T> FindEntity<T>(Expression<Func<T, bool>> condition) where T : class, new()
         {
             return await dbContext.Set<T>().Where(condition).FirstOrDefaultAsync();
@@ -290,20 +319,24 @@ namespace HSharp.Data.EF
         {
             return await dbContext.Set<T>().ToListAsync();
         }
+
         public async Task<IEnumerable<T>> FindList<T>(Func<T, object> orderby) where T : class, new()
         {
             var list = await dbContext.Set<T>().ToListAsync();
             list = list.OrderBy(orderby).ToList();
             return list;
         }
+
         public async Task<IEnumerable<T>> FindList<T>(Expression<Func<T, bool>> condition) where T : class, new()
         {
             return await dbContext.Set<T>().Where(condition).ToListAsync();
         }
+
         public async Task<IEnumerable<T>> FindList<T>(string strSql) where T : class
         {
             return await FindList<T>(strSql, null);
         }
+
         public async Task<IEnumerable<T>> FindList<T>(string strSql, DbParameter[] dbParameter) where T : class
         {
             using (var dbConnection = dbContext.Database.GetDbConnection())
@@ -312,20 +345,24 @@ namespace HSharp.Data.EF
                 return DatabasesExtension.IDataReaderToList<T>(reader);
             }
         }
+
         public async Task<(int total, IEnumerable<T> list)> FindList<T>(string sort, bool isAsc, int pageSize, int pageIndex) where T : class, new()
         {
             var tempData = dbContext.Set<T>().AsQueryable();
             return await FindList<T>(tempData, sort, isAsc, pageSize, pageIndex);
         }
+
         public async Task<(int total, IEnumerable<T> list)> FindList<T>(Expression<Func<T, bool>> condition, string sort, bool isAsc, int pageSize, int pageIndex) where T : class, new()
         {
             var tempData = dbContext.Set<T>().Where(condition);
             return await FindList<T>(tempData, sort, isAsc, pageSize, pageIndex);
         }
+
         public async Task<(int total, IEnumerable<T>)> FindList<T>(string strSql, string sort, bool isAsc, int pageSize, int pageIndex) where T : class
         {
             return await FindList<T>(strSql, null, sort, isAsc, pageSize, pageIndex);
         }
+
         public async Task<(int total, IEnumerable<T>)> FindList<T>(string strSql, DbParameter[] dbParameter, string sort, bool isAsc, int pageSize, int pageIndex) where T : class
         {
             using (var dbConnection = dbContext.Database.GetDbConnection())
@@ -346,6 +383,7 @@ namespace HSharp.Data.EF
                 }
             }
         }
+
         private async Task<(int total, IEnumerable<T> list)> FindList<T>(IQueryable<T> tempData, string sort, bool isAsc, int pageSize, int pageIndex)
         {
             tempData = DatabasesExtension.AppendSort<T>(tempData, sort, isAsc);
@@ -361,13 +399,16 @@ namespace HSharp.Data.EF
                 return (total, new List<T>());
             }
         }
-        #endregion
+
+        #endregion 对象实体 查询
 
         #region 数据源查询
+
         public async Task<DataTable> FindTable(string strSql)
         {
             return await FindTable(strSql, null);
         }
+
         public async Task<DataTable> FindTable(string strSql, DbParameter[] dbParameter)
         {
             using (var dbConnection = dbContext.Database.GetDbConnection())
@@ -376,10 +417,12 @@ namespace HSharp.Data.EF
                 return DatabasesExtension.IDataReaderToDataTable(reader);
             }
         }
+
         public async Task<(int total, DataTable)> FindTable(string strSql, string sort, bool isAsc, int pageSize, int pageIndex)
         {
             return await FindTable(strSql, null, sort, isAsc, pageSize, pageIndex);
         }
+
         public async Task<(int total, DataTable)> FindTable(string strSql, DbParameter[] dbParameter, string sort, bool isAsc, int pageSize, int pageIndex)
         {
             using (var dbConnection = dbContext.Database.GetDbConnection())
@@ -406,6 +449,7 @@ namespace HSharp.Data.EF
         {
             return await FindObject(strSql, null);
         }
+
         public async Task<object> FindObject(string strSql, DbParameter[] dbParameter)
         {
             using (var dbConnection = dbContext.Database.GetDbConnection())
@@ -413,11 +457,13 @@ namespace HSharp.Data.EF
                 return await new DbHelper(dbContext, dbConnection).ExecuteScalarAsync(CommandType.Text, strSql, dbParameter);
             }
         }
+
         public async Task<T> FindObject<T>(string strSql) where T : class
         {
             var list = await dbContext.SqlQuery<T>(strSql);
             return list.FirstOrDefault();
         }
-        #endregion
+
+        #endregion 数据源查询
     }
 }

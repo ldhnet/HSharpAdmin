@@ -1,16 +1,16 @@
-﻿using System;
+﻿using HSharp.Util.Extension;
+using Microsoft.AspNetCore.Html;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Microsoft.AspNetCore.Html;
-using Newtonsoft.Json;
-using HSharp.Util.Extension;
 
 namespace HSharp.Util
 {
     /// <summary>
     /// Adapted from https://github.com/madskristensen/BundlerMinifier/wiki/Unbundling-scripts-for-debugging
-    /// 
+    ///
     /// Areas modified:
     ///  - Modified it to make it work with aspnetcore.
     ///  - Accept both scripts and styles.
@@ -70,7 +70,8 @@ namespace HSharp.Util
                 };
             }
         }
-        class Bundle
+
+        private class Bundle
         {
             [JsonProperty("outputFileName")]
             public string OutputFileName { get; set; }

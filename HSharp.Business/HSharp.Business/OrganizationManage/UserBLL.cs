@@ -1,17 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using HSharp.Business.Cache;
-using HSharp.Business.SystemManage;
-using HSharp.Cache.Factory;
-using HSharp.Entity;
+﻿using HSharp.Cache.Factory;
 using HSharp.Entity.OrganizationManage;
-using HSharp.Entity.SystemManage;
 using HSharp.Enum;
 using HSharp.Enum.OrganizationManage;
-using HSharp.Model;
 using HSharp.Model.Param;
 using HSharp.Model.Param.OrganizationManage;
 using HSharp.Service.OrganizationManage;
@@ -19,6 +9,10 @@ using HSharp.Util;
 using HSharp.Util.Extension;
 using HSharp.Util.Model;
 using HSharp.Web.Code;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace HSharp.Business.OrganizationManage
 {
@@ -31,6 +25,7 @@ namespace HSharp.Business.OrganizationManage
         private DepartmentBLL departmentBLL = new DepartmentBLL();
 
         #region 获取数据
+
         public async Task<TData<List<UserEntity>>> GetList(UserListParam param)
         {
             TData<List<UserEntity>> obj = new TData<List<UserEntity>>();
@@ -102,6 +97,7 @@ namespace HSharp.Business.OrganizationManage
                         user.IsOnline = 1;
 
                         #region 设置日期
+
                         if (user.FirstVisit == GlobalConstant.DefaultTime)
                         {
                             user.FirstVisit = DateTime.Now;
@@ -115,7 +111,8 @@ namespace HSharp.Business.OrganizationManage
                             user.PreviousVisit = user.LastVisit;
                         }
                         user.LastVisit = DateTime.Now;
-                        #endregion
+
+                        #endregion 设置日期
 
                         switch (platform)
                         {
@@ -123,11 +120,13 @@ namespace HSharp.Business.OrganizationManage
                                 if (GlobalContext.SystemConfig.LoginMultiple)
                                 {
                                     #region 多次登录用同一个token
+
                                     if (string.IsNullOrEmpty(user.WebToken))
                                     {
                                         user.WebToken = SecurityHelper.GetGuid(true);
                                     }
-                                    #endregion
+
+                                    #endregion 多次登录用同一个token
                                 }
                                 else
                                 {
@@ -161,9 +160,11 @@ namespace HSharp.Business.OrganizationManage
             }
             return obj;
         }
-        #endregion
+
+        #endregion 获取数据
 
         #region 提交数据
+
         public async Task<TData<string>> SaveForm(UserEntity entity)
         {
             TData<string> obj = new TData<string>();
@@ -318,9 +319,10 @@ namespace HSharp.Business.OrganizationManage
             return obj;
         }
 
-        #endregion
+        #endregion 提交数据
 
         #region 私有方法
+
         /// <summary>
         /// 密码MD5处理
         /// </summary>
@@ -384,6 +386,7 @@ namespace HSharp.Business.OrganizationManage
                 user.PositionIds = string.Join(",", positionBelongList.Select(p => p.BelongId).ToList());
             }
         }
-        #endregion
+
+        #endregion 私有方法
     }
 }

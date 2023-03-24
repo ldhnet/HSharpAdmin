@@ -1,14 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace HSharp.Util
 {
     public class DateTimeHelper
     {
         #region 毫秒转天时分秒
+
         /// <summary>
         /// 毫秒转天时分秒
         /// </summary>
@@ -36,9 +33,11 @@ namespace HSharp.Util
 
             return string.Format("{0} 天 {1} 小时 {2} 分 {3} 秒", sDay, sHour, sMinute, sSecond);
         }
-        #endregion
+
+        #endregion 毫秒转天时分秒
 
         #region 获取unix时间戳
+
         /// <summary>
         /// 获取unix时间戳
         /// </summary>
@@ -49,25 +48,31 @@ namespace HSharp.Util
             long unixTime = ((DateTimeOffset)dt).ToUnixTimeMilliseconds();
             return unixTime;
         }
-        #endregion
+
+        #endregion 获取unix时间戳
 
         #region 获取日期天的最小时间
+
         public static DateTime GetDayMinDate(DateTime dt)
         {
             DateTime min = new DateTime(dt.Year, dt.Month, dt.Day, 0, 0, 0);
             return min;
         }
-        #endregion
+
+        #endregion 获取日期天的最小时间
 
         #region 获取日期天的最大时间
+
         public static DateTime GetDayMaxDate(DateTime dt)
         {
             DateTime max = new DateTime(dt.Year, dt.Month, dt.Day, 23, 59, 59);
             return max;
         }
-        #endregion
+
+        #endregion 获取日期天的最大时间
 
         #region 获取日期天的最大时间
+
         public static string FormatDateTime(DateTime? dt)
         {
             if (dt != null)
@@ -83,6 +88,7 @@ namespace HSharp.Util
             }
             return string.Empty;
         }
-        #endregion
+
+        #endregion 获取日期天的最大时间
     }
 }

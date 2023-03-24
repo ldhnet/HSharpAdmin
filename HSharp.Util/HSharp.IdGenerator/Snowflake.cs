@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using HSharp.Util;
+﻿using HSharp.Util;
+using System;
 
 namespace HSharp.IdGenerator
 {
@@ -24,16 +20,19 @@ namespace HSharp.IdGenerator
 
         private long _sequence = 0L;
         private long _lastTimestamp = -1L;
+
         /// <summary>
         ///10位的数据机器位中的高位
         /// </summary>
         public long WorkerId { get; protected set; }
+
         /// <summary>
         /// 10位的数据机器位中的低位
         /// </summary>
         public long DatacenterId { get; protected set; }
 
         private readonly object _lock = new object();
+
         /// <summary>
         /// 基于Twitter的snowflake算法
         /// </summary>

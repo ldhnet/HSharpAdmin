@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using HSharp.Util.Extension;
 using System.Text;
-using HSharp.Util.Extension;
 
 namespace HSharp.CodeGenerator
 {

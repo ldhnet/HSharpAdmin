@@ -1,9 +1,9 @@
-﻿using System;
+﻿using HSharp.Util;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Data.Common;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
-using HSharp.Util;
 
 namespace HSharp.Data.EF
 {
@@ -35,9 +35,11 @@ namespace HSharp.Data.EF
                     case "SqlServer":
                         optionsBuilder.UseSqlServer(connection, options => options.EnableRetryOnFailure());
                         break;
+
                     case "MySql":
                         optionsBuilder.UseMySql(connection, ServerVersion.AutoDetect(connection.ConnectionString), options => options.EnableRetryOnFailure());
                         break;
+
                     case "Oracle": break;
                     default: throw new Exception("未找到数据库配置");
                 }

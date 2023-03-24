@@ -1,15 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using HSharp.Util.Extension;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using HSharp.Util.Extension;
+using System;
 
 namespace HSharp.Util
 {
     #region JsonHelper
+
     public static class JsonHelper
     {
         public static T ToObject<T>(this string Json)
@@ -23,15 +20,18 @@ namespace HSharp.Util
             return Json == null ? JObject.Parse("{}") : JObject.Parse(Json.Replace("&nbsp;", ""));
         }
     }
-    #endregion
+
+    #endregion JsonHelper
 
     #region JsonConverter
+
     /// <summary>
     /// Json数据返回到前端js的时候，把数值很大的long类型转成字符串
     /// </summary>
     public class StringJsonConverter : JsonConverter
     {
-        public StringJsonConverter() { }
+        public StringJsonConverter()
+        { }
 
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
@@ -60,7 +60,8 @@ namespace HSharp.Util
     /// </summary>
     public class DateTimeJsonConverter : JsonConverter
     {
-        public DateTimeJsonConverter() { }
+        public DateTimeJsonConverter()
+        { }
 
         public override bool CanConvert(Type objectType)
         {
@@ -88,5 +89,6 @@ namespace HSharp.Util
             writer.WriteValue(dt.Value.ToString("yyyy-MM-dd HH:mm:ss"));
         }
     }
-    #endregion
+
+    #endregion JsonConverter
 }

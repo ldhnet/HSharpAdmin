@@ -1,9 +1,7 @@
-﻿using System;
+﻿using HSharp.Cache.Factory;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using HSharp.Cache.Factory;
 
 namespace HSharp.Business.Cache
 {

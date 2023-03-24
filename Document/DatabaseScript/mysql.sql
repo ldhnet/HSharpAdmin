@@ -290,10 +290,10 @@ CREATE TABLE IF NOT EXISTS `SysLogOperate` (
 DROP TABLE IF EXISTS `SysMessageContent`;
 CREATE TABLE IF NOT EXISTS `SysMessageContent` (
   `Id`                  bigint(20)      NOT NULL,
-  `BaseCreateTime`    datetime        NOT NULL,
-  `BaseCreatorId`     bigint(20)      NOT NULL,  
-  `Content`            varchar(500)     NOT NULL      COMMENT '站内信内容',
-  `SendUserId`         bigint(20)      NOT NULL       COMMENT '发送人ID', 
+  `BaseCreateTime`      datetime        NOT NULL,
+  `BaseCreatorId`       bigint(20)      NOT NULL,  
+  `Content`             varchar(500)     NOT NULL      COMMENT '站内信内容',
+  `SendUserId`          bigint(20)      NOT NULL       COMMENT '发送人ID', 
   `Remark`              text            NOT NULL      COMMENT '备注',
   PRIMARY KEY (`Id`)
 ) ENGINE=InnoDB COMMENT '站内信';
@@ -301,9 +301,35 @@ CREATE TABLE IF NOT EXISTS `SysMessageContent` (
 DROP TABLE IF EXISTS `SysMessageUser`;
 CREATE TABLE IF NOT EXISTS `SysMessageUser` (
   `Id`                  bigint(20)      NOT NULL,
-  `BaseCreateTime`    datetime        NOT NULL,
+  `BaseCreateTime`      datetime        NOT NULL,
   `MessageId`           bigint(20)      NOT NULL,  
   `ReceiveUserId`       bigint(20)      NOT NULL       COMMENT '发送人ID', 
   `IsRead`              int(11)         NOT NULL       COMMENT '查看状态(0未读 1已读)',
   PRIMARY KEY (`Id`)
 ) ENGINE=InnoDB COMMENT '站内信用户表';
+
+
+DROP TABLE IF EXISTS `BizCouponBatch`;
+CREATE TABLE IF NOT EXISTS `BizCouponBatch` (
+  `Id`                bigint(20)      NOT NULL  COMMENT '批次ID',
+  `BaseCreateTime`    datetime        NOT NULL,
+  `BaseCreatorId`     bigint(20)      NOT NULL,  
+  `BatchName`         varchar(50)     NOT NULL      COMMENT '批次名称',
+  `CouponName`        varchar(50)     NOT NULL       COMMENT '券名称', 
+  `RuleId`            int(11)         NOT NULL       COMMENT '规则外键',
+  `TotalCount`        int(11)         NOT NULL       COMMENT '总数量',
+  `AssignCount`       int(11)         NOT NULL       COMMENT '已发放券数量',
+  `UsedCount`         int(11)         NOT NULL       COMMENT '已使用券数量',
+  `Remark`            text            NOT NULL      COMMENT '备注',
+  PRIMARY KEY (`Id`)
+) ENGINE=InnoDB COMMENT '优惠券批次表';
+
+DROP TABLE IF EXISTS `BizCoupon`;
+CREATE TABLE IF NOT EXISTS `BizCoupon` (
+  `Id`                bigint(20)      NOT NULL  COMMENT '优惠券ID',
+  `BaseCreateTime`    datetime        NOT NULL,
+  `BaseCreatorId`     bigint(20)      NOT NULL,   
+  `UserId`            bigint(20)      NOT NULL       COMMENT '用户ID',
+  `BatchId`           bigint(20)      NOT NULL       COMMENT '批次ID', 
+  PRIMARY KEY (`Id`)
+) ENGINE=InnoDB COMMENT '优惠券用户表';

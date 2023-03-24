@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace HSharp.Util
 {
@@ -27,6 +23,7 @@ namespace HSharp.Util
             string s = html.Substring(inl, inl2 - inl);
             return s;
         }
+
         public static string ResoveReverse(string html, string subfix, string prefix)
         {
             int inl = html.IndexOf(subfix);
@@ -43,6 +40,7 @@ namespace HSharp.Util
             string s = subString.Substring(inl2 + prefix.Length, subString.Length - inl2 - prefix.Length);
             return s;
         }
+
         public static List<string> ResoveList(string html, string prefix, string subfix)
         {
             List<string> list = new List<string>();

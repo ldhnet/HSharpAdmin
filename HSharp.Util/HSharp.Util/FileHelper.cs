@@ -1,21 +1,21 @@
-﻿using System;
-using System.IO;
-using System.Web;
-using System.Text;
-using System.Linq;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using HSharp.Enum;
+using HSharp.Util.Extension;
+using HSharp.Util.Model;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using HSharp.Enum;
-using HSharp.Util.Model;
-using HSharp.Util.Extension;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace HSharp.Util
 {
     public class FileHelper
     {
         #region 创建文本文件
+
         /// <summary>
         /// 创建文件
         /// </summary>
@@ -32,16 +32,18 @@ namespace HSharp.Util
                 sw.Write(content);
             }
         }
-        #endregion
+
+        #endregion 创建文本文件
 
         #region 上传单个文件
+
         /// <summary>
         /// 上传单个文件
         /// </summary>
         /// <param name="fileModule"></param>
         /// <param name="fileCollection"></param>
         /// <returns></returns>
-        public async static Task<TData<string>> UploadFile(int fileModule, IFormFileCollection files)
+        public static async Task<TData<string>> UploadFile(int fileModule, IFormFileCollection files)
         {
             string dirModule = string.Empty;
             TData<string> obj = new TData<string>();
@@ -128,9 +130,11 @@ namespace HSharp.Util
             }
             return obj;
         }
-        #endregion
+
+        #endregion 上传单个文件
 
         #region 删除单个文件
+
         /// <summary>
         /// 删除单个文件
         /// </summary>
@@ -169,9 +173,11 @@ namespace HSharp.Util
             }
             return obj;
         }
-        #endregion
+
+        #endregion 删除单个文件
 
         #region 下载文件
+
         /// <summary>
         /// 下载文件
         /// </summary>
@@ -208,9 +214,13 @@ namespace HSharp.Util
             obj.Tag = 1;
             return obj;
         }
-        #endregion 
+
+        #endregion 下载文件
+
+
 
         #region GetContentType
+
         public static string GetContentType(string path)
         {
             var types = GetMimeTypes();
@@ -222,9 +232,11 @@ namespace HSharp.Util
             }
             return contentType;
         }
-        #endregion
+
+        #endregion GetContentType
 
         #region GetMimeTypes
+
         public static Dictionary<string, string> GetMimeTypes()
         {
             return new Dictionary<string, string>
@@ -242,7 +254,8 @@ namespace HSharp.Util
                 {".csv", "text/csv"}
             };
         }
-        #endregion
+
+        #endregion GetMimeTypes
 
         public static void CreateDirectory(string directory)
         {
@@ -256,16 +269,16 @@ namespace HSharp.Util
         {
             try
             {
-                if (Directory.Exists(filePath)) //如果存在这个文件夹删除之 
+                if (Directory.Exists(filePath)) //如果存在这个文件夹删除之
                 {
                     foreach (string d in Directory.GetFileSystemEntries(filePath))
                     {
                         if (File.Exists(d))
-                            File.Delete(d); //直接删除其中的文件                        
+                            File.Delete(d); //直接删除其中的文件
                         else
-                            DeleteDirectory(d); //递归删除子文件夹 
+                            DeleteDirectory(d); //递归删除子文件夹
                     }
-                    Directory.Delete(filePath, true); //删除已空文件夹                 
+                    Directory.Delete(filePath, true); //删除已空文件夹
                 }
             }
             catch (Exception ex)

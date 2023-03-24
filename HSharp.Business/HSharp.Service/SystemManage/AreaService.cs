@@ -1,20 +1,21 @@
-﻿using System;
-using System.Linq;
-using System.Collections.Generic;
-using System.Linq.Expressions;
-using System.Threading.Tasks;
+﻿using HSharp.Data.Repository;
+using HSharp.Entity.SystemManage;
+using HSharp.Model.Param.SystemManage;
 using HSharp.Util;
 using HSharp.Util.Extension;
 using HSharp.Util.Model;
-using HSharp.Data.Repository;
-using HSharp.Entity.SystemManage;
-using HSharp.Model.Param.SystemManage;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
+using System.Threading.Tasks;
 
 namespace HSharp.Service.SystemManage
 {
     public class AreaService : RepositoryFactory
     {
         #region 获取数据
+
         public async Task<List<AreaEntity>> GetList(AreaListParam param)
         {
             var expression = ListFilter(param);
@@ -38,9 +39,11 @@ namespace HSharp.Service.SystemManage
         {
             return await this.BaseRepository().FindEntity<AreaEntity>(p => p.AreaCode == areaCode);
         }
-        #endregion
+
+        #endregion 获取数据
 
         #region 提交数据
+
         public async Task SaveForm(AreaEntity entity)
         {
             if (entity.Id.IsNullOrZero())
@@ -61,9 +64,10 @@ namespace HSharp.Service.SystemManage
             await this.BaseRepository().Delete<AreaEntity>(idArr);
         }
 
-        #endregion
+        #endregion 提交数据
 
         #region 私有方法
+
         private Expression<Func<AreaEntity, bool>> ListFilter(AreaListParam param)
         {
             var expression = LinqExtensions.True<AreaEntity>();
@@ -76,6 +80,7 @@ namespace HSharp.Service.SystemManage
             }
             return expression;
         }
-        #endregion
+
+        #endregion 私有方法
     }
 }

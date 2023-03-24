@@ -1,22 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
-using HSharp.Data.Repository;
+﻿using HSharp.Data.Repository;
 using HSharp.Entity.OrganizationManage;
-using HSharp.Model;
 using HSharp.Model.Param.OrganizationManage;
 using HSharp.Util;
 using HSharp.Util.Extension;
-using HSharp.Util.Model;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
+using System.Threading.Tasks;
 
 namespace HSharp.Service.OrganizationManage
 {
     public class DepartmentService : RepositoryFactory
     {
         #region 获取数据
+
         public async Task<List<DepartmentEntity>> GetList(DepartmentListParam param)
         {
             var expression = ListFilter(param);
@@ -68,9 +66,11 @@ namespace HSharp.Service.OrganizationManage
             expression = expression.And(t => t.ParentId == id);
             return this.BaseRepository().IQueryable(expression).Count() > 0 ? true : false;
         }
-        #endregion
+
+        #endregion 获取数据
 
         #region 提交数据
+
         public async Task SaveForm(DepartmentEntity entity)
         {
             if (entity.Id.IsNullOrZero())
@@ -100,9 +100,11 @@ namespace HSharp.Service.OrganizationManage
                 throw;
             }
         }
-        #endregion
+
+        #endregion 提交数据
 
         #region 私有方法
+
         private Expression<Func<DepartmentEntity, bool>> ListFilter(DepartmentListParam param)
         {
             var expression = LinqExtensions.True<DepartmentEntity>();
@@ -115,6 +117,7 @@ namespace HSharp.Service.OrganizationManage
             }
             return expression;
         }
-        #endregion
+
+        #endregion 私有方法
     }
 }

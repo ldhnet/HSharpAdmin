@@ -1,15 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using HSharp.Util;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
+using Microsoft.EntityFrameworkCore.Metadata;
+using System;
 using System.Data;
 using System.Data.Common;
+using System.Linq;
 using System.Reflection;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
-using HSharp.Util;
+using System.Text;
 
 namespace HSharp.Data.EF
 {
@@ -88,6 +86,7 @@ namespace HSharp.Data.EF
             foreach (EntityEntry entry in dbcontext.ChangeTracker.Entries().Where(p => p.State == EntityState.Added))
             {
                 #region 把null设置成对应属性类型的默认值
+
                 Type type = entry.Entity.GetType();
                 PropertyInfo[] props = ReflectionHelper.GetProperties(type);
                 foreach (PropertyInfo prop in props)
@@ -109,48 +108,63 @@ namespace HSharp.Data.EF
                             case "Boolean":
                                 prop.SetValue(entry.Entity, false);
                                 break;
+
                             case "Char":
                                 prop.SetValue(entry.Entity, 0);
                                 break;
+
                             case "SByte":
                                 prop.SetValue(entry.Entity, 0);
                                 break;
+
                             case "Byte":
                                 prop.SetValue(entry.Entity, 0);
                                 break;
+
                             case "Int16":
                                 prop.SetValue(entry.Entity, 0);
                                 break;
+
                             case "UInt16":
                                 prop.SetValue(entry.Entity, 0);
                                 break;
+
                             case "Int32":
                                 prop.SetValue(entry.Entity, 0);
                                 break;
+
                             case "UInt32":
                                 prop.SetValue(entry.Entity, 0);
                                 break;
+
                             case "Int64":
                                 prop.SetValue(entry.Entity, (Int64)0);
                                 break;
+
                             case "UInt64":
                                 prop.SetValue(entry.Entity, 0);
                                 break;
+
                             case "Single":
                                 prop.SetValue(entry.Entity, 0);
                                 break;
+
                             case "Double":
                                 prop.SetValue(entry.Entity, 0);
                                 break;
+
                             case "Decimal":
                                 prop.SetValue(entry.Entity, (decimal)0);
                                 break;
+
                             case "DateTime":
                                 prop.SetValue(entry.Entity, GlobalConstant.DefaultTime);
                                 break;
+
                             case "String":
                                 prop.SetValue(entry.Entity, string.Empty);
                                 break;
+
                             default: break;
                         }
                     }
@@ -160,7 +174,8 @@ namespace HSharp.Data.EF
                         prop.SetValue(entry.Entity, GlobalConstant.DefaultTime);
                     }
                 }
-                #endregion
+
+                #endregion 把null设置成对应属性类型的默认值
             }
         }
     }

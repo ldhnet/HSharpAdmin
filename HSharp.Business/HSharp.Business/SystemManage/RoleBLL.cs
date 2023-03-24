@@ -1,19 +1,13 @@
-﻿using System;
+﻿using HSharp.Business.Cache;
+using HSharp.Entity.SystemManage;
+using HSharp.Enum.SystemManage;
+using HSharp.Model.Param.SystemManage;
+using HSharp.Service.SystemManage;
+using HSharp.Util.Extension;
+using HSharp.Util.Model;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using HSharp.Entity;
-using HSharp.Service;
-using HSharp.Service.SystemManage;
-using HSharp.Entity.SystemManage;
-using HSharp.Util;
-using HSharp.Util.Extension;
-using HSharp.Model;
-using HSharp.Util.Model;
-using HSharp.Model.Param.SystemManage;
-using HSharp.Enum.SystemManage;
-using HSharp.Business.Cache;
 
 namespace HSharp.Business.SystemManage
 {
@@ -25,6 +19,7 @@ namespace HSharp.Business.SystemManage
         private MenuAuthorizeCache menuAuthorizeCache = new MenuAuthorizeCache();
 
         #region 获取数据
+
         public async Task<TData<List<RoleEntity>>> GetList(RoleListParam param)
         {
             TData<List<RoleEntity>> obj = new TData<List<RoleEntity>>();
@@ -67,9 +62,11 @@ namespace HSharp.Business.SystemManage
             obj.Tag = 1;
             return obj;
         }
-        #endregion
+
+        #endregion 获取数据
 
         #region 提交数据
+
         public async Task<TData<string>> SaveForm(RoleEntity entity)
         {
             TData<string> obj = new TData<string>();
@@ -103,7 +100,7 @@ namespace HSharp.Business.SystemManage
             obj.Tag = 1;
             return obj;
         }
-        #endregion
 
+        #endregion 提交数据
     }
 }

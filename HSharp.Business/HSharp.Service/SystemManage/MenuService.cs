@@ -1,19 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Threading.Tasks;
-using HSharp.Data.Repository;
+﻿using HSharp.Data.Repository;
 using HSharp.Entity.SystemManage;
 using HSharp.Model.Param.SystemManage;
 using HSharp.Util;
 using HSharp.Util.Extension;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
+using System.Threading.Tasks;
 
 namespace HSharp.Service.SystemManage
 {
     public class MenuService : RepositoryFactory
     {
         #region 获取数据
+
         public async Task<List<MenuEntity>> GetList(MenuListParam param)
         {
             var expression = ListFilter(param);
@@ -53,9 +54,11 @@ namespace HSharp.Service.SystemManage
             }
             return this.BaseRepository().IQueryable(expression).Count() > 0 ? true : false;
         }
-        #endregion
+
+        #endregion 获取数据
 
         #region 提交数据
+
         public async Task SaveForm(MenuEntity entity)
         {
             if (entity.Id.IsNullOrZero())
@@ -86,9 +89,11 @@ namespace HSharp.Service.SystemManage
                 throw;
             }
         }
-        #endregion
+
+        #endregion 提交数据
 
         #region 私有方法
+
         private Expression<Func<MenuEntity, bool>> ListFilter(MenuListParam param)
         {
             var expression = LinqExtensions.True<MenuEntity>();
@@ -105,7 +110,7 @@ namespace HSharp.Service.SystemManage
             }
             return expression;
         }
-        #endregion
 
+        #endregion 私有方法
     }
 }

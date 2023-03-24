@@ -1,17 +1,16 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
-using Newtonsoft.Json;
 
 namespace HSharp.Util.Extension
 {
     public static partial class Extensions
     {
         #region 枚举成员转成dictionary类型
+
         /// <summary>
         /// 转成dictionary类型
         /// </summary>
@@ -44,6 +43,7 @@ namespace HSharp.Util.Extension
             }
             return dictionary;
         }
+
         /// <summary>
         /// 枚举成员转成键值对Json字符串
         /// </summary>
@@ -55,9 +55,11 @@ namespace HSharp.Util.Extension
             var sJson = JsonConvert.SerializeObject(dictionaryList);
             return sJson;
         }
-        #endregion
+
+        #endregion 枚举成员转成dictionary类型
 
         #region 获取枚举的描述
+
         /// <summary>
         /// 获取枚举值对应的描述
         /// </summary>
@@ -76,15 +78,18 @@ namespace HSharp.Util.Extension
             }
             return enumType.ToString();
         }
-        #endregion
+
+        #endregion 获取枚举的描述
 
         #region 根据值获取枚举的描述
+
         public static string GetDescriptionByEnum<T>(this object obj)
         {
             var tEnum = System.Enum.Parse(typeof(T), obj.ParseToString()) as System.Enum;
             var description = tEnum.GetDescription();
             return description;
         }
-        #endregion
+
+        #endregion 根据值获取枚举的描述
     }
 }

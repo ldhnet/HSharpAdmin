@@ -1,20 +1,21 @@
-﻿using System;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using HSharp.Data.Repository;
+﻿using HSharp.Data.Repository;
 using HSharp.Entity.OrganizationManage;
 using HSharp.Model.Param.OrganizationManage;
+using HSharp.Util;
 using HSharp.Util.Extension;
 using HSharp.Util.Model;
-using HSharp.Util;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
+using System.Threading.Tasks;
 
 namespace HSharp.Service.OrganizationManage
 {
     public class PositionService : RepositoryFactory
     {
         #region 获取数据
+
         public async Task<List<PositionEntity>> GetList(PositionListParam param)
         {
             var expression = ListFilter(param);
@@ -56,9 +57,11 @@ namespace HSharp.Service.OrganizationManage
             }
             return this.BaseRepository().IQueryable(expression).Count() > 0 ? true : false;
         }
-        #endregion
+
+        #endregion 获取数据
 
         #region 提交数据
+
         public async Task SaveForm(PositionEntity entity)
         {
             if (entity.Id.IsNullOrZero())
@@ -78,9 +81,11 @@ namespace HSharp.Service.OrganizationManage
             long[] idArr = TextHelper.SplitToArray<long>(ids, ',');
             await this.BaseRepository().Delete<PositionEntity>(idArr);
         }
-        #endregion
+
+        #endregion 提交数据
 
         #region 私有方法
+
         private Expression<Func<PositionEntity, bool>> ListFilter(PositionListParam param)
         {
             var expression = LinqExtensions.True<PositionEntity>();
@@ -98,6 +103,7 @@ namespace HSharp.Service.OrganizationManage
             }
             return expression;
         }
-        #endregion
+
+        #endregion 私有方法
     }
 }

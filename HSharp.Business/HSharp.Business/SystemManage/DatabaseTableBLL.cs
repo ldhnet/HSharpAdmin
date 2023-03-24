@@ -1,22 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using HSharp.Entity;
+﻿using HSharp.Entity;
 using HSharp.Model.Result;
 using HSharp.Model.Result.SystemManage;
 using HSharp.Service.SystemManage;
 using HSharp.Util;
 using HSharp.Util.Model;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace HSharp.Business.SystemManage
 {
     public class DatabaseTableBLL
     {
-        #region  构造函数
+        #region 构造函数
+
         private IDatabaseTableService databaseTableService;
 
         public DatabaseTableBLL()
@@ -27,19 +25,24 @@ namespace HSharp.Business.SystemManage
                 case "SqlServer":
                     databaseTableService = new DatabaseTableSqlServerService();
                     break;
+
                 case "MySql":
                     databaseTableService = new DatabaseTableMySqlService();
                     break;
+
                 case "Oracle":
                     databaseTableService = new DatabaseTableOracleService();
                     break;
+
                 default:
                     throw new Exception("未找到数据库配置");
             }
         }
-        #endregion
+
+        #endregion 构造函数
 
         #region 获取数据
+
         public async Task<TData<List<TableInfo>>> GetTableList(string tableName)
         {
             TData<List<TableInfo>> obj = new TData<List<TableInfo>>();
@@ -114,9 +117,11 @@ namespace HSharp.Business.SystemManage
             obj.Tag = 1;
             return obj;
         }
-        #endregion
+
+        #endregion 获取数据
 
         #region 提交数据
+
         public async Task<string> DatabaseBackup(string backupPath)
         {
             string database = HtmlHelper.Resove(GlobalContext.SystemConfig.DBConnectionString.ToLower(), "database=", ";");
@@ -131,6 +136,7 @@ namespace HSharp.Business.SystemManage
             obj.Tag = 1;
             return obj;
         }
-        #endregion
+
+        #endregion 提交数据
     }
 }

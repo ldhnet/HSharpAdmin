@@ -1,18 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using HSharp.Data.Repository;
+﻿using HSharp.Data.Repository;
 using HSharp.Entity.OrganizationManage;
 using HSharp.Util.Extension;
-using HSharp.Util.Model;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace HSharp.Service.OrganizationManage
 {
     public class UserBelongService : RepositoryFactory
     {
         #region 获取数据
+
         public async Task<List<UserBelongEntity>> GetList(UserBelongEntity entity)
         {
             var expression = LinqExtensions.True<UserBelongEntity>();
@@ -35,9 +33,11 @@ namespace HSharp.Service.OrganizationManage
         {
             return await this.BaseRepository().FindEntity<UserBelongEntity>(id);
         }
-        #endregion
+
+        #endregion 获取数据
 
         #region 提交数据
+
         public async Task SaveForm(UserBelongEntity entity)
         {
             if (entity.Id.IsNullOrZero())
@@ -55,6 +55,7 @@ namespace HSharp.Service.OrganizationManage
         {
             await this.BaseRepository().Delete<UserBelongEntity>(id);
         }
-        #endregion
+
+        #endregion 提交数据
     }
 }

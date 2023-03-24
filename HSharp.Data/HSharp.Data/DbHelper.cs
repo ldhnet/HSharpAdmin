@@ -1,12 +1,12 @@
-﻿using System;
+﻿using HSharp.Util;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
+using Microsoft.EntityFrameworkCore.Storage;
+using System;
 using System.Data;
 using System.Data.Common;
 using System.Diagnostics;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Diagnostics;
-using Microsoft.EntityFrameworkCore.Storage;
-using HSharp.Util;
 
 namespace HSharp.Data
 {
@@ -18,6 +18,7 @@ namespace HSharp.Data
         public static DatabaseType DbType { get; set; }
 
         #region 构造函数
+
         /// <summary>
         /// 构造方法
         /// </summary>
@@ -33,18 +34,23 @@ namespace HSharp.Data
             dbConnection = _dbConnection;
             dbCommand = dbConnection.CreateCommand();
         }
-        #endregion
+
+        #endregion 构造函数
 
         #region 属性
+
         private DbContext dbContext { get; set; }
+
         /// <summary>
         /// 数据库连接对象
         /// </summary>
         private DbConnection dbConnection { get; set; }
+
         /// <summary>
         /// 执行命令对象
         /// </summary>
         private DbCommand dbCommand { get; set; }
+
         /// <summary>
         /// 关闭数据库连接
         /// </summary>
@@ -60,7 +66,8 @@ namespace HSharp.Data
                 dbCommand.Dispose();
             }
         }
-        #endregion
+
+        #endregion 属性
 
         /// <summary>
         /// 执行SQL返回 DataReader

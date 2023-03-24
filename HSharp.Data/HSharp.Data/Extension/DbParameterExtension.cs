@@ -1,8 +1,8 @@
-﻿using System;
-using System.Data.Common;
-using Microsoft.Data.SqlClient;
+﻿using Microsoft.Data.SqlClient;
 using MySqlConnector;
 using Oracle.ManagedDataAccess.Client;
+using System;
+using System.Data.Common;
 
 namespace HSharp.Data
 {
@@ -64,6 +64,7 @@ namespace HSharp.Data
                         i++;
                     }
                     break;
+
                 case DatabaseType.MySql:
                     _dbParameter = new MySqlParameter[size];
                     while (i < size)
@@ -72,6 +73,7 @@ namespace HSharp.Data
                         i++;
                     }
                     break;
+
                 case DatabaseType.Oracle:
                     _dbParameter = new OracleParameter[size];
                     while (i < size)
@@ -80,6 +82,7 @@ namespace HSharp.Data
                         i++;
                     }
                     break;
+
                 default:
                     throw new Exception("数据库类型目前不支持！");
             }

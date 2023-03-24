@@ -2,9 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace HSharp.Util
 {
@@ -17,14 +14,17 @@ namespace HSharp.Util
         {
             return Clone().GetEnumerator();
         }
+
         IEnumerator IEnumerable.GetEnumerator()
         {
             return Clone().GetEnumerator();
         }
 
-        public int Count { get { return _interalList.Count; } }
+        public int Count
+        { get { return _interalList.Count; } }
 
-        public bool IsReadOnly { get { return false; } }
+        public bool IsReadOnly
+        { get { return false; } }
 
         public T this[int index]
         {

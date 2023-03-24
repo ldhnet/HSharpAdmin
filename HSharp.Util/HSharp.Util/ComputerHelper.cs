@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
+﻿using HSharp.Util.Extension;
+using System;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
-using HSharp.Util.Extension;
 
 namespace HSharp.Util
 {
@@ -137,14 +132,17 @@ namespace HSharp.Util
         /// CPU使用率
         /// </summary>
         public string CPURate { get; set; }
+
         /// <summary>
         /// 总内存
         /// </summary>
         public string TotalRAM { get; set; }
+
         /// <summary>
         /// 内存使用率
         /// </summary>
         public string RAMRate { get; set; }
+
         /// <summary>
         /// 系统运行时间
         /// </summary>

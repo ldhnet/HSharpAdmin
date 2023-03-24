@@ -1,17 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using Quartz;
+﻿using HSharp.Business.SystemManage;
 using HSharp.Entity.SystemManage;
-using HSharp.Service.SystemManage;
 using HSharp.Util;
 using HSharp.Util.Model;
-using HSharp.Util.Extension;
-using HSharp.Enum;
-using HSharp.Business.SystemManage;
+using Quartz;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace HSharp.Business.AutoJob
 {
@@ -30,6 +24,7 @@ namespace HSharp.Business.AutoJob
         }
 
         #region 添加任务计划
+
         private void AddScheduleJob(List<AutoJobEntity> entityList)
         {
             try
@@ -67,9 +62,11 @@ namespace HSharp.Business.AutoJob
                 LogHelper.Error(ex);
             }
         }
-        #endregion
+
+        #endregion 添加任务计划
 
         #region 清除任务计划
+
         public void ClearScheduleJob()
         {
             try
@@ -81,6 +78,7 @@ namespace HSharp.Business.AutoJob
                 LogHelper.Error(ex);
             }
         }
-        #endregion
+
+        #endregion 清除任务计划
     }
 }

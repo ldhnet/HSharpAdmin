@@ -1,10 +1,5 @@
 ﻿using Quartz;
 using Quartz.Impl;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace HSharp.Business.AutoJob
 {
@@ -13,6 +8,7 @@ namespace HSharp.Business.AutoJob
         private static object lockHelper = new object();
 
         private static IScheduler scheduler = null;
+
         public static IScheduler GetScheduler()
         {
             lock (lockHelper)

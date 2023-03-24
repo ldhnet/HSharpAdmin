@@ -1,13 +1,10 @@
-﻿using System;
-using System.Linq;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
-using HSharp.Entity.OrganizationManage;
-using HSharp.Service.OrganizationManage;
-using HSharp.Util.Model;
-using HSharp.Util.Extension;
+﻿using HSharp.Entity.OrganizationManage;
 using HSharp.Model.Param.OrganizationManage;
+using HSharp.Service.OrganizationManage;
+using HSharp.Util.Extension;
+using HSharp.Util.Model;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace HSharp.Business.OrganizationManage
 {
@@ -16,6 +13,7 @@ namespace HSharp.Business.OrganizationManage
         private PositionService positionService = new PositionService();
 
         #region 获取数据
+
         public async Task<TData<List<PositionEntity>>> GetList(PositionListParam param)
         {
             TData<List<PositionEntity>> obj = new TData<List<PositionEntity>>();
@@ -48,9 +46,11 @@ namespace HSharp.Business.OrganizationManage
             obj.Tag = 1;
             return obj;
         }
-        #endregion
+
+        #endregion 获取数据
 
         #region 提交数据
+
         public async Task<TData<string>> SaveForm(PositionEntity entity)
         {
             TData<string> obj = new TData<string>();
@@ -72,6 +72,7 @@ namespace HSharp.Business.OrganizationManage
             obj.Tag = 1;
             return obj;
         }
-        #endregion
+
+        #endregion 提交数据
     }
 }

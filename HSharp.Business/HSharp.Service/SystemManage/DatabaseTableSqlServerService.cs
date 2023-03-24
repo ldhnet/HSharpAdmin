@@ -1,22 +1,22 @@
-﻿using System;
+﻿using HSharp.Data;
+using HSharp.Data.Repository;
+using HSharp.Model.Result.SystemManage;
+using HSharp.Util.Extension;
+using HSharp.Util.Model;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using HSharp.Data;
-using HSharp.Data.Repository;
-using HSharp.Model.Result.SystemManage;
-using HSharp.Util;
-using HSharp.Util.Extension;
-using HSharp.Util.Model;
 
 namespace HSharp.Service.SystemManage
 {
     public class DatabaseTableSqlServerService : RepositoryFactory, IDatabaseTableService
     {
         #region 获取数据
+
         public async Task<List<TableInfo>> GetTableList(string tableName)
         {
             StringBuilder strSql = new StringBuilder();
@@ -50,28 +50,30 @@ namespace HSharp.Service.SystemManage
         public async Task<List<TableFieldInfo>> GetTableFieldList(string tableName)
         {
             StringBuilder strSql = new StringBuilder();
-            strSql.Append(@"SELECT  
-                                  TableColumn = rtrim(b.name),  
-                                  TableIdentity = CASE WHEN h.id IS NOT NULL  THEN 'PK' ELSE '' END,  
-                                  Datatype = type_name(b.xusertype)+CASE WHEN b.colstat&1=1 THEN '[ID(' + CONVERT(varchar, ident_seed(a.name))+','+CONVERT(varchar,ident_incr(a.name))+')]' ELSE '' END,  
-                                  FieldLength = b.length,   
-                                  IsNullable = CASE b.isnullable WHEN 0 THEN 'N' ELSE 'Y' END,   
+            strSql.Append(@"SELECT
+                                  TableColumn = rtrim(b.name),
+                                  TableIdentity = CASE WHEN h.id IS NOT NULL  THEN 'PK' ELSE '' END,
+                                  Datatype = type_name(b.xusertype)+CASE WHEN b.colstat&1=1 THEN '[ID(' + CONVERT(varchar, ident_seed(a.name))+','+CONVERT(varchar,ident_incr(a.name))+')]' ELSE '' END,
+                                  FieldLength = b.length,
+                                  IsNullable = CASE b.isnullable WHEN 0 THEN 'N' ELSE 'Y' END,
                                   FieldDefault = ISNULL(e.text, ''),
                                   Remark = (SELECT ep.value FROM sys.columns sc LEFT JOIN sys.extended_properties ep ON ep.major_id = sc.object_id AND ep.minor_id = sc.column_id
 										                    WHERE sc.object_id = a.id AND sc.name = b.name)
-                            FROM sysobjects a, syscolumns b  
-                            LEFT OUTER JOIN syscomments e ON b.cdefault = e.id  
-                            LEFT OUTER JOIN (Select g.id, g.colid FROM sysindexes f, sysindexkeys g Where (f.id=g.id)AND(f.indid=g.indid)AND(f.indid>0)AND(f.indid<255)AND(f.status&2048)<>0) h ON (b.id=h.id)AND(b.colid=h.colid)  
-                            Where (a.id=b.id)AND(a.id=object_id(@TableName))   
+                            FROM sysobjects a, syscolumns b
+                            LEFT OUTER JOIN syscomments e ON b.cdefault = e.id
+                            LEFT OUTER JOIN (Select g.id, g.colid FROM sysindexes f, sysindexkeys g Where (f.id=g.id)AND(f.indid=g.indid)AND(f.indid>0)AND(f.indid<255)AND(f.status&2048)<>0) h ON (b.id=h.id)AND(b.colid=h.colid)
+                            Where (a.id=b.id)AND(a.id=object_id(@TableName))
                                   ORDER BY b.colid");
             var parameter = new List<DbParameter>();
             parameter.Add(DbParameterExtension.CreateDbParameter("@TableName", tableName));
             var list = await this.BaseRepository().FindList<TableFieldInfo>(strSql.ToString(), parameter.ToArray());
             return list.ToList();
         }
-        #endregion
+
+        #endregion 获取数据
 
         #region 公有方法
+
         public async Task<bool> DatabaseBackup(string database, string backupPath)
         {
             string backupFile = string.Format("{0}\\{1}_{2}.bak", backupPath, database, DateTime.Now.ToString("yyyyMMddHHmmss"));
@@ -79,9 +81,11 @@ namespace HSharp.Service.SystemManage
             var result = await this.BaseRepository().ExecuteBySql(strSql);
             return result > 0 ? true : false;
         }
-        #endregion
+
+        #endregion 公有方法
 
         #region 私有方法
+
         /// <summary>
         /// 获取所有表的主键、主键名称、记录数
         /// </summary>
@@ -90,12 +94,12 @@ namespace HSharp.Service.SystemManage
         {
             string strSql = @"SELECT (SELECT name FROM sysobjects as t WHERE xtype = 'U' and t.id = sc.id) TableName,
                                      sc.id Id,sc.name TableKey,sysobjects.name TableKeyName,sysindexes.rows TableCount
-                                     FROM syscolumns sc ,sysobjects,sysindexes,sysindexkeys 
-                                     WHERE sysobjects.xtype = 'PK' 
-                                           AND sysobjects.parent_obj = sc.id 
-                                           AND sysindexes.id = sc.id 
-                                           AND sysobjects.name = sysindexes.name AND sysindexkeys.id = sc.id 
-                                           AND sysindexkeys.indid = sysindexes.indid 
+                                     FROM syscolumns sc ,sysobjects,sysindexes,sysindexkeys
+                                     WHERE sysobjects.xtype = 'PK'
+                                           AND sysobjects.parent_obj = sc.id
+                                           AND sysindexes.id = sc.id
+                                           AND sysobjects.name = sysindexes.name AND sysindexkeys.id = sc.id
+                                           AND sysindexkeys.indid = sysindexes.indid
                                            AND sc.colid = sysindexkeys.colid;";
 
             IEnumerable<TableInfo> list = await this.BaseRepository().FindList<TableInfo>(strSql.ToString());
@@ -121,6 +125,7 @@ namespace HSharp.Service.SystemManage
                 }
             }
         }
-        #endregion
+
+        #endregion 私有方法
     }
 }

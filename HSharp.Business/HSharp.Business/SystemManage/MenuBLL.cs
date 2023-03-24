@@ -1,18 +1,13 @@
-﻿using System;
+﻿using HSharp.Business.Cache;
+using HSharp.Entity.SystemManage;
+using HSharp.Model.Param.SystemManage;
+using HSharp.Model.Result;
+using HSharp.Service.SystemManage;
+using HSharp.Util.Extension;
+using HSharp.Util.Model;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using HSharp.Entity;
-using HSharp.Service;
-using HSharp.Service.SystemManage;
-using HSharp.Entity.SystemManage;
-using HSharp.Model.Result;
-using HSharp.Model;
-using HSharp.Util.Model;
-using HSharp.Business.Cache;
-using HSharp.Model.Param.SystemManage;
-using HSharp.Util.Extension;
 
 namespace HSharp.Business.SystemManage
 {
@@ -23,6 +18,7 @@ namespace HSharp.Business.SystemManage
         private MenuCache menuCache = new MenuCache();
 
         #region 获取数据
+
         public async Task<TData<List<MenuEntity>>> GetList(MenuListParam param)
         {
             var obj = new TData<List<MenuEntity>>();
@@ -88,9 +84,11 @@ namespace HSharp.Business.SystemManage
             obj.Tag = 1;
             return obj;
         }
-        #endregion
+
+        #endregion 获取数据
 
         #region 提交数据
+
         public async Task<TData<string>> SaveForm(MenuEntity entity)
         {
             TData<string> obj = new TData<string>();
@@ -122,9 +120,11 @@ namespace HSharp.Business.SystemManage
             obj.Tag = 1;
             return obj;
         }
-        #endregion
+
+        #endregion 提交数据
 
         #region 私有方法
+
         private List<MenuEntity> ListFilter(MenuListParam param, List<MenuEntity> list)
         {
             if (param != null)
@@ -140,6 +140,7 @@ namespace HSharp.Business.SystemManage
             }
             return list;
         }
-        #endregion
+
+        #endregion 私有方法
     }
 }

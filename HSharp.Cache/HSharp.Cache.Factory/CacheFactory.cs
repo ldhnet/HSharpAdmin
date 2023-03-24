@@ -1,7 +1,7 @@
-﻿using HSharp.Util;
-using HSharp.Cache.Interface;
+﻿using HSharp.Cache.Interface;
 using HSharp.MemoryCache;
 using HSharp.RedisCache;
+using HSharp.Util;
 
 namespace HSharp.Cache.Factory
 {

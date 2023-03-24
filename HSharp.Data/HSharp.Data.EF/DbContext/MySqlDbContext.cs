@@ -1,11 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using HSharp.Util;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using HSharp.Util;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
+using System.Reflection;
 
 namespace HSharp.Data.EF
 {
@@ -57,6 +57,6 @@ namespace HSharp.Data.EF
             base.OnModelCreating(modelBuilder);
         }
 
-        #endregion
+        #endregion 重载
     }
 }

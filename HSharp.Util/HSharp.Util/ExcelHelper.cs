@@ -1,4 +1,9 @@
-﻿using System;
+﻿using HSharp.Util.Extension;
+using NPOI.HSSF.UserModel;
+using NPOI.SS.UserModel;
+using NPOI.SS.Util;
+using NPOI.XSSF.UserModel;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -6,11 +11,6 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
-using NPOI.HSSF.UserModel;
-using NPOI.XSSF.UserModel;
-using NPOI.SS.UserModel;
-using NPOI.SS.Util;
-using HSharp.Util.Extension;
 
 namespace HSharp.Util
 {
@@ -21,6 +21,7 @@ namespace HSharp.Util
     public class ExcelHelper<T> where T : new()
     {
         #region List导出到Excel文件
+
         /// <summary>
         /// List导出到Excel文件
         /// </summary>
@@ -50,12 +51,12 @@ namespace HSharp.Util
             return partDirectory + Path.DirectorySeparatorChar + sFileName;
         }
 
-        /// <summary>  
-        /// List导出到Excel的MemoryStream  
-        /// </summary>  
-        /// <param name="list">数据源</param>  
-        /// <param name="sHeaderText">表头文本</param>  
-        /// <param name="columns">需要导出的属性</param>  
+        /// <summary>
+        /// List导出到Excel的MemoryStream
+        /// </summary>
+        /// <param name="list">数据源</param>
+        /// <param name="sHeaderText">表头文本</param>
+        /// <param name="columns">需要导出的属性</param>
         private MemoryStream CreateExportMemoryStream(List<T> list, string sHeaderText, string[] columns)
         {
             HSSFWorkbook workbook = new HSSFWorkbook();
@@ -70,17 +71,22 @@ namespace HSharp.Util
             //单元格填充循环外设定单元格格式，避免4000行异常
             ICellStyle contentStyle = workbook.CreateCellStyle();
             contentStyle.Alignment = HorizontalAlignment.Left;
+
             #region 取得每列的列宽（最大宽度）
+
             int[] arrColWidth = new int[properties.Length];
             for (int columnIndex = 0; columnIndex < properties.Length; columnIndex++)
             {
                 //GBK对应的code page是CP936
                 arrColWidth[columnIndex] = properties[columnIndex].Name.Length;
             }
-            #endregion
+
+            #endregion 取得每列的列宽（最大宽度）
+
             for (int rowIndex = 0; rowIndex < list.Count; rowIndex++)
             {
                 #region 新建表，填充表头，填充列头，样式
+
                 if (rowIndex == 65535 || rowIndex == 0)
                 {
                     if (rowIndex != 0)
@@ -89,6 +95,7 @@ namespace HSharp.Util
                     }
 
                     #region 表头及样式
+
                     {
                         IRow headerRow = sheet.CreateRow(0);
                         headerRow.HeightInPoints = 25;
@@ -105,9 +112,11 @@ namespace HSharp.Util
 
                         sheet.AddMergedRegion(new CellRangeAddress(0, 0, 0, properties.Length - 1));
                     }
-                    #endregion
+
+                    #endregion 表头及样式
 
                     #region 列头及样式
+
                     {
                         IRow headerRow = sheet.CreateRow(1);
                         ICellStyle headStyle = workbook.CreateCellStyle();
@@ -128,15 +137,18 @@ namespace HSharp.Util
                             }
                             headerRow.CreateCell(columnIndex).SetCellValue(description);
                             headerRow.GetCell(columnIndex).CellStyle = headStyle;
-                            //根据表头设置列宽  
+                            //根据表头设置列宽
                             sheet.SetColumnWidth(columnIndex, (arrColWidth[columnIndex] + 1) * 256);
                         }
                     }
-                    #endregion
+
+                    #endregion 列头及样式
                 }
-                #endregion
+
+                #endregion 新建表，填充表头，填充列头，样式
 
                 #region 填充内容
+
                 IRow dataRow = sheet.CreateRow(rowIndex + 2); // 前面2行已被占用
                 for (int columnIndex = 0; columnIndex < properties.Length; columnIndex++)
                 {
@@ -159,7 +171,7 @@ namespace HSharp.Util
                         case "System.DateTime":
                         case "System.Nullable`1[System.DateTime]":
                             newCell.SetCellValue(drValue.ParseToDateTime());
-                            newCell.CellStyle = dateStyle; //格式化显示  
+                            newCell.CellStyle = dateStyle; //格式化显示
                             break;
 
                         case "System.Boolean":
@@ -205,7 +217,8 @@ namespace HSharp.Util
                             break;
                     }
                 }
-                #endregion
+
+                #endregion 填充内容
             }
 
             using (MemoryStream ms = new MemoryStream())
@@ -217,9 +230,11 @@ namespace HSharp.Util
                 return ms;
             }
         }
-        #endregion
+
+        #endregion List导出到Excel文件
 
         #region Excel导入
+
         /// <summary>
         /// Excel导入
         /// </summary>
@@ -289,10 +304,12 @@ namespace HSharp.Util
                                 case "System.Nullable`1[System.Byte]":
                                     mapPropertyInfoDict[j].SetValue(entity, Byte.Parse(row.GetCell(j).ParseToString()));
                                     break;
+
                                 case "System.Int16":
                                 case "System.Nullable`1[System.Int16]":
                                     mapPropertyInfoDict[j].SetValue(entity, Int16.Parse(row.GetCell(j).ParseToString()));
                                     break;
+
                                 case "System.Int32":
                                 case "System.Nullable`1[System.Int32]":
                                     mapPropertyInfoDict[j].SetValue(entity, row.GetCell(j).ParseToString().ParseToInt());
@@ -362,7 +379,7 @@ namespace HSharp.Util
             }
             return null;
         }
-        #endregion
+
+        #endregion Excel导入
     }
 }
-

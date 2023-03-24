@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using HSharp.Entity.SystemManage;
-using HSharp.Model;
+﻿using HSharp.Entity.SystemManage;
 using HSharp.Model.Param.SystemManage;
 using HSharp.Service.SystemManage;
 using HSharp.Util.Extension;
 using HSharp.Util.Model;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace HSharp.Business.SystemManage
 {
@@ -17,6 +13,7 @@ namespace HSharp.Business.SystemManage
         private LogLoginService logLoginService = new LogLoginService();
 
         #region 获取数据
+
         public async Task<TData<List<LogLoginEntity>>> GetList(LogLoginListParam param)
         {
             TData<List<LogLoginEntity>> obj = new TData<List<LogLoginEntity>>();
@@ -42,9 +39,10 @@ namespace HSharp.Business.SystemManage
             return obj;
         }
 
-        #endregion
+        #endregion 获取数据
 
         #region 提交数据
+
         public async Task<TData<string>> SaveForm(LogLoginEntity entity)
         {
             TData<string> obj = new TData<string>();
@@ -69,6 +67,7 @@ namespace HSharp.Business.SystemManage
             obj.Tag = 1;
             return obj;
         }
-        #endregion
+
+        #endregion 提交数据
     }
 }

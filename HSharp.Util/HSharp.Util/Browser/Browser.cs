@@ -12,8 +12,11 @@ namespace HSharp.Util.Browser
         public BrowserType Type { get; set; } = BrowserType.Generic;
         public Version Version { get; set; }
 
-        public BaseBrowser() { }
+        public BaseBrowser()
+        { }
+
         public BaseBrowser(BrowserType browserType) => Type = browserType;
+
         public BaseBrowser(BrowserType browserType, Version version) : this(browserType) => Version = version;
 
         public BaseBrowser(string name)
@@ -25,11 +28,13 @@ namespace HSharp.Util.Browser
 
             //Type = type;
         }
+
         public Version ToVersion(string version)
         {
             version = RemoveWhitespace(version);
             return Version.TryParse(version, out var parsedVersion) ? parsedVersion : new Version(0, 0);
         }
+
         public string RemoveWhitespace(string version) => version.Contains(" ") ? version.Replace(" ", "") : version;
     }
 

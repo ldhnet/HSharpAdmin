@@ -1,14 +1,11 @@
-﻿using System;
-using System.Linq;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using HSharp.Util;
-using HSharp.Util.Extension;
-using HSharp.Util.Model;
+﻿using HSharp.Business.Cache;
 using HSharp.Entity.SystemManage;
 using HSharp.Model.Param.SystemManage;
 using HSharp.Service.SystemManage;
-using HSharp.Business.Cache;
+using HSharp.Util.Extension;
+using HSharp.Util.Model;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace HSharp.Business.SystemManage
 {
@@ -18,7 +15,8 @@ namespace HSharp.Business.SystemManage
 
         private DataDictDetailCache dataDictDetailCache = new DataDictDetailCache();
 
-        #region  获取数据
+        #region 获取数据
+
         public async Task<TData<List<DataDictDetailEntity>>> GetList(DataDictDetailListParam param)
         {
             TData<List<DataDictDetailEntity>> obj = new TData<List<DataDictDetailEntity>>();
@@ -52,9 +50,11 @@ namespace HSharp.Business.SystemManage
             obj.Tag = 1;
             return obj;
         }
-        #endregion
+
+        #endregion 获取数据
 
         #region 提交数据
+
         public async Task<TData<string>> SaveForm(DataDictDetailEntity entity)
         {
             TData<string> obj = new TData<string>();
@@ -83,6 +83,7 @@ namespace HSharp.Business.SystemManage
             obj.Tag = 1;
             return obj;
         }
-        #endregion
+
+        #endregion 提交数据
     }
 }

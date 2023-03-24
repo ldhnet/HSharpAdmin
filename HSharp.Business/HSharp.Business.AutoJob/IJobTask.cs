@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using HSharp.Util.Model;
 using System.Threading.Tasks;
-using HSharp.Util.Model;
 
 namespace HSharp.Business.AutoJob
 {

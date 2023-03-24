@@ -1,18 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using HSharp.Entity.OrganizationManage;
-using HSharp.Enum.OrganizationManage;
-using HSharp.Model;
-using HSharp.Model.Result;
+﻿using HSharp.Entity.OrganizationManage;
 using HSharp.Model.Param.OrganizationManage;
+using HSharp.Model.Result;
 using HSharp.Service.OrganizationManage;
 using HSharp.Util;
-using HSharp.Util.Model;
 using HSharp.Util.Extension;
+using HSharp.Util.Model;
 using HSharp.Web.Code;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace HSharp.Business.OrganizationManage
 {
@@ -22,6 +18,7 @@ namespace HSharp.Business.OrganizationManage
         private UserService userService = new UserService();
 
         #region 获取数据
+
         public async Task<TData<List<DepartmentEntity>>> GetList(DepartmentListParam param)
         {
             TData<List<DepartmentEntity>> obj = new TData<List<DepartmentEntity>>();
@@ -122,9 +119,11 @@ namespace HSharp.Business.OrganizationManage
             obj.Tag = 1;
             return obj;
         }
-        #endregion
+
+        #endregion 获取数据
 
         #region 提交数据
+
         public async Task<TData<string>> SaveForm(DepartmentEntity entity)
         {
             TData<string> obj = new TData<string>();
@@ -159,9 +158,11 @@ namespace HSharp.Business.OrganizationManage
             obj.Tag = 1;
             return obj;
         }
-        #endregion
+
+        #endregion 提交数据
 
         #region 公共方法
+
         /// <summary>
         /// 获取当前部门及下面所有的部门
         /// </summary>
@@ -179,9 +180,13 @@ namespace HSharp.Business.OrganizationManage
             GetChildrenDepartmentIdList(departmentList, departmentId, departmentIdList);
             return departmentIdList;
         }
-        #endregion 
+
+        #endregion 公共方法
+
+
 
         #region 私有方法
+
         /// <summary>
         /// 获取该部门下面所有的子部门
         /// </summary>
@@ -200,6 +205,7 @@ namespace HSharp.Business.OrganizationManage
                 }
             }
         }
-        #endregion
+
+        #endregion 私有方法
     }
 }

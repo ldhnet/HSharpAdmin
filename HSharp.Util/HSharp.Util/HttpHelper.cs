@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HSharp.Util.Extension;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
@@ -7,16 +8,16 @@ using System.Net.Security;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Text.RegularExpressions;
-using HSharp.Util.Extension;
 
 namespace HSharp.Util
 {
     /// <summary>
-    /// Http连接操作帮助类 
+    /// Http连接操作帮助类
     /// </summary>
     public class HttpHelper
     {
         #region 是否是网址
+
         public static bool IsUrl(string url)
         {
             url = url.ParseToString().ToLower();
@@ -29,9 +30,11 @@ namespace HSharp.Util
                 return false;
             }
         }
-        #endregion
+
+        #endregion 是否是网址
 
         #region 模拟GET
+
         /// <summary>
         /// GET请求
         /// </summary>
@@ -54,9 +57,11 @@ namespace HSharp.Util
 
             return retString;
         }
-        #endregion
+
+        #endregion 模拟GET
 
         #region 模拟POST
+
         /// <summary>
         /// POST请求
         /// </summary>
@@ -137,15 +142,20 @@ namespace HSharp.Util
             html.AppendLine("</html>");
             return html.ToString();
         }
-        #endregion
+
+        #endregion 模拟POST
 
         #region 预定义方法或者变更
+
         //默认的编码
         private Encoding encoding = Encoding.Default;
+
         //HttpWebRequest对象用来发起请求
         private HttpWebRequest request = null;
+
         //获取影响流的数据对象
         private HttpWebResponse response = null;
+
         /// <summary>
         /// 根据相传入的数据，得到相应页面数据
         /// </summary>
@@ -158,6 +168,7 @@ namespace HSharp.Util
             try
             {
                 #region 得到请求的response
+
                 using (response = (HttpWebResponse)request.GetResponse())
                 {
                     result.Header = response.Headers;
@@ -208,7 +219,7 @@ namespace HSharp.Util
                         }
                         else
                         {
-                            if (response.CharacterSet !=null && response.CharacterSet.ToLower().Trim() == "iso-8859-1")
+                            if (response.CharacterSet != null && response.CharacterSet.ToLower().Trim() == "iso-8859-1")
                             {
                                 encoding = Encoding.GetEncoding("gbk");
                             }
@@ -230,7 +241,8 @@ namespace HSharp.Util
                     //最后释放流
                     _stream.Close();
                 }
-                #endregion
+
+                #endregion 得到请求的response
             }
             catch (WebException ex)
             {
@@ -255,7 +267,7 @@ namespace HSharp.Util
             int Length = 256;
             Byte[] buffer = new Byte[Length];
             int bytesRead = streamResponse.Read(buffer, 0, Length);
-            // write the required bytes  
+            // write the required bytes
             while (bytesRead > 0)
             {
                 _stream.Write(buffer, 0, bytesRead);
@@ -301,6 +313,7 @@ namespace HSharp.Util
                 request.ServicePoint.ConnectionLimit = httpItem.Connectionlimit;
             }
         }
+
         /// <summary>
         /// 设置证书
         /// </summary>
@@ -324,6 +337,7 @@ namespace HSharp.Util
                 request = (HttpWebRequest)WebRequest.Create(GetUrl(httpItem.URL));
             }
         }
+
         /// <summary>
         /// 设置编码
         /// </summary>
@@ -341,6 +355,7 @@ namespace HSharp.Util
                 encoding = System.Text.Encoding.GetEncoding(httpItem.Encoding);
             }
         }
+
         /// <summary>
         /// 设置Cookie
         /// </summary>
@@ -359,6 +374,7 @@ namespace HSharp.Util
                 request.CookieContainer.Add(httpItem.CookieCollection);
             }
         }
+
         /// <summary>
         /// 设置Post数据
         /// </summary>
@@ -398,6 +414,7 @@ namespace HSharp.Util
                 }
             }
         }
+
         /// <summary>
         /// 设置代理
         /// </summary>
@@ -420,6 +437,7 @@ namespace HSharp.Util
                 request.Credentials = CredentialCache.DefaultNetworkCredentials;
             }
         }
+
         /// <summary>
         /// 回调验证证书问题
         /// </summary>
@@ -430,16 +448,18 @@ namespace HSharp.Util
         /// <returns>bool</returns>
         public bool CheckValidationResult(object sender, X509Certificate certificate, X509Chain chain, SslPolicyErrors errors)
         {
-            // 总是接受    
+            // 总是接受
             return true;
         }
-        #endregion
+
+        #endregion 预定义方法或者变更
 
         #region 普通类型
-        /// <summary>    
+
+        /// <summary>
         /// 传入一个正确或不正确的URl，返回正确的URL
-        /// </summary>    
-        /// <param name="URL">url</param>   
+        /// </summary>
+        /// <param name="URL">url</param>
         /// <returns>
         /// </returns>
         public static string GetUrl(string URL)
@@ -450,6 +470,7 @@ namespace HSharp.Util
             }
             return URL;
         }
+
         ///<summary>
         ///采用https协议访问网络,根据传入的URl地址，得到响应的数据字符串。
         ///</summary>
@@ -462,15 +483,17 @@ namespace HSharp.Util
             //调用专门读取数据的类
             return GetHttpRequestData(httpItem);
         }
-        #endregion
+
+        #endregion 普通类型
     }
 
     /// <summary>
-    /// Http请求参考类 
+    /// Http请求参考类
     /// </summary>
     public class HttpItem
     {
-        string _URL;
+        private string _URL;
+
         /// <summary>
         /// 请求URL必须填写
         /// </summary>
@@ -479,7 +502,9 @@ namespace HSharp.Util
             get { return _URL; }
             set { _URL = value; }
         }
-        string _Method = "GET";
+
+        private string _Method = "GET";
+
         /// <summary>
         /// 请求方式默认为GET方式
         /// </summary>
@@ -488,7 +513,9 @@ namespace HSharp.Util
             get { return _Method; }
             set { _Method = value; }
         }
-        int _Timeout = 100000;
+
+        private int _Timeout = 100000;
+
         /// <summary>
         /// 默认请求超时时间
         /// </summary>
@@ -497,7 +524,9 @@ namespace HSharp.Util
             get { return _Timeout; }
             set { _Timeout = value; }
         }
-        int _ReadWriteTimeout = 30000;
+
+        private int _ReadWriteTimeout = 30000;
+
         /// <summary>
         /// 默认写入Post数据超时间
         /// </summary>
@@ -506,7 +535,9 @@ namespace HSharp.Util
             get { return _ReadWriteTimeout; }
             set { _ReadWriteTimeout = value; }
         }
-        string _Accept = "text/html, application/xhtml+xml, */*";
+
+        private string _Accept = "text/html, application/xhtml+xml, */*";
+
         /// <summary>
         /// 请求标头值 默认为text/html, application/xhtml+xml, */*
         /// </summary>
@@ -515,7 +546,9 @@ namespace HSharp.Util
             get { return _Accept; }
             set { _Accept = value; }
         }
-        string _ContentType = "text/html";
+
+        private string _ContentType = "text/html";
+
         /// <summary>
         /// 请求返回类型默认 text/html
         /// </summary>
@@ -524,7 +557,9 @@ namespace HSharp.Util
             get { return _ContentType; }
             set { _ContentType = value; }
         }
-        string _UserAgent = "Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; Trident/5.0)";
+
+        private string _UserAgent = "Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; Trident/5.0)";
+
         /// <summary>
         /// 客户端访问信息默认Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; Trident/5.0)
         /// </summary>
@@ -533,7 +568,9 @@ namespace HSharp.Util
             get { return _UserAgent; }
             set { _UserAgent = value; }
         }
-        string _Encoding = string.Empty;
+
+        private string _Encoding = string.Empty;
+
         /// <summary>
         /// 返回数据编码默认为NUll,可以自动识别
         /// </summary>
@@ -542,7 +579,9 @@ namespace HSharp.Util
             get { return _Encoding; }
             set { _Encoding = value; }
         }
+
         private PostDataType _PostDataType = PostDataType.String;
+
         /// <summary>
         /// Post的数据类型
         /// </summary>
@@ -551,7 +590,9 @@ namespace HSharp.Util
             get { return _PostDataType; }
             set { _PostDataType = value; }
         }
-        string _Postdata;
+
+        private string _Postdata;
+
         /// <summary>
         /// Post请求时要发送的字符串Post数据
         /// </summary>
@@ -560,7 +601,9 @@ namespace HSharp.Util
             get { return _Postdata; }
             set { _Postdata = value; }
         }
+
         private byte[] _PostdataByte = null;
+
         /// <summary>
         /// Post请求时要发送的Byte类型的Post数据
         /// </summary>
@@ -569,7 +612,9 @@ namespace HSharp.Util
             get { return _PostdataByte; }
             set { _PostdataByte = value; }
         }
-        CookieCollection cookiecollection = null;
+
+        private CookieCollection cookiecollection = null;
+
         /// <summary>
         /// Cookie对象集合
         /// </summary>
@@ -578,7 +623,9 @@ namespace HSharp.Util
             get { return cookiecollection; }
             set { cookiecollection = value; }
         }
-        string _Cookie = string.Empty;
+
+        private string _Cookie = string.Empty;
+
         /// <summary>
         /// 请求时的Cookie
         /// </summary>
@@ -587,7 +634,9 @@ namespace HSharp.Util
             get { return _Cookie; }
             set { _Cookie = value; }
         }
-        string _Referer = string.Empty;
+
+        private string _Referer = string.Empty;
+
         /// <summary>
         /// 来源地址，上次访问地址
         /// </summary>
@@ -596,7 +645,9 @@ namespace HSharp.Util
             get { return _Referer; }
             set { _Referer = value; }
         }
-        string _CerPath = string.Empty;
+
+        private string _CerPath = string.Empty;
+
         /// <summary>
         /// 证书绝对路径
         /// </summary>
@@ -605,7 +656,9 @@ namespace HSharp.Util
             get { return _CerPath; }
             set { _CerPath = value; }
         }
+
         private Boolean isToLower = true;
+
         /// <summary>
         /// 是否设置为全文小写
         /// </summary>
@@ -614,7 +667,9 @@ namespace HSharp.Util
             get { return isToLower; }
             set { isToLower = value; }
         }
+
         private Boolean allowautoredirect = true;
+
         /// <summary>
         /// 支持跳转页面，查询结果将是跳转后的页面
         /// </summary>
@@ -623,7 +678,9 @@ namespace HSharp.Util
             get { return allowautoredirect; }
             set { allowautoredirect = value; }
         }
+
         private int connectionlimit = 1024;
+
         /// <summary>
         /// 最大连接数
         /// </summary>
@@ -632,7 +689,9 @@ namespace HSharp.Util
             get { return connectionlimit; }
             set { connectionlimit = value; }
         }
+
         private string proxyusername = string.Empty;
+
         /// <summary>
         /// 代理Proxy 服务器用户名
         /// </summary>
@@ -641,7 +700,9 @@ namespace HSharp.Util
             get { return proxyusername; }
             set { proxyusername = value; }
         }
+
         private string proxypwd = string.Empty;
+
         /// <summary>
         /// 代理 服务器密码
         /// </summary>
@@ -650,7 +711,9 @@ namespace HSharp.Util
             get { return proxypwd; }
             set { proxypwd = value; }
         }
+
         private string proxyip = string.Empty;
+
         /// <summary>
         /// 代理 服务IP
         /// </summary>
@@ -659,7 +722,9 @@ namespace HSharp.Util
             get { return proxyip; }
             set { proxyip = value; }
         }
+
         private ResultType resulttype = ResultType.String;
+
         /// <summary>
         /// 设置返回类型String和Byte
         /// </summary>
@@ -675,7 +740,8 @@ namespace HSharp.Util
     /// </summary>
     public class HttpResult
     {
-        string _Cookie = string.Empty;
+        private string _Cookie = string.Empty;
+
         /// <summary>
         /// Http请求返回的Cookie
         /// </summary>
@@ -684,7 +750,9 @@ namespace HSharp.Util
             get { return _Cookie; }
             set { _Cookie = value; }
         }
-        CookieCollection cookiecollection = null;
+
+        private CookieCollection cookiecollection = null;
+
         /// <summary>
         /// Cookie对象集合
         /// </summary>
@@ -693,7 +761,9 @@ namespace HSharp.Util
             get { return cookiecollection; }
             set { cookiecollection = value; }
         }
+
         private string html = string.Empty;
+
         /// <summary>
         /// 返回的String类型数据 只有ResultType.String时才返回数据，其它情况为空
         /// </summary>
@@ -702,7 +772,9 @@ namespace HSharp.Util
             get { return html; }
             set { html = value; }
         }
+
         private byte[] resultbyte = null;
+
         /// <summary>
         /// 返回的Byte数组 只有ResultType.Byte时才返回数据，其它情况为空
         /// </summary>
@@ -711,7 +783,9 @@ namespace HSharp.Util
             get { return resultbyte; }
             set { resultbyte = value; }
         }
+
         private WebHeaderCollection header = new WebHeaderCollection();
+
         //header对象
         public WebHeaderCollection Header
         {

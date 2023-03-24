@@ -1,6 +1,11 @@
-﻿using System;
+﻿using HSharp.Util;
+using HSharp.Util.Extension;
+using Microsoft.EntityFrameworkCore.Query;
+using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Data;
 using System.Data.Common;
@@ -8,11 +13,6 @@ using System.Dynamic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
-using System.ComponentModel;
-using Microsoft.EntityFrameworkCore.Query;
-using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
-using HSharp.Util;
-using HSharp.Util.Extension;
 
 namespace HSharp.Data
 {
@@ -250,13 +250,14 @@ namespace HSharp.Data
                         case DbType.Date:
                             value = parameter.Value.ParseToString().ParseToDateTime().ToString("yyyy-MM-dd HH:mm:ss");
                             break;
+
                         default:
                             value = parameter.Value.ParseToString();
                             break;
                     }
                     sql = sql.Replace(parameter.ParameterName, value);
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     LogHelper.Error(ex);
                 }
@@ -265,8 +266,11 @@ namespace HSharp.Data
         }
 
         #region 私有方法
+
         private static object Private(this object obj, string privateField) => obj?.GetType().GetField(privateField, BindingFlags.Instance | BindingFlags.NonPublic)?.GetValue(obj);
+
         private static T Private<T>(this object obj, string privateField) => (T)obj?.GetType().GetField(privateField, BindingFlags.Instance | BindingFlags.NonPublic)?.GetValue(obj);
-        #endregion
+
+        #endregion 私有方法
     }
 }

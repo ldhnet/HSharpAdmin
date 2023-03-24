@@ -1,14 +1,11 @@
-﻿using System;
-using System.Linq;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using HSharp.Util;
-using HSharp.Util.Extension;
-using HSharp.Util.Model;
-using HSharp.Entity.SystemManage;
+﻿using HSharp.Entity.SystemManage;
 using HSharp.Model.Param.SystemManage;
 using HSharp.Service.SystemManage;
-using NPOI.POIFS.FileSystem;
+using HSharp.Util.Extension;
+using HSharp.Util.Model;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace HSharp.Business.SystemManage
 {
@@ -22,6 +19,7 @@ namespace HSharp.Business.SystemManage
         private SysMessageService sysMessageService = new SysMessageService();
 
         #region 获取数据
+
         public async Task<TData<List<SysMessageContentEntity>>> GetList(SysMessageListParam param)
         {
             TData<List<SysMessageContentEntity>> obj = new TData<List<SysMessageContentEntity>>();
@@ -50,6 +48,7 @@ namespace HSharp.Business.SystemManage
             }
             return obj;
         }
+
         public async Task<TData<int>> GetUnreadCount(long userId)
         {
             TData<int> obj = new TData<int>();
@@ -58,9 +57,11 @@ namespace HSharp.Business.SystemManage
             obj.Tag = count > 0 ? 1 : 0;
             return obj;
         }
-        #endregion
+
+        #endregion 获取数据
 
         #region 提交数据
+
         public async Task<TData<string>> SaveForm(SysMessageContentEntity entity)
         {
             TData<string> obj = new TData<string>();
@@ -77,8 +78,8 @@ namespace HSharp.Business.SystemManage
             obj.Tag = 1;
             if (isUnRead)
             {
-                await sysMessageService.AddUnreadMessage(userId, msgIds);           
-            }     
+                await sysMessageService.AddUnreadMessage(userId, msgIds);
+            }
             return obj;
         }
 
@@ -90,9 +91,6 @@ namespace HSharp.Business.SystemManage
             return obj;
         }
 
-        #endregion
-
-        #region 私有方法
-        #endregion
+        #endregion 提交数据
     }
 }

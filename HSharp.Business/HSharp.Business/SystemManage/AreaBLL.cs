@@ -1,15 +1,14 @@
-﻿using System;
-using System.Linq;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using HSharp.Util;
-using HSharp.Util.Extension;
-using HSharp.Util.Model;
+﻿using HSharp.Business.Cache;
 using HSharp.Entity.SystemManage;
 using HSharp.Model.Param.SystemManage;
-using HSharp.Service.SystemManage;
-using HSharp.Business.Cache;
 using HSharp.Model.Result;
+using HSharp.Service.SystemManage;
+using HSharp.Util.Extension;
+using HSharp.Util.Model;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace HSharp.Business.SystemManage
 {
@@ -19,6 +18,7 @@ namespace HSharp.Business.SystemManage
         private AreaCache areaCache = new AreaCache();
 
         #region 获取数据
+
         public async Task<TData<List<AreaEntity>>> GetList(AreaListParam param)
         {
             TData<List<AreaEntity>> obj = new TData<List<AreaEntity>>();
@@ -83,9 +83,11 @@ namespace HSharp.Business.SystemManage
             }
             return obj;
         }
-        #endregion
+
+        #endregion 获取数据
 
         #region 提交数据
+
         public async Task<TData<string>> SaveForm(AreaEntity entity)
         {
             TData<string> obj = new TData<string>();
@@ -102,9 +104,11 @@ namespace HSharp.Business.SystemManage
             obj.Tag = 1;
             return obj;
         }
-        #endregion
+
+        #endregion 提交数据
 
         #region 公有方法
+
         public void SetAreaParam<T>(T t) where T : BaseAreaParam
         {
             if (t != null)
@@ -195,6 +199,8 @@ namespace HSharp.Business.SystemManage
                 }
             }
         }
-        #endregion 
+
+        #endregion 公有方法
+
     }
 }

@@ -1,17 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using HSharp.Entity.OrganizationManage;
+﻿using HSharp.Entity.OrganizationManage;
 using HSharp.Entity.SystemManage;
 using HSharp.Enum;
-using HSharp.Model;
 using HSharp.Model.Param.SystemManage;
 using HSharp.Service.OrganizationManage;
 using HSharp.Service.SystemManage;
-using HSharp.Util.Model;
 using HSharp.Util.Extension;
+using HSharp.Util.Model;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace HSharp.Business.SystemManage
 {
@@ -20,6 +16,7 @@ namespace HSharp.Business.SystemManage
         private LogOperateService logOperateService = new LogOperateService();
 
         #region 获取数据
+
         public async Task<TData<List<LogOperateEntity>>> GetList(LogOperateListParam param)
         {
             TData<List<LogOperateEntity>> obj = new TData<List<LogOperateEntity>>();
@@ -57,9 +54,11 @@ namespace HSharp.Business.SystemManage
             obj.Tag = 1;
             return obj;
         }
-        #endregion
+
+        #endregion 获取数据
 
         #region 提交数据
+
         public async Task<TData<string>> SaveForm(LogOperateEntity entity)
         {
             TData<string> obj = new TData<string>();
@@ -96,6 +95,7 @@ namespace HSharp.Business.SystemManage
             obj.Tag = 1;
             return obj;
         }
-        #endregion
+
+        #endregion 提交数据
     }
 }

@@ -1,7 +1,7 @@
-﻿using System;
-using System.Text;
+﻿using HSharp.Util;
+using System;
 using System.Data.Common;
-using HSharp.Util;
+using System.Text;
 
 namespace HSharp.Data
 {

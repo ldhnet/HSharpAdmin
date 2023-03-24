@@ -1,14 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace HSharp.Util
 {
     public class IpLocationHelper
     {
         #region IP位置查询
+
         public static string GetIpLocation(string ipAddress)
         {
             string ipLocation = string.Empty;
@@ -66,9 +63,11 @@ namespace HSharp.Util
             }
             return ipLocation;
         }
-        #endregion
+
+        #endregion IP位置查询
 
         #region 判断是否是外网IP
+
         public static bool IsInnerIP(string ipAddress)
         {
             bool isInnerIp = false;
@@ -77,7 +76,7 @@ namespace HSharp.Util
                 私有IP：A类 10.0.0.0-10.255.255.255
                             B类 172.16.0.0-172.31.255.255
                             C类 192.168.0.0-192.168.255.255
-                当然，还有127这个网段是环回地址 
+                当然，还有127这个网段是环回地址
            **/
             long aBegin = GetIpNum("10.0.0.0");
             long aEnd = GetIpNum("10.255.255.255");
@@ -110,6 +109,7 @@ namespace HSharp.Util
         {
             return (userIp >= begin) && (userIp <= end);
         }
-        #endregion
+
+        #endregion 判断是否是外网IP
     }
 }

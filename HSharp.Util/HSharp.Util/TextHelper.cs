@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using HSharp.Util.Extension;
+using System;
 using System.Linq;
-using System.Text;
-using HSharp.Util.Extension;
 
 namespace HSharp.Util
 {

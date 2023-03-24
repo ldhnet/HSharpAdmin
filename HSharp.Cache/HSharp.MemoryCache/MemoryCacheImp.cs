@@ -1,10 +1,10 @@
-﻿using System;
+﻿using HSharp.Cache.Interface;
+using HSharp.Util;
+using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.DependencyInjection;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Caching.Memory;
-using HSharp.Cache.Interface;
-using HSharp.Util;
 
 namespace HSharp.MemoryCache
 {
@@ -45,6 +45,7 @@ namespace HSharp.MemoryCache
         }
 
         #region Hash
+
         public int SetHashFieldCache<T>(string key, string fieldKey, T fieldValue)
         {
             return SetHashFieldCache<T>(key, new Dictionary<string, T> { { fieldKey, fieldValue } });
@@ -114,6 +115,7 @@ namespace HSharp.MemoryCache
             }
             return dict;
         }
-        #endregion
+
+        #endregion Hash
     }
 }
