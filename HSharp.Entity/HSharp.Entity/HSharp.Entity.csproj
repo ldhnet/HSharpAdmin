@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+	  <TargetFramework>net6.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="ToolManage\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\HSharp.Util\HSharp.IdGenerator\HSharp.IdGenerator.csproj" />
+    <ProjectReference Include="..\..\HSharp.Util\HSharp.Util\HSharp.Util.csproj" />
+    <ProjectReference Include="..\..\HSharp.Web\HSharp.Web.Code\HSharp.Web.Code.csproj" />
+  </ItemGroup>
+
+</Project>

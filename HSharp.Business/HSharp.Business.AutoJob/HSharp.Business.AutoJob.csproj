@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+	  <TargetFramework>net6.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Quartz" Version="3.0.7" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\HSharp.Entity\HSharp.Entity\HSharp.Entity.csproj" />
+    <ProjectReference Include="..\..\HSharp.Util\HSharp.Util\HSharp.Util.csproj" />
+    <ProjectReference Include="..\HSharp.Business\HSharp.Business.csproj" />
+    <ProjectReference Include="..\HSharp.Service\HSharp.Service.csproj" />
+  </ItemGroup>
+
+</Project>

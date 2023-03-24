@@ -1,0 +1,26 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="nunit" Version="3.13.3" />
+    <PackageReference Include="NUnit3TestAdapter" Version="4.3.1">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.4.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\HSharp.Business\HSharp.Service\HSharp.Service.csproj" />
+    <ProjectReference Include="..\..\HSharp.Data\HSharp.Data.EF\HSharp.Data.EF.csproj" />
+    <ProjectReference Include="..\..\HSharp.Data\HSharp.Data.Repository\HSharp.Data.Repository.csproj" />
+    <ProjectReference Include="..\..\HSharp.Data\HSharp.Data\HSharp.Data.csproj" />
+    <ProjectReference Include="..\..\HSharp.Entity\HSharp.Model\HSharp.Model.csproj" />
+  </ItemGroup>
+
+</Project>

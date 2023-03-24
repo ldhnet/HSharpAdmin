@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+	<TargetFramework>net6.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\HSharp.Cache\HSharp.Cache.Factory\HSharp.Cache.Factory.csproj" />
+    <ProjectReference Include="..\..\HSharp.Data\HSharp.Data.Repository\HSharp.Data.Repository.csproj" />
+    <ProjectReference Include="..\..\HSharp.Util\HSharp.Util\HSharp.Util.csproj" />
+  </ItemGroup>
+  
+</Project>

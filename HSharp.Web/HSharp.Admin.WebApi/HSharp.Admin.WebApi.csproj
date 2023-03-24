@@ -1,0 +1,30 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+	<TargetFramework>net6.0</TargetFramework>
+    <AssemblyVersion>6.0.0.0</AssemblyVersion>
+    <FileVersion>6.0.0.0</FileVersion>
+    <Copyright>HSharpAdmin</Copyright>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>HSharp.Admin.WebApi.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="dotnet_run.bat">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.1.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\HSharp.Business\HSharp.Business.AutoJob\HSharp.Business.AutoJob.csproj" />
+    <ProjectReference Include="..\..\HSharp.Business\HSharp.Business\HSharp.Business.csproj" />
+    <ProjectReference Include="..\..\HSharp.Util\HSharp.Util\HSharp.Util.csproj" />
+  </ItemGroup>
+
+</Project>
