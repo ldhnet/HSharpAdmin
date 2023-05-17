@@ -23,7 +23,7 @@ namespace HSharp.Admin.Web.Hubs
         /// <returns></returns>
         public async Task SendMessage(string user, string message)
         {
-            _logger.LogInformation($"SendMessage===== {user} {message}");
+            //_logger.LogInformation($"SendMessage===== {user} {message}");
             await Clients.All.ReceiveMessage(user, message);
         }
         /// <summary>
