@@ -7,6 +7,7 @@
     {
         SqlServer,
         MySql,
+        SQLite,
         Oracle
     }
 }

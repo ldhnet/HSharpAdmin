@@ -20,7 +20,7 @@ namespace HSharp.Service.OrganizationManage
         public async Task<List<UserEntity>> GetList(UserListParam param)
         {
             var expression = ListFilter(param);
-            var list = await this.BaseRepository().FindList(expression);
+            var list = await this.BaseRepository().FindList(expression); 
             return list.ToList();
         }
 

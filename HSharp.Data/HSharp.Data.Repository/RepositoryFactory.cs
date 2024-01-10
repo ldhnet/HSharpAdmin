@@ -6,7 +6,9 @@ namespace HSharp.Data.Repository
 {
     public class RepositoryFactory
     {
-        public Repository BaseRepository()
+		public Repository RootRepository { get { return BaseRepository(); } }
+
+		public Repository BaseRepository()
         {
             IDatabase database = null;
             string dbType = GlobalContext.SystemConfig.DBProvider;
@@ -22,8 +24,10 @@ namespace HSharp.Data.Repository
                     DbHelper.DbType = DatabaseType.MySql;
                     database = new MySqlDatabase(dbConnectionString);
                     break;
-
-                case "Oracle":
+				case "SQLite":
+					DbHelper.DbType = DatabaseType.SQLite; 
+					break;
+				case "Oracle":
                     DbHelper.DbType = DatabaseType.Oracle;
                     // 支持Oracle或是更多数据库请参考上面SqlServer或是MySql的写法
                     break;
