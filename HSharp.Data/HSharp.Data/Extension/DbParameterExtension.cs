@@ -1,4 +1,5 @@
 ﻿using Microsoft.Data.SqlClient;
+using Microsoft.Data.Sqlite;
 using MySqlConnector;
 using Oracle.ManagedDataAccess.Client;
 using System;
@@ -23,7 +24,10 @@ namespace HSharp.Data
                 case DatabaseType.MySql:
                     return new MySqlParameter();
 
-                case DatabaseType.Oracle:
+				case DatabaseType.SQLite:
+					return new SqliteParameter();
+
+				case DatabaseType.Oracle:
                     return new OracleParameter();
 
                 default:
@@ -74,7 +78,16 @@ namespace HSharp.Data
                     }
                     break;
 
-                case DatabaseType.Oracle:
+				case DatabaseType.SQLite:
+					_dbParameter = new SqliteParameter[size];
+					while (i < size)
+					{
+						_dbParameter[i] = new SqliteParameter(dbParameter[i].ParameterName, dbParameter[i].Value);
+						i++;
+					}
+					break;
+
+				case DatabaseType.Oracle:
                     _dbParameter = new OracleParameter[size];
                     while (i < size)
                     {
