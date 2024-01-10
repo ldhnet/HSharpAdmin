@@ -86,6 +86,9 @@ namespace HSharp.Data
 
         Task<IEnumerable<T>> FindList<T>(string strSql, DbParameter[] dbParameter) where T : class;
 
+		Task<IEnumerable<T>> SqlQueryList<T>(string strSql) where T : class;
+		Task<IEnumerable<T>> SqlQueryList<T>(string strSql, DbParameter[] dbParameter) where T : class;
+
         Task<(int total, IEnumerable<T> list)> FindList<T>(string sort, bool isAsc, int pageSize, int pageIndex) where T : class, new();
 
         Task<(int total, IEnumerable<T> list)> FindList<T>(Expression<Func<T, bool>> condition, string sort, bool isAsc, int pageSize, int pageIndex) where T : class, new();

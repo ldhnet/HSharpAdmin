@@ -177,7 +177,16 @@ namespace HSharp.Data.Repository
             return await db.FindList<T>(strSql, dbParameter);
         }
 
-        public async Task<(int total, IEnumerable<T> list)> FindList<T>(Pagination pagination) where T : class, new()
+		public async Task<IEnumerable<T>> SqlQueryList<T>(string strSql) where T : class
+		{
+			return await db.SqlQueryList<T>(strSql);
+		}
+		public async Task<IEnumerable<T>> SqlQueryList<T>(string strSql, DbParameter[] dbParameter) where T : class
+		{
+			return await db.SqlQueryList<T>(strSql, dbParameter);
+		}
+
+		public async Task<(int total, IEnumerable<T> list)> FindList<T>(Pagination pagination) where T : class, new()
         {
             int total = pagination.TotalCount;
             var data = await db.FindList<T>(pagination.Sort, pagination.SortType.ToLower() == "asc" ? true : false, pagination.PageSize, pagination.PageIndex);

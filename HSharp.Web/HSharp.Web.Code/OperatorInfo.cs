@@ -40,5 +40,8 @@ namespace HSharp.Web.Code
     {
         public long RoleId { get; set; }
     }
-
+	public class SysDepartment
+	{
+		public string DepartmentName { get; set; }
+	}
 }

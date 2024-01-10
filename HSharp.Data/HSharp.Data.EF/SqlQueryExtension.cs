@@ -8,16 +8,22 @@ using System.Threading.Tasks;
 namespace HSharp.Data.EF
 {
     public static class SqlQueryExtension
-    {
-        public static async Task<IList<T>> SqlQuery<T>(this DbContext db, string sql, params object[] parameters) where T : class
+    { 
+		public static async Task<IList<T>> SqlQuery<T>(this DbContext db, string sql, params object[] parameters) where T : class
         {
             using (var db2 = new ContextForQueryType<T>(db.Database.GetDbConnection()))
             {
-                return await db2.Set<T>().FromSqlRaw(sql, parameters).ToListAsync();
+                if (parameters != null && parameters.Length > 0)
+                {
+                    return await db2.Set<T>().FromSqlRaw(sql, parameters).ToListAsync();
+                }
+                else
+                {
+					return await db2.Set<T>().FromSqlRaw(sql).ToListAsync();
+				}
             }
         }
-
-        private class ContextForQueryType<T> : DbContext where T : class
+		private class ContextForQueryType<T> : DbContext where T : class
         {
             private readonly DbConnection connection;
 
@@ -40,7 +46,11 @@ namespace HSharp.Data.EF
                         optionsBuilder.UseMySql(connection, ServerVersion.AutoDetect(connection.ConnectionString), options => options.EnableRetryOnFailure());
                         break;
 
-                    case "Oracle": break;
+					case "SQLite":
+						optionsBuilder.UseSqlite(connection);
+						break;
+
+					case "Oracle": break;
                     default: throw new Exception("未找到数据库配置");
                 }
                 base.OnConfiguring(optionsBuilder);

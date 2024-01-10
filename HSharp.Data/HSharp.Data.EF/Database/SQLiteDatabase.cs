@@ -346,8 +346,22 @@ namespace HSharp.Data.EF
                 return DatabasesExtension.IDataReaderToList<T>(reader);
             }
         }
-
-        public async Task<(int total, IEnumerable<T> list)> FindList<T>(string sort, bool isAsc, int pageSize, int pageIndex) where T : class, new()
+		public async Task<IEnumerable<T>> SqlQueryList<T>(string strSql) where T : class
+		{
+			return await SqlQueryList<T>(strSql, null);
+		}
+		/// <summary>
+		/// 上面的 FindList 执行报错 所以使用本方法
+		/// </summary>
+		/// <typeparam name="T"></typeparam>
+		/// <param name="strSql"></param>
+		/// <param name="dbParameter"></param>
+		/// <returns></returns>
+		public async Task<IEnumerable<T>> SqlQueryList<T>(string strSql, DbParameter[] dbParameter) where T : class
+		{
+			return await dbContext.SqlQuery<T>(strSql, dbParameter);
+		}
+		public async Task<(int total, IEnumerable<T> list)> FindList<T>(string sort, bool isAsc, int pageSize, int pageIndex) where T : class, new()
         {
             var tempData = dbContext.Set<T>().AsQueryable();
             return await FindList<T>(tempData, sort, isAsc, pageSize, pageIndex);

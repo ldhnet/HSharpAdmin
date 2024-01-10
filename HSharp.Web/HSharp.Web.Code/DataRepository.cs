@@ -42,7 +42,7 @@ namespace HSharp.Web.Code
                                 FROM    SysUserBelong a
                                 WHERE   a.UserId = " + operatorInfo.UserId + " AND ");
                 strSql.Append("         a.BelongType = " + UserBelongTypeEnum.Role.ParseToInt());
-                IEnumerable<RoleInfo> roleList = await BaseRepository().FindList<RoleInfo>(strSql.ToString());
+                IEnumerable<RoleInfo> roleList = await BaseRepository().SqlQueryList<RoleInfo>(strSql.ToString());
                 operatorInfo.RoleIds = string.Join(",", roleList.Select(p => p.RoleId).ToArray());
                 #endregion
 
@@ -51,8 +51,8 @@ namespace HSharp.Web.Code
                 strSql.Append(@"SELECT  a.DepartmentName
                                 FROM    SysDepartment a
                                 WHERE   a.Id = " + operatorInfo.DepartmentId);
-                object departmentName = await BaseRepository().FindObject(strSql.ToString());
-                operatorInfo.DepartmentName = departmentName.ParseToString();
+				SysDepartment department = await BaseRepository().FindObject<SysDepartment>(strSql.ToString());
+                operatorInfo.DepartmentName = department.DepartmentName;
                 #endregion
             }
             return operatorInfo;

@@ -302,11 +302,12 @@ namespace HSharp.Data.EF
             return dbContext.Set<T>().Where(condition);
         }
 
-        #endregion 对象实体 添加、修改、删除
+	
+		#endregion 对象实体 添加、修改、删除
 
-        #region 对象实体 查询
+		#region 对象实体 查询
 
-        public async Task<T> FindEntity<T>(object keyValue) where T : class
+		public async Task<T> FindEntity<T>(object keyValue) where T : class
         {
             return await dbContext.Set<T>().FindAsync(keyValue);
         }
@@ -342,12 +343,28 @@ namespace HSharp.Data.EF
         {
             using (var dbConnection = dbContext.Database.GetDbConnection())
             {
-                var reader = await new DbHelper(dbContext, dbConnection).ExecuteReadeAsync(CommandType.Text, strSql, dbParameter);
+				DbHelper dbHelper = new DbHelper(dbContext, dbConnection); 
+				var reader = await dbHelper.ExecuteReadeAsync(CommandType.Text, strSql, dbParameter);
                 return DatabasesExtension.IDataReaderToList<T>(reader);
             }
         }
 
-        public async Task<(int total, IEnumerable<T> list)> FindList<T>(string sort, bool isAsc, int pageSize, int pageIndex) where T : class, new()
+		public async Task<IEnumerable<T>> SqlQueryList<T>(string strSql) where T : class
+		{
+			return await SqlQueryList<T>(strSql, null);
+		}
+		/// <summary>
+		/// 上面的 FindList 执行报错 所以使用本方法
+		/// </summary>
+		/// <typeparam name="T"></typeparam>
+		/// <param name="strSql"></param>
+		/// <param name="dbParameter"></param>
+		/// <returns></returns>
+		public async Task<IEnumerable<T>> SqlQueryList<T>(string strSql, DbParameter[] dbParameter) where T : class
+		{
+			return await dbContext.SqlQuery<T>(strSql, dbParameter);
+		}
+		public async Task<(int total, IEnumerable<T> list)> FindList<T>(string sort, bool isAsc, int pageSize, int pageIndex) where T : class, new()
         {
             var tempData = dbContext.Set<T>().AsQueryable();
             return await FindList<T>(tempData, sort, isAsc, pageSize, pageIndex);
@@ -452,10 +469,11 @@ namespace HSharp.Data.EF
         }
 
         public async Task<object> FindObject(string strSql, DbParameter[] dbParameter)
-        {
+        { 
             using (var dbConnection = dbContext.Database.GetDbConnection())
             {
-                return await new DbHelper(dbContext, dbConnection).ExecuteScalarAsync(CommandType.Text, strSql, dbParameter);
+                var _dbhelper = new DbHelper(dbContext, dbConnection);
+                return await _dbhelper.ExecuteScalarAsync(CommandType.Text, strSql, dbParameter);
             }
         }
 
