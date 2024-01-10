@@ -14,7 +14,7 @@ namespace HSharp.Admin.Web
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
-                   .UseUrls("http://*:5000")
+                   .UseUrls("http://*:9000")
                    .UseStartup<Startup>()
                    .ConfigureLogging(logging =>
                    {
