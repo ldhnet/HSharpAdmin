@@ -439,7 +439,7 @@
                     return ys.recursion(obj, obj[item][parentKey], destArr, key, parentKey);
                 }
             }
-        },
+        }, 
         isMobile: function () {
             return navigator.userAgent.match(/(Android|iPhone|SymbianOS|Windows Phone|iPad|iPod)/i);
         }
