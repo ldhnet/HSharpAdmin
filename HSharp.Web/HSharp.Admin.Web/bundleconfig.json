@@ -446,7 +446,7 @@
     }
   },
   {
-    "outputFileName": "wwwroot/lib/signalr/signalr.min.js",
+    "outputFileName": "wwwroot/lib/signalr/signalr.js",
     "inputFiles": [
       "wwwroot/lib/signalr/signalr.js"
     ],
