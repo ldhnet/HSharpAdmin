@@ -37,7 +37,14 @@ namespace HSharp.Business.SystemManage
             obj.Tag = 1;
             return obj;
         }
-
+        public async Task<TData<List<SysMessageContentEntity>>> GetPageList(ReceiveMsgParam param, Pagination pagination)
+        {
+            TData<List<SysMessageContentEntity>> obj = new TData<List<SysMessageContentEntity>>();
+            obj.Data = await sysMessageService.GetPageList(param, pagination);
+            obj.Total = pagination.TotalCount;
+            obj.Tag = 1;
+            return obj;
+        }
         public async Task<TData<SysMessageContentEntity>> GetEntity(long id)
         {
             TData<SysMessageContentEntity> obj = new TData<SysMessageContentEntity>();

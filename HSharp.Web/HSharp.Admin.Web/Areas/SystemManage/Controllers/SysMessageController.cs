@@ -36,6 +36,11 @@ namespace HSharp.Admin.Web.Areas.SystemManage.Controllers
         {
             return View();
         }
+
+        public ActionResult PersonalMsg()
+        {
+            return View();
+        }
         #endregion
 
         #region 获取数据
@@ -50,6 +55,13 @@ namespace HSharp.Admin.Web.Areas.SystemManage.Controllers
         [HttpGet]
         [AuthorizeFilter("system:sysmessage:search")]
         public async Task<ActionResult> GetPageListJson(SysMessageListParam param, Pagination pagination)
+        {
+            TData<List<SysMessageContentEntity>> obj = await sysMessageBLL.GetPageList(param, pagination);
+            return Json(obj);
+        }
+        [HttpGet]
+        //[AuthorizeFilter("system:sysmessage:search")]
+        public async Task<ActionResult> GetReceivePageListJson(ReceiveMsgParam param, Pagination pagination)
         {
             TData<List<SysMessageContentEntity>> obj = await sysMessageBLL.GetPageList(param, pagination);
             return Json(obj);

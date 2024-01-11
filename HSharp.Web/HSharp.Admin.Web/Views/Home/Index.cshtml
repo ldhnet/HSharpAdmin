@@ -105,7 +105,7 @@
                     <i class="fa fa-bars"></i>
                 </a>
                 <ul class="nav navbar-top-links navbar-right welcome-message">
-                    <li><a id="sysMsg"><i class="fa fa-bell"></i></a></li>
+                    <li><a id="sysMsg" onclick="messagePage()"><i class="fa fa-bell"></i></a></li>
                     <li><a id="fullScreen"><i class="fa fa-arrows-alt"></i>全屏</a></li>
                     <li class="dropdown user-menu">
                         <a href="javascript:void(0)" class="dropdown-toggle" data-hover="dropdown">
@@ -236,4 +236,15 @@
             }
         });
     }
+
+    function messagePage() {
+        ys.openDialog({
+            title: "消息通知",
+            content: '@Url.Content("~/SystemManage/SysMessage/PersonalMsg")' + '?UserId=@operatorInfo.UserId',
+            height: "500px",
+            btn: null
+        });
+    }
+
+    
 </script>

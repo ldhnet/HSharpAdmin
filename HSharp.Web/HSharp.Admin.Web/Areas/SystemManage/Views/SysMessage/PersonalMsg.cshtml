@@ -1,0 +1,45 @@
+﻿@{
+    Layout = "~/Views/Shared/_Index.cshtml";
+ }
+<div class="container-div">
+    <div class="row">
+        <div id="searchDiv" class="col-sm-12 search-collapse">
+            <div class="select-list">
+                <ul> 
+                    <li> 
+                        内容：<input id="ReceiveUserId" col="ReceiveUserId" type="text" />
+                    </li> 
+                </ul>
+            </div>
+        </div>
+ 
+        <div class="col-sm-12 select-table table-striped">
+            <table id="gridTable" data-mobile-responsive="true"></table>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(function () {
+        $('#ReceiveUserId').val(ys.request("UserId"));
+        initGrid(); 
+    });
+
+    function initGrid() {
+        var queryUrl = '@Url.Content("~/SystemManage/SysMessage/GetReceivePageListJson")';
+        $('#gridTable').ysTable({
+            url: queryUrl,
+            columns: [
+                { checkbox: true, visible: true },
+                { field: 'Id', title: 'Id', visible: false },
+                { field: 'Content', title: '内容' },
+                { field: 'Remark', title: '备注' },
+            ],
+            queryParams: function (params) {
+                var pagination = $('#gridTable').ysTable('getPagination', params);
+                var queryString = $('#searchDiv').getWebControls(pagination);
+                return queryString;
+            }
+        });
+    } 
+</script>

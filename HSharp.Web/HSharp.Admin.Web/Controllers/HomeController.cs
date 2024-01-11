@@ -191,11 +191,13 @@ namespace HSharp.Admin.Web.Controllers
                 await logLoginBLL.SaveForm(logLoginEntity);
             };
             AsyncTaskHelper.StartTask(taskAction);
-
-            Action taskAddUnreadMsg = async () => {
-               await sysMessageBLL.SendUnreadMessageToUser(userObj.Data.Id.ParseToLong());
-            };
-            AsyncTaskHelper.StartTask(taskAddUnreadMsg);
+            if (userObj.Tag == 1)
+            {
+				Action taskAddUnreadMsg = async () => {
+					await sysMessageBLL.SendUnreadMessageToUser(userObj.Data.Id.ParseToLong());
+				};
+				AsyncTaskHelper.StartTask(taskAddUnreadMsg);
+			} 
             obj.Tag = userObj.Tag;
             obj.Message = userObj.Message;
             return Json(obj);

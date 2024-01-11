@@ -1,4 +1,5 @@
 ﻿using HSharp.Util.Model;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -26,11 +27,11 @@ namespace HSharp.Data.Repository
         }
 
         #endregion 构造函数
-
+         
         #region 事务提交
 
         public async Task<Repository> BeginTrans()
-        {
+        { 
             await db.BeginTrans();
             return this;
         }

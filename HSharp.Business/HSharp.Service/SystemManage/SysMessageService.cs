@@ -39,7 +39,14 @@ namespace HSharp.Service.SystemManage
             var list= await this.BaseRepository().FindList(expression, pagination);
             return list.ToList();
         }
-
+        public async Task<List<SysMessageContentEntity>> GetPageList(ReceiveMsgParam param, Pagination pagination)
+        {
+            var expression = ListReceiveMsgFilter(param);
+            var listUser = await this.BaseRepository().FindList<SysMessageUserEntity>(c => c.ReceiveUserId == param.ReceiveUserId);
+            var msgIds = listUser.ToList().Select(c => c.MessageId).ToList();
+            var listMsg = await this.BaseRepository().FindList<SysMessageContentEntity>(c => msgIds.Contains(c.Id ?? 0), pagination);
+            return listMsg.ToList();
+        }
         public async Task<SysMessageContentEntity> GetEntity(long id)
         {
             return await this.BaseRepository().FindEntity<SysMessageContentEntity>(id);
@@ -116,7 +123,19 @@ namespace HSharp.Service.SystemManage
         {
             var expression = LinqExtensions.True<SysMessageContentEntity>();
             if (param != null)
+            { 
+            }
+            return expression;
+        }
+        private Expression<Func<ReceiveMsgParam, bool>> ListReceiveMsgFilter(ReceiveMsgParam param)
+        {
+            var expression = LinqExtensions.True<ReceiveMsgParam>();
+            if (param != null)
             {
+                if (param.ReceiveUserId.ParseToLong() > 0)
+                {
+                    expression = expression.And(t => t.ReceiveUserId== param.ReceiveUserId);
+                }
             }
             return expression;
         }

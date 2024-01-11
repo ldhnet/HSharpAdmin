@@ -10,8 +10,8 @@ namespace HSharp.Model.Param.SystemManage
     /// 日 期：2023-03-24 11:34
     /// 描 述：站内信实体查询类
     /// </summary>
-    public class SysMessageListParam
-    { 
-
+    public class ReceiveMsgParam
+    {
+        public long ReceiveUserId { get; set; }
     }
 }
