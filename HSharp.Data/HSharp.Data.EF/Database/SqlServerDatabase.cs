@@ -38,7 +38,7 @@ namespace HSharp.Data.EF
         /// <summary>
         /// 获取 当前实体类型的查询数据集
         /// </summary>
-        public IQueryable<T> Entities<T>(T entity) where T : class
+        public IQueryable<T> Entities<T>() where T : class
         {
             return dbContext.Set<T>();
         }
@@ -46,7 +46,7 @@ namespace HSharp.Data.EF
         /// <summary>
         /// 获取 当前实体类型的查询数据集AsNoTracking
         /// </summary>
-        public IQueryable<T> EntitiesAsNoTracking<T>(T entity) where T : class
+        public IQueryable<T> EntitiesAsNoTracking<T>() where T : class
         {
             return dbContext.Set<T>().AsNoTracking();
         }
