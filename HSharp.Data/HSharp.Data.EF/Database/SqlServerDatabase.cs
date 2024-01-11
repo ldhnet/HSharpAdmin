@@ -36,6 +36,22 @@ namespace HSharp.Data.EF
         public DbContext dbContext { get; set; }
 
         /// <summary>
+        /// 获取 当前实体类型的查询数据集
+        /// </summary>
+        public IQueryable<T> Entities<T>(T entity) where T : class
+        {
+            return dbContext.Set<T>();
+        }
+
+        /// <summary>
+        /// 获取 当前实体类型的查询数据集AsNoTracking
+        /// </summary>
+        public IQueryable<T> EntitiesAsNoTracking<T>(T entity) where T : class
+        {
+            return dbContext.Set<T>().AsNoTracking();
+        }
+
+        /// <summary>
         /// 事务对象
         /// </summary>
         public IDbContextTransaction dbContextTransaction { get; set; }

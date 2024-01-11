@@ -27,6 +27,23 @@ namespace HSharp.Data.Repository
         }
 
         #endregion 构造函数
+
+
+        /// <summary>
+        /// 获取 当前实体类型的查询数据集
+        /// </summary>
+        public IQueryable<T> Entities<T>() where T : class
+        {
+            return db.Entities<T>();
+        }
+
+        /// <summary>
+        /// 获取 当前实体类型的查询数据集AsNoTracking
+        /// </summary>
+        public IQueryable<T> EntitiesAsNoTracking<T>() where T : class
+        {
+            return db.EntitiesAsNoTracking<T>();
+        }
          
         #region 事务提交
 

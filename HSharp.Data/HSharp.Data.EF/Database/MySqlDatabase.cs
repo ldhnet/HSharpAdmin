@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage;
+using NPOI.SS.Formula.Functions;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -33,7 +34,23 @@ namespace HSharp.Data.EF
         /// <summary>
         /// 获取 当前使用的数据访问上下文对象
         /// </summary>
-        public DbContext dbContext { get; set; }
+        public DbContext dbContext { get; set; } 
+
+        /// <summary>
+        /// 获取 当前实体类型的查询数据集
+        /// </summary>
+        public IQueryable<T> Entities<T>() where T : class 
+        {
+            return dbContext.Set<T>();
+        }
+
+        /// <summary>
+        /// 获取 当前实体类型的查询数据集AsNoTracking
+        /// </summary>
+        public IQueryable<T> EntitiesAsNoTracking<T>() where T : class         
+        { 
+            return dbContext.Set<T>().AsNoTracking(); 
+        }
 
         /// <summary>
         /// 事务对象

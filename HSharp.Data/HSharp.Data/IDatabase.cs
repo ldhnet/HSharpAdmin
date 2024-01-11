@@ -18,6 +18,15 @@ namespace HSharp.Data
         /// 获取 当前使用的数据访问上下文对象
         /// </summary>
         public DbContext dbContext { get; set; }
+        /// <summary>
+        /// 获取 当前实体类型的查询数据集
+        /// </summary>
+        IQueryable<T> Entities<T>() where T : class;
+
+        /// <summary>
+        /// 获取 当前实体类型的查询数据集AsNoTracking
+        /// </summary>
+        IQueryable<T> EntitiesAsNoTracking<T>() where T : class;
 
         /// <summary>
         /// 事务对象
