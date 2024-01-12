@@ -62,7 +62,7 @@ namespace HSharp.Service.SystemManage
                              FROM information_schema.columns WHERE table_schema='" + GetDatabase() + "' AND table_name=@TableName");
             var parameter = new List<DbParameter>();
             parameter.Add(DbParameterExtension.CreateDbParameter("@TableName", tableName));
-            var list = await this.BaseRepository().SqlQueryList<TableFieldInfo>(strSql.ToString(), parameter.ToArray());
+            var list = await this.BaseRepository().FindList<TableFieldInfo>(strSql.ToString(), parameter.ToArray());
             return list.ToList();
         }
 
