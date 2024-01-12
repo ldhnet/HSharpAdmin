@@ -80,54 +80,61 @@ namespace HSharp.Data
         {
             try
             {
-                if (dbContext == null)
-                {
-                    PrepareCommand(dbConnection, dbCommand, null, cmdType, strSql, dbParameter);
-                    var reader = await dbCommand.ExecuteReaderAsync(CommandBehavior.CloseConnection);
-                    return reader;
-                }
-                else
-                {
-                    // 兼容EF Core的DbCommandInterceptor
-                    var dependencies = ((IDatabaseFacadeDependenciesAccessor)dbContext.Database).Dependencies;
-                    var relationalDatabaseFacade = (IRelationalDatabaseFacadeDependencies)dependencies;
-                    var connection = relationalDatabaseFacade.RelationalConnection;
-                    var logger = relationalDatabaseFacade.CommandLogger;
-                    var commandId = Guid.NewGuid();
 
-                    PrepareCommand(dbConnection, dbCommand, null, cmdType, strSql, dbParameter);
+                PrepareCommand(dbConnection, dbCommand, null, cmdType, strSql, dbParameter);
 
-                    var startTime = DateTimeOffset.UtcNow;
-                    var stopwatch = Stopwatch.StartNew();
+                return await dbCommand.ExecuteReaderAsync();
 
-                    var interceptionResult = logger == null
-                       ? default
-                       : await logger.CommandReaderExecutingAsync(
-                           connection,
-                           dbCommand,
-                           dbContext,
-                           Guid.NewGuid(),
-                           connection.ConnectionId,
-                           startTime);
+                #region EFCore升级后报错
+                //if (dbContext == null)
+                //{
+                //    PrepareCommand(dbConnection, dbCommand, null, cmdType, strSql, dbParameter);
+                //    var reader = await dbCommand.ExecuteReaderAsync(CommandBehavior.CloseConnection);
+                //    return reader;
+                //}
+                //else
+                //{
+                //    // 兼容EF Core的DbCommandInterceptor
+                //    var dependencies = ((IDatabaseFacadeDependenciesAccessor)dbContext.Database).Dependencies;
+                //    var relationalDatabaseFacade = (IRelationalDatabaseFacadeDependencies)dependencies;
+                //    var connection = relationalDatabaseFacade.RelationalConnection;
+                //    var logger = relationalDatabaseFacade.CommandLogger;
+                //    var commandId = Guid.NewGuid();
 
-                    var reader = interceptionResult.HasResult
-                        ? interceptionResult.Result
-                        : await dbCommand.ExecuteReaderAsync(CommandBehavior.CloseConnection);
+                //    PrepareCommand(dbConnection, dbCommand, null, cmdType, strSql, dbParameter);
 
-                    if (logger != null)
-                    {
-                        reader = await logger.CommandReaderExecutedAsync(
-                            connection,
-                            dbCommand,
-                            dbContext,
-                            commandId,
-                            connection.ConnectionId,
-                            reader,
-                            startTime,
-                            stopwatch.Elapsed);
-                    }
-                    return reader;
-                }
+                //    var startTime = DateTimeOffset.UtcNow;
+                //    var stopwatch = Stopwatch.StartNew();
+
+                //    var interceptionResult = logger == null
+                //       ? default
+                //       : await logger.CommandReaderExecutingAsync(
+                //           connection,
+                //           dbCommand,
+                //           dbContext,
+                //           Guid.NewGuid(),
+                //           connection.ConnectionId,
+                //           startTime);
+
+                //    var reader = interceptionResult.HasResult
+                //        ? interceptionResult.Result
+                //        : await dbCommand.ExecuteReaderAsync(CommandBehavior.CloseConnection);
+
+                //    if (logger != null)
+                //    {
+                //        reader = await logger.CommandReaderExecutedAsync(
+                //            connection,
+                //            dbCommand,
+                //            dbContext,
+                //            commandId,
+                //            connection.ConnectionId,
+                //            reader,
+                //            startTime,
+                //            stopwatch.Elapsed);
+                //    }
+                //    return reader;
+                //}
+                #endregion
             }
             catch (Exception)
             {
@@ -147,55 +154,60 @@ namespace HSharp.Data
         {
             try
             {
-                if (dbContext == null)
-                {
-                    PrepareCommand(dbConnection, dbCommand, null, cmdType, strSql, dbParameter);
-                    var obj = await dbCommand.ExecuteScalarAsync();
-                    dbCommand.Parameters.Clear();
-                    return obj;
-                }
-                else
-                {
-                    // 兼容EF Core的DbCommandInterceptor
-                    var dependencies = ((IDatabaseFacadeDependenciesAccessor)dbContext.Database).Dependencies;
-                    var relationalDatabaseFacade = (IRelationalDatabaseFacadeDependencies)dependencies;
-                    var connection = relationalDatabaseFacade.RelationalConnection;
-                    var logger = relationalDatabaseFacade.CommandLogger;
-                    var commandId = Guid.NewGuid();
+                PrepareCommand(dbConnection, dbCommand, null, cmdType, strSql, dbParameter);
 
-                    PrepareCommand(dbConnection, dbCommand, null, cmdType, strSql, dbParameter);
+                return await dbCommand.ExecuteScalarAsync();
+                #region EFCore升级后报错
+                //if (dbContext == null)
+                //{
+                //    PrepareCommand(dbConnection, dbCommand, null, cmdType, strSql, dbParameter);
+                //    var obj = await dbCommand.ExecuteScalarAsync();
+                //    dbCommand.Parameters.Clear();
+                //    return obj;
+                //}
+                //else
+                //{ 
+                //    // 兼容EF Core的DbCommandInterceptor
+                //    var dependencies = ((IDatabaseFacadeDependenciesAccessor)dbContext.Database).Dependencies;
+                //    var relationalDatabaseFacade = (IRelationalDatabaseFacadeDependencies)dependencies;
+                //    var connection = relationalDatabaseFacade.RelationalConnection;
+                //    var logger = relationalDatabaseFacade.CommandLogger;
+                //    var commandId = Guid.NewGuid();
 
-                    var startTime = DateTimeOffset.UtcNow;
-                    var stopwatch = Stopwatch.StartNew();
+                //    PrepareCommand(dbConnection, dbCommand, null, cmdType, strSql, dbParameter);
 
-                    var interceptionResult = logger == null
-                       ? default
-                       : await logger.CommandScalarExecutingAsync(
-                           connection,
-                           dbCommand,
-                           dbContext,
-                           Guid.NewGuid(),
-                           connection.ConnectionId,
-                           startTime);
+                //    var startTime = DateTimeOffset.UtcNow;
+                //    var stopwatch = Stopwatch.StartNew();
 
-                    var obj = interceptionResult.HasResult
-                        ? interceptionResult.Result
-                        : await dbCommand.ExecuteScalarAsync();
+                //    var interceptionResult = logger == null
+                //       ? default
+                //       : await logger.CommandScalarExecutingAsync(
+                //           connection,
+                //           dbCommand,
+                //           dbContext,
+                //           Guid.NewGuid(),
+                //           connection.ConnectionId,
+                //           startTime);
 
-                    if (logger != null)
-                    {
-                        obj = await logger.CommandScalarExecutedAsync(
-                            connection,
-                            dbCommand,
-                            dbContext,
-                            commandId,
-                            connection.ConnectionId,
-                            obj,
-                            startTime,
-                            stopwatch.Elapsed);
-                    }
-                    return obj;
-                }
+                //    var obj = interceptionResult.HasResult
+                //        ? interceptionResult.Result
+                //        : await dbCommand.ExecuteScalarAsync();
+
+                //    if (logger != null)
+                //    {
+                //        obj = await logger.CommandScalarExecutedAsync(
+                //            connection,
+                //            dbCommand,
+                //            dbContext,
+                //            commandId,
+                //            connection.ConnectionId,
+                //            obj,
+                //            startTime,
+                //            stopwatch.Elapsed);
+                //    }
+                //    return obj;
+                //}
+                #endregion
             }
             catch (Exception)
             {
