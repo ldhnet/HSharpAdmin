@@ -53,7 +53,6 @@ namespace HSharp.Admin.WebApi
             services.AddMemoryCache();
 
             services.AddDataProtection().PersistKeysToFileSystem(new DirectoryInfo(GlobalContext.HostingEnvironment.ContentRootPath + Path.DirectorySeparatorChar + "DataProtection"));
-
             Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);  // 注册Encoding
 
             GlobalContext.SystemConfig = Configuration.GetSection("SystemConfig").Get<SystemConfig>();

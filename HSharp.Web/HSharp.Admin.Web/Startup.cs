@@ -11,6 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json.Serialization;
+using System;
 using System.IO;
 using System.Text;
 using System.Text.Encodings.Web;
@@ -61,8 +62,13 @@ namespace HSharp.Admin.Web
             services.AddHttpContextAccessor();
 
             services.AddOptions();
-
             services.AddSignalR();
+
+            //services.AddSignalR(hubOptions =>
+            //{
+            //    //如果客户端在定义的时间跨度内没有响应，它将触发OnDisconnectedAsync
+            //    hubOptions.KeepAliveInterval = TimeSpan.FromSeconds(60 * 60);
+            //});
 
             services.AddDataProtection().PersistKeysToFileSystem(new DirectoryInfo(GlobalContext.HostingEnvironment.ContentRootPath + Path.DirectorySeparatorChar + "DataProtection"));
 

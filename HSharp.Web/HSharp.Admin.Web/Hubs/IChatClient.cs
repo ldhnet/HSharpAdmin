@@ -11,6 +11,8 @@ namespace HSharp.Admin.Web.Hubs
     /// </summary>
     public interface IChatClient
     {
+        Task ReceiveOnlineCount(int count);
+        Task SendMessage(string user, string message);
         Task ReceiveMessage(string user, string message);
         Task ReceiveMessage(object message);
         Task ReceiveCaller(object message);

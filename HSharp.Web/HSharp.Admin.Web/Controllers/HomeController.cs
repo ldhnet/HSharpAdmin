@@ -18,6 +18,7 @@ using HSharp.Entity.OrganizationManage;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using HSharp.Web.Code.State;
+using HSharp.Admin.Web.Hubs;
 
 namespace HSharp.Admin.Web.Controllers
 {
@@ -165,6 +166,7 @@ namespace HSharp.Admin.Web.Controllers
                 await new UserBLL().UpdateUser(userObj.Data);
                 await Operator.Instance.AddCurrent(userObj.Data.WebToken);
             }
+
 
             string ip = NetHelper.Ip;
             string browser = NetHelper.Browser;
