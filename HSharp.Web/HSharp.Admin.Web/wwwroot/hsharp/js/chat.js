@@ -44,9 +44,7 @@
 })(window.jQuery, window.signalrProxy);
   
 signalrProxy.connection.start().then(function () {
-    console.log("链接成功");
-    const user = "张三";
-    const message = "登录成功";
+    console.log("链接成功"); 
     signalrProxy.connection.invoke("OnlineNotify").catch(function (err) {
         return console.error(err.toString());
     });
