@@ -75,11 +75,7 @@ namespace HSharp.Admin.WebApi
 
             string resource = Path.Combine(env.ContentRootPath, "Resource");
             FileHelper.CreateDirectory(resource);
-
-            app.UseStaticFiles(new StaticFileOptions
-            {
-                OnPrepareResponse = GlobalContext.SetCacheControl
-            });
+             
             app.UseStaticFiles(new StaticFileOptions
             {
                 RequestPath = "/Resource",
