@@ -1,7 +1,7 @@
 ﻿using HSharp.Admin.Web.Controllers;
 using HSharp.Admin.Web.Hubs;
 using HSharp.Util;
-using HSharp.Util.Model;
+using HSharp.Util.Global; 
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Hosting;
@@ -10,7 +10,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Primitives; 
 using Newtonsoft.Json.Serialization;
+using StackExchange.Profiling.Storage;
 using System;
 using System.IO;
 using System.Text;
@@ -74,9 +76,47 @@ namespace HSharp.Admin.Web
 
             Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);  // 注册Encoding
 
-            GlobalContext.SystemConfig = Configuration.GetSection("SystemConfig").Get<SystemConfig>();
+            #region 初始化系统全局配置
+
             GlobalContext.Services = services;
-            GlobalContext.Configuration = Configuration;
+
+            InitConfiguration();
+
+            //全局静态配置热更新
+            ChangeToken.OnChange(() => Configuration.GetReloadToken(), () =>
+            {
+                InitConfiguration();
+            });
+
+            #endregion
+
+            #region 初始化系统全局配置
+            GlobalContext.Services = services;
+
+            InitConfiguration();
+
+            //全局静态配置热更新
+            ChangeToken.OnChange(() => Configuration.GetReloadToken(), () =>
+            {
+                InitConfiguration();
+            });
+
+            #endregion
+
+
+            #region 注册MiniProfiler性能分析组件
+
+            services.AddMiniProfiler(options =>
+            {
+                options.RouteBasePath = GlobalContext.MiniProfilerConfig.RouteBasePath;
+
+                (options.Storage as MemoryCacheStorage).CacheDuration = TimeSpan.FromMinutes(GlobalContext.MiniProfilerConfig.CacheDuration);
+
+                options.ColorScheme = StackExchange.Profiling.ColorScheme.Auto;
+
+            }).AddEntityFramework();//显示SQL语句及耗时;
+
+            #endregion
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -111,6 +151,10 @@ namespace HSharp.Admin.Web
             });
             app.UseSession();
             app.UseRouting();
+
+            //MiniProfiler性能分析组件
+            app.UseMiniProfiler();
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute("areas", "{area:exists}/{controller=Home}/{action=Index}/{id?}");
@@ -119,5 +163,23 @@ namespace HSharp.Admin.Web
             });
             GlobalContext.ServiceProvider = app.ApplicationServices;
         }
+
+        #region 初始化全局静态配置
+
+        /// <summary>
+        /// 初始化全局静态配置
+        /// </summary>
+        private void InitConfiguration()
+        {
+            GlobalContext.Configuration = Configuration;
+            GlobalContext.SystemConfig = Configuration.GetSection("SystemConfig").Get<SystemConfig>();
+            GlobalContext.RedisConfig = Configuration.GetSection("RedisConfig").Get<RedisConfig>();
+            GlobalContext.LogConfig = Configuration.GetSection("LogConfig").Get<LogConfig>();
+            GlobalContext.MailConfig = Configuration.GetSection("MailConfig").Get<MailConfig>();    
+            GlobalContext.RabbitMQConfig = Configuration.GetSection("RabbitMQConfig").Get<RabbitMQConfig>();     
+            GlobalContext.MiniProfilerConfig = Configuration.GetSection("MiniProfilerConfig").Get<MiniProfilerConfig>();           
+        }
+
+        #endregion
     }
 }

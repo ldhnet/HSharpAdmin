@@ -32,7 +32,9 @@ namespace HSharp.Util
         public static RabbitMQConfig RabbitMQConfig { get; set; }
 
         public static RedisConfig RedisConfig { get; set; }
-        
+        public static MailConfig MailConfig { get; set; }
+
+        public static MiniProfilerConfig MiniProfilerConfig { get; set; }
         /// <summary>
         /// 审计日志设置
         /// </summary>

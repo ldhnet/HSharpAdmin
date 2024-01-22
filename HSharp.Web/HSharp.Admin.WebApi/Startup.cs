@@ -15,6 +15,7 @@ using HSharp.Util;
 using HSharp.Util.Model;
 using HSharp.Business.AutoJob;
 using HSharp.Admin.WebApi.Controllers;
+using HSharp.Util.Global;
 
 namespace HSharp.Admin.WebApi
 {
@@ -99,6 +100,7 @@ namespace HSharp.Admin.WebApi
                 c.SwaggerEndpoint("v1/swagger.json", "HSharp Api v1");
             });
             app.UseRouting();
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute("default", "{controller=ApiHome}/{action=Index}/{id?}");

@@ -1,4 +1,4 @@
-﻿namespace HSharp.Util.Model
+﻿namespace HSharp.Util.Global
 {
     public class SystemConfig
     {

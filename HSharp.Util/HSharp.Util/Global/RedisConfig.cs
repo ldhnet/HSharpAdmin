@@ -10,22 +10,22 @@ namespace HSharp.Util.Global
         /// <summary>
         /// Redis连接串
         /// </summary>
-        public String ConnectionString { get; set; }
+        public string ConnectionString { get; set; }
 
         /// <summary>
         /// 用户模糊搜索格式
         /// </summary>
-        public String Pattern { get; set; }
+        public string Pattern { get; set; }
 
         /// <summary>
         /// 统一认证模糊搜索格式
         /// </summary>
-        public String UnifiedAuthenticationPattern { get; set; }
+        public string UnifiedAuthenticationPattern { get; set; }
 
         /// <summary>
         /// 同步模糊搜索格式
         /// </summary>
-        public String SynchronizationPattern { get; set; }
+        public string SynchronizationPattern { get; set; }
 
         /// <summary>
         /// 是否支持哨兵
@@ -35,6 +35,6 @@ namespace HSharp.Util.Global
         /// <summary>
         /// 哨兵集群
         /// </summary>
-        public String RedisSentinels { get; set; }
+        public string RedisSentinels { get; set; }
     }
 }
