@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System; 
 using NUnit.Framework;
-using HSharp.Util;
-using HSharp.Util.Model;
+using HSharp.Util; 
+using HSharp.Util.Global;
 
 namespace HSharp.DataTest
 {
