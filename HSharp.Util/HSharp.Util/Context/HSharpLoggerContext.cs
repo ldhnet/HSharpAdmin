@@ -1,11 +1,6 @@
-﻿//-----------------------------------------------------------------------
-// <Copyright>
-// * Copyright (C) 2022 RuYiAdmin All Rights Reserved
-// </Copyright>
-//-----------------------------------------------------------------------
- 
-using Microsoft.Extensions.Logging;
-using System; 
+﻿using NLog;
+using System;
+using System.IO;
 
 namespace HSharp.Util.Context
 {
@@ -30,6 +25,17 @@ namespace HSharp.Util.Context
                 //XmlConfigurator.Configure(repository, new FileInfo(path));
                 //logger = LogManager.GetLogger(repository.Name, "InfoLogger");
             }
+
+            //判断审计日志记录开关是否开启
+            if (logger == null && GlobalContext.LogConfig.IsEnabled)
+            {
+                //var aa=AppDomain.CurrentDomain.BaseDirectory + Directory.GetCurrentDirectory()
+                //var path = "D:/gitee/HSharpAdmin/HSharp.Test/HSharp.UtilTest/NLog" + "/nlog.config";
+                //var logFactory = LogManager.LogFactory.LoadConfiguration(path).GetLogger("NETCoreRepository");       
+                //logger = LogManager.GetLogger(logFactory.Name);
+
+                logger = LogManager.GetCurrentClassLogger();
+            }
         }
 
         /// <summary>
@@ -45,11 +51,11 @@ namespace HSharp.Util.Context
                 Console.WriteLine("HSharp Runtime Info:" + message);
                 if (exception == null)
                 {
-                    logger.LogInformation(message);
+                    logger.Info(message);
                 }
                 else
                 {
-                    logger.LogInformation(message, exception);
+                    logger.Info(message, exception);
                 }
             }
         }
@@ -67,11 +73,11 @@ namespace HSharp.Util.Context
                 Console.WriteLine("HSharp Warnning Info:" + message);
                 if (exception == null)
                 {
-                    logger.LogWarning(message);
+                    logger.Warn(message);
                 }
                 else
                 {
-                    logger.LogWarning(message, exception);
+                    logger.Warn(message, exception);
                 }
             }
         }
@@ -89,11 +95,11 @@ namespace HSharp.Util.Context
                 Console.WriteLine("HSharp Error Info:" + message);
                 if (exception == null)
                 {
-                    logger.LogError(message);
+                    logger.Error(message);
                 }
                 else
                 {
-                    logger.LogError(message, exception);
+                    logger.Error(message, exception);
                 }
             }
         }
@@ -111,11 +117,11 @@ namespace HSharp.Util.Context
                 Console.WriteLine("HSharp Debug Info:" + message);
                 if (exception == null)
                 {
-                    logger.LogDebug(message);
+                    logger.Debug(message);
                 }
                 else
                 {
-                    logger.LogDebug(message, exception);
+                    logger.Debug(message, exception);
                 }
             }
         }
