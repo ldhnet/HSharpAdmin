@@ -9,6 +9,7 @@ using HSharp.Util.Model;
 using HSharp.Business;
 using HSharp.Business.SystemManage;
 using HSharp.Entity.SystemManage;
+using HSharp.Util.Global;
 
 namespace HSharp.CacheTest
 {

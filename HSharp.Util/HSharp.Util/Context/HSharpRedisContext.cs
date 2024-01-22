@@ -429,6 +429,98 @@ namespace HSharp.Util.Context
             var value = pattern.Split('=')[1];
             return value;
         }
-       
+
+        /// <summary>
+        /// 分布式锁
+        /// </summary>
+        /// <param name="lockKey">锁名称，不可重复</param>
+        /// <param name="action">委托事件</param>
+        /// <returns>bool</returns>
+        public static bool LockTake(String lockKey, Action action)
+        {
+            var result = false;
+
+            var multiplexer = HSharpRedisContext.GetConnectionMultiplexer();
+            var database = multiplexer.GetDatabase();
+            //token用来标识谁拥有该锁并用来释放锁。
+            RedisValue token = Environment.MachineName;
+            //TimeSpan表示该锁的有效时间。10秒后自动释放，避免死锁。
+            if (database.LockTake(lockKey, token, TimeSpan.FromSeconds(10)))
+            {
+                try
+                {
+                    action();
+                    result = true;
+                }
+                finally
+                {
+                    database.LockRelease(lockKey, token);//释放锁
+                    multiplexer.Close();
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// 模糊匹配
+        /// </summary>
+        /// <param name="pattern">匹配表达式</param>
+        /// <returns>RedisKey列表</returns>
+        public static List<RedisKey> PatternSearch(String pattern)
+        {
+            var list = new List<RedisKey>();
+
+            var multiplexer = HSharpRedisContext.GetConnectionMultiplexer();
+            var database = multiplexer.GetDatabase();
+            foreach (var endPoint in multiplexer.GetEndPoints())
+            {
+                var _server = multiplexer.GetServer(endPoint);
+                //StackExchange.Redis 会根据redis版本决定用keys还是scan(>2.8)
+                var keys = _server.Keys(database: database.Database, pattern: pattern);
+                list.AddRange(keys.ToList());
+            }
+            multiplexer.Close();
+
+            return list;
+        }
+        /// <summary>
+        /// 获取ConnectionMultiplexer
+        /// </summary>
+        /// <returns></returns>
+        public static ConnectionMultiplexer GetConnectionMultiplexer()
+        {
+            var connStr = GlobalContext.RedisConfig.ConnectionString;
+            if (!GlobalContext.RedisConfig.SupportRedisSentinel)
+            {
+                ConnectionMultiplexer multiplexer = ConnectionMultiplexer.Connect(connStr);
+                return multiplexer;
+            }
+            else
+            {
+                //ConfigurationOptions sentinelOptions = new ConfigurationOptions();
+                //foreach (var item in GlobalContext.RedisConfig.RedisSentinels.Split(','))
+                //{
+                //    sentinelOptions.EndPoints.Add(item);
+                //}
+                //sentinelOptions.TieBreaker = "";
+                //sentinelOptions.CommandMap = CommandMap.Sentinel;
+                //sentinelOptions.AbortOnConnectFail = true;
+                //ConnectionMultiplexer sentinelConnection = ConnectionMultiplexer.Connect(sentinelOptions);
+
+                //ConfigurationOptions redisServiceOptions = new ConfigurationOptions();
+                ////Sentinel连接串："mymaster1,password=redis_pwd,defaultDatabase=1,ssl=false,writeBuffer=10240"
+                //redisServiceOptions.ServiceName = connStr.Split(',')[0];//master名称，例如"mymaster1"
+                //redisServiceOptions.Password = GlobalContext.GetDefaultValue(connStr, "password");//master访问密码，例如"redis_pwd"
+                //redisServiceOptions.AbortOnConnectFail = true;
+                //redisServiceOptions.AllowAdmin = true;
+                //ConnectionMultiplexer masterConnection = sentinelConnection.GetSentinelMasterConnection(redisServiceOptions);
+
+                //return masterConnection;
+
+                throw new InvalidOperationException("暂时不支持哨兵模式");
+
+            }
+        }
     }
 }
