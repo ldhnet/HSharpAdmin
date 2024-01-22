@@ -66,5 +66,6 @@
         public string CacheProvider { get; set; }
 
         public string RedisConnectionString { get; set; }
+
     }
 }

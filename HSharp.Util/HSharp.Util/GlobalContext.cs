@@ -1,4 +1,5 @@
-﻿using HSharp.Util.Model;
+﻿using HSharp.Util.Global;
+using HSharp.Util.Model;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.Extensions.Configuration;
@@ -27,6 +28,15 @@ namespace HSharp.Util
         public static IWebHostEnvironment HostingEnvironment { get; set; }
 
         public static SystemConfig SystemConfig { get; set; }
+
+        public static RabbitMQConfig RabbitMQConfig { get; set; }
+
+        public static RedisConfig RedisConfig { get; set; }
+        
+        /// <summary>
+        /// 审计日志设置
+        /// </summary>
+        public static LogConfig LogConfig { get; set; }
 
         public static string GetVersion()
         {
