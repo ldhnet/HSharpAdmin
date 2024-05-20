@@ -41,6 +41,13 @@
             <param name="entity"></param>
             <returns></returns>
         </member>
+        <member name="M:HSharp.Admin.WebApi.Controllers.UserController.GetUserList(HSharp.Model.Param.OrganizationManage.UserListParam)">
+            <summary>
+            获取用户信息
+            </summary>
+            <param name="param"></param>
+            <returns></returns>
+        </member>
         <member name="M:HSharp.Admin.WebApi.Controllers.UserController.Login(System.String,System.String)">
             <summary>
             用户登录

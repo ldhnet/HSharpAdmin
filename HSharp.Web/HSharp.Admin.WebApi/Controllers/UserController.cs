@@ -11,6 +11,7 @@ using HSharp.Model.Result.SystemManage;
 using HSharp.Util;
 using HSharp.Util.Model;
 using HSharp.Web.Code;
+using HSharp.Model.Param.OrganizationManage;
 
 namespace HSharp.Admin.WebApi.Controllers
 {
@@ -21,7 +22,18 @@ namespace HSharp.Admin.WebApi.Controllers
     {
         private UserBLL userBLL = new UserBLL();
 
-        #region 获取数据       
+        #region 获取数据      
+        /// <summary>
+        /// 获取用户信息
+        /// </summary>
+        /// <param name="param"></param>
+        /// <returns></returns>
+        [HttpGet]
+        public async Task<TData<List<UserEntity>>> GetUserList(UserListParam param)
+        {
+            TData<List<UserEntity>> obj = await userBLL.GetList(param);
+            return obj;
+        }
         #endregion
 
         #region 提交数据
