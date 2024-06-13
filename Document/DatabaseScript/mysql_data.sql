@@ -1,4 +1,4 @@
-﻿/*  初始化数据 */
+/*  初始化数据 */
 /* use HSharpAdmin; */
 
 INSERT INTO `SysArea` (`Id`, `BaseIsDelete`, `BaseCreateTime`, `BaseModifyTime`, `BaseCreatorId`, `BaseModifierId`, `BaseVersion`, `AreaCode`, `ParentAreaCode`, `AreaName`, `ZipCode`, `AreaLevel`) VALUES
