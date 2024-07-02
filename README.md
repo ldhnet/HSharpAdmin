@@ -2,6 +2,7 @@
  HSharpAdmin 基于.NET Core Web开发，借鉴了很多开源项目的优点，让你开发Web管理系统和移动端Api更简单，它是完全开源的。
  它可以用于所有的Web应用程序，例如网站管理后台、CMS、CRM、ERP、OA这类的系统和移动端Api。
  - QQ技术交流群（972107977）
+ - 预览入口 [在线预览](http://124.223.117.49/Home/Login)
  <br /> 
 | HSharpAdmin 版本 | .NET Core 版本 | 是否支持 | 链接 | Developer |
 |:-----|:-----|:-----|:-----|:-----|
