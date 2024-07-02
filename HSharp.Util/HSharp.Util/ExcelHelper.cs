@@ -105,7 +105,7 @@ namespace HSharp.Util
                         headStyle.Alignment = HorizontalAlignment.Center;
                         IFont font = workbook.CreateFont();
                         font.FontHeightInPoints = 20;
-                        font.Boldweight = 700;
+                        font.IsBold = true;
                         headStyle.SetFont(font);
 
                         headerRow.GetCell(0).CellStyle = headStyle;
@@ -123,7 +123,7 @@ namespace HSharp.Util
                         headStyle.Alignment = HorizontalAlignment.Center;
                         IFont font = workbook.CreateFont();
                         font.FontHeightInPoints = 10;
-                        font.Boldweight = 700;
+                        font.IsBold = true;
                         headStyle.SetFont(font);
 
                         for (int columnIndex = 0; columnIndex < properties.Length; columnIndex++)

@@ -55,7 +55,7 @@ namespace HSharp.Util.Context
                 }
                 else
                 {
-                    logger.Info(message, exception);
+                    logger.Info(message);
                 }
             }
         }
@@ -77,7 +77,7 @@ namespace HSharp.Util.Context
                 }
                 else
                 {
-                    logger.Warn(message, exception);
+                    logger.Warn(message);
                 }
             }
         }
@@ -99,7 +99,7 @@ namespace HSharp.Util.Context
                 }
                 else
                 {
-                    logger.Error(message, exception);
+                    logger.Error(message);
                 }
             }
         }
@@ -121,7 +121,7 @@ namespace HSharp.Util.Context
                 }
                 else
                 {
-                    logger.Debug(message, exception);
+                    logger.Debug(message);
                 }
             }
         }

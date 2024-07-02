@@ -33,7 +33,7 @@ namespace HSharp.CacheTest
 
             var valueStr = HSharpRedisContext.Get(key);
 
-            Assert.AreEqual(value, HSharpRedisContext.Get(key));
+            Assert.Equals(value, HSharpRedisContext.Get(key));
         }
          
     }

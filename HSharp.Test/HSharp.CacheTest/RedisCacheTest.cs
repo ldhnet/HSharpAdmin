@@ -35,7 +35,7 @@ namespace HSharp.CacheTest
             string value = "test_simple_value";
             CacheFactory.Cache.SetCache<string>(key, value);
 
-            Assert.AreEqual(value, CacheFactory.Cache.GetCache<string>(key));
+            Assert.Equals(value, CacheFactory.Cache.GetCache<string>(key));
         }
 
         [Test]
