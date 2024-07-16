@@ -165,9 +165,9 @@ namespace HSharp.Util.Context
                         action?.Invoke(obj!);
                     }
                 }
-                catch (Exception ex)
+                catch //(Exception ex)
                 {
-                    throw ex;
+                    //throw ex;
                 }
                 channel.BasicAck(deliveryTag: ea.DeliveryTag, multiple: false);
             };

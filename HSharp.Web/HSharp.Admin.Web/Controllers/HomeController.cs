@@ -132,9 +132,11 @@ namespace HSharp.Admin.Web.Controllers
         {
             string sessionId = GlobalContext.ServiceProvider?.GetService<IHttpContextAccessor>().HttpContext.Session.Id;
 
-            Tuple<string, int> captchaCode = CaptchaHelper.GetCaptchaCode();
-            byte[] bytes = CaptchaHelper.CreateCaptchaImage(captchaCode.Item1);
-            new SessionHelper().WriteSession("CaptchaCode", captchaCode.Item2);
+            //Tuple<string, int> captchaCode = CaptchaHelper.GetCaptchaCode();
+            //byte[] bytes = CaptchaHelper.CreateCaptchaImage(captchaCode.Item1);
+            //new SessionHelper().WriteSession("CaptchaCode", captchaCode.Item2);
+
+            byte[] bytes = new byte[10];
             return File(bytes, @"image/jpeg");
         }
 
