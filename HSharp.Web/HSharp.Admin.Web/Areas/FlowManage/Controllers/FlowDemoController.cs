@@ -6,17 +6,17 @@ using System.Threading.Tasks;
 namespace HSharp.Admin.Web.Areas.FlowManage.Controllers
 {
     [Area("FlowManage")]
-    public class MyRequestController : BaseController
+    public class FlowDemoController : BaseController
     {
-        [AuthorizeFilter("flowmanage:myrequest:index")]
-        public async Task<IActionResult> Index()
+        //[AuthorizeFilter("flowmanage:flowdemo:demo1")]
+        public async Task<IActionResult> Demo1()
         {
             OperatorInfo operatorInfo = await Operator.Instance.Current();
             ViewBag.userId = operatorInfo.UserId;
             return View();
         }
-        [AuthorizeFilter("flowmanage:myrequest:create")]
-        public async Task<IActionResult> Create()
+        //[AuthorizeFilter("flowmanage:flowdemo:demo2")]
+        public async Task<IActionResult> Demo2()
         {
             OperatorInfo operatorInfo = await Operator.Instance.Current();
             ViewBag.userId = operatorInfo.UserId;

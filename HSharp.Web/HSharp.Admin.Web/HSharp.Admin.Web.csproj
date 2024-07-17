@@ -39,4 +39,11 @@
   <ItemGroup>
     <Folder Include="wwwroot\lib\signalr\" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="Areas\FlowManage\Views\MyRequest\Create.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+  </ItemGroup>
 </Project>

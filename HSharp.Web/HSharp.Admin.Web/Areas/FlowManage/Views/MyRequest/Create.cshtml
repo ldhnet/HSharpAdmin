@@ -1,0 +1,119 @@
+﻿@{
+    Layout = "~/Views/Shared/_Index.cshtml";
+}
+
+@inject Microsoft.AspNetCore.Hosting.IWebHostEnvironment HostingEnvironment
+@section header {
+    @BundlerHelper.Render(HostingEnvironment.ContentRootPath, Url.Content("~/lib/bootstrap.treetable/1.0/bootstrap-treetable.min.css"))
+    @BundlerHelper.Render(HostingEnvironment.ContentRootPath, Url.Content("~/lib/bootstrap.treetable/1.0/bootstrap-treetable.min.js"))
+} 
+<div class="container-div">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox">
+                <div class="ibox-title">
+                    <h5>新建流程</h5>
+                </div>
+                <div class="ibox-content">
+                    <div class="row"> 
+                        <div class="col-sm-12">
+                            <div class="panel panel-primary">
+                                <div class="panel-heading">
+                                    考勤管理(5)
+                                </div>
+                                <div class="panel-body">
+                                    <p>
+                                        <button type="button" class="btn btn-outline btn-link" onclick="goDemo2()">请假申请流程</button>
+                                        <button type="button" class="btn btn-outline btn-link">加班申请流程</button>
+                                        <button type="button" class="btn btn-outline btn-link">打卡申诉流程</button>
+                                        <button type="button" class="btn btn-outline btn-link">工时录入流程</button>
+                                        <button type="button" class="btn btn-outline btn-link">假别额定申请流程</button>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <div class="panel panel-success">
+                                <div class="panel-heading">
+                                    人事管理(7)
+                                </div>
+                                <div class="panel-body">
+                                    <p>
+                                        <button type="button" class="btn btn-outline btn-link">人员入职流程</button>
+                                        <button type="button" class="btn btn-outline btn-link">人员转正流程</button>
+                                        <button type="button" class="btn btn-outline btn-link">人员离职审批流程</button>
+                                        <button type="button" class="btn btn-outline btn-link">人员离职交接流程</button> 
+                                        <button type="button" class="btn btn-outline btn-link">部门调动流程</button>
+                                        <button type="button" class="btn btn-outline btn-link">跨公司人员调动流程</button>
+                                        <button type="button" class="btn btn-outline btn-link" onclick="goDemo1()">第三方账号申请</button>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    
+                        <div class="col-sm-12">
+                            <div class="panel panel-info">
+                                <div class="panel-heading">
+                                    资产管理(4)
+                                </div>
+                                <div class="panel-body">
+                                    <p>
+                                        <button type="button" class="btn btn-outline btn-link">资产领用流程</button>
+                                        <button type="button" class="btn btn-outline btn-link">资产维修流程</button>
+                                        <button type="button" class="btn btn-outline btn-link">资产转移流程</button>
+                                        <button type="button" class="btn btn-outline btn-link">资产退库流程</button>
+                                    </p>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <div class="panel panel-warning">
+                                <div class="panel-heading">
+                                    报销管理(4)
+                                </div>
+                                <div class="panel-body">
+                                    <p>
+                                        <button type="button" class="btn btn-outline btn-link">日常费用报销流程</button>
+                                        <button type="button" class="btn btn-outline btn-link">差旅费用报销流程</button>
+                                        <button type="button" class="btn btn-outline btn-link">借款流程</button>
+                                        <button type="button" class="btn btn-outline btn-link">还款流程</button>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <div class="panel panel-success">
+                                <div class="panel-heading">
+                                    行政管理(2)
+                                </div>
+                                <div class="panel-body">
+                                    <p>
+                                        <button type="button" class="btn btn-outline btn-link">机票预定流程</button>
+                                        <button type="button" class="btn btn-outline btn-link">办公用品领用</button>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<style>
+   
+</style>
+<script type="text/javascript">
+    function goDemo1() {
+        location.href = '@Url.Content("~/FlowManage/FlowDemo/Demo1")';
+    }
+    function goDemo2() {
+        //ys.openLink('@Url.Content("~/FlowManage/FlowDemo/Demo2")', '_blank');
+        ys.openLink('@Url.Content("~/FlowManage/FlowDemo/Demo2")', '_self');
+        return false;
+    }
+   
+</script>

@@ -1,0 +1,39 @@
+﻿@{
+    Layout = "~/Views/Shared/_Index.cshtml";
+}
+
+@inject Microsoft.AspNetCore.Hosting.IWebHostEnvironment HostingEnvironment
+@section header {
+    @BundlerHelper.Render(HostingEnvironment.ContentRootPath, Url.Content("~/lib/bootstrap.treetable/1.0/bootstrap-treetable.min.css"))
+    @BundlerHelper.Render(HostingEnvironment.ContentRootPath, Url.Content("~/lib/bootstrap.treetable/1.0/bootstrap-treetable.min.js"))
+}
+
+<div class="container-div">
+    <div class="div-class">
+        <button class="btn btn-info btn-circle" onclick="goBack()" type="button">
+            返回
+        </button>
+    </div>
+    <div class="row"> 
+       <h1>测试页面6666666</h1> 
+    </div>
+</div>
+<style>
+    .div-class {
+        position: fixed;
+        width: 70px;
+        height: 50px;
+        top: 2%;
+        right: 5%;
+    }
+
+    .btn-circle {
+        width: 70px !important;
+        height: 50px !important;
+    }
+</style>
+<script type="text/javascript">
+    function goBack() {
+        location.href = '@Url.Content("~/FlowManage/MyRequest/Create")';
+    }
+</script>
