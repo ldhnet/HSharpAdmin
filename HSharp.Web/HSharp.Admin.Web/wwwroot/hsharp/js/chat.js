@@ -36,7 +36,7 @@
 ; window.signalrProxy = {};
 (function ($, signalrProxy) {
     "use strict";
-     const token = "token666";
+    const token = "QBHNq32VzZK04ou_MnL2Q";
 
     $.extend(signalrProxy, {
         connection: new signalR.HubConnectionBuilder().withUrl("/chatHub", { accessTokenFactory: () => token }).build(), 
@@ -44,7 +44,7 @@
 })(window.jQuery, window.signalrProxy);
   
 signalrProxy.connection.start().then(function () {
-    console.log("链接成功"); 
+    //console.log("链接成功"); 
     signalrProxy.connection.invoke("OnlineNotify").catch(function (err) {
         return console.error(err.toString());
     });
@@ -57,9 +57,8 @@ signalrProxy.connection.on("ReceiveOnlineCount", function (count) {
 
     var encodedMsg = "在线人数 : " + count;
 
-    console.log(encodedMsg);
-
-    ys.msgWarning(encodedMsg); 
+    //console.log(encodedMsg);
+    //ys.msgWarning(encodedMsg); 
 
     $("#onlineCount").find("span").html(count);  
     //var li = document.createElement("li");

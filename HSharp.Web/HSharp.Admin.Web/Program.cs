@@ -90,15 +90,15 @@ InitConfiguration();
  
 #region 注册MiniProfiler性能分析组件
 
-builder.Services.AddMiniProfiler(options =>
-{
-    options.RouteBasePath = GlobalContext.MiniProfilerConfig.RouteBasePath;
+//builder.Services.AddMiniProfiler(options =>
+//{
+//    options.RouteBasePath = GlobalContext.MiniProfilerConfig.RouteBasePath;
 
-    (options.Storage as MemoryCacheStorage).CacheDuration = TimeSpan.FromMinutes(GlobalContext.MiniProfilerConfig.CacheDuration);
+//    (options.Storage as MemoryCacheStorage).CacheDuration = TimeSpan.FromMinutes(GlobalContext.MiniProfilerConfig.CacheDuration);
 
-    options.ColorScheme = StackExchange.Profiling.ColorScheme.Auto;
+//    options.ColorScheme = StackExchange.Profiling.ColorScheme.Auto;
 
-}).AddEntityFramework();//显示SQL语句及耗时;
+//}).AddEntityFramework();//显示SQL语句及耗时;
 
 #endregion
 
@@ -138,7 +138,7 @@ app.UseSession();
 app.UseRouting();
 
 //MiniProfiler性能分析组件
-app.UseMiniProfiler();
+//app.UseMiniProfiler();
 
 app.UseEndpoints(endpoints =>
 {

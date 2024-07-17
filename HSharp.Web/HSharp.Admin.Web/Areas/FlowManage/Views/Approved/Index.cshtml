@@ -1,0 +1,24 @@
+﻿@{
+    Layout = "~/Views/Shared/_Index.cshtml";
+}
+
+@inject Microsoft.AspNetCore.Hosting.IWebHostEnvironment HostingEnvironment
+@section header {
+    @BundlerHelper.Render(HostingEnvironment.ContentRootPath, Url.Content("~/lib/bootstrap.treetable/1.0/bootstrap-treetable.min.css"))
+    @BundlerHelper.Render(HostingEnvironment.ContentRootPath, Url.Content("~/lib/bootstrap.treetable/1.0/bootstrap-treetable.min.js"))
+}
+
+<div class="container-div">
+    <div class="row">  
+        <iframe style="width: 100%; height: calc(100vh - 5%);" border:hidden src="http://117.72.70.166/flow/#/flowconf?userId=" @ViewBag.userId""></iframe>
+    </div>
+</div>
+<style>
+    iframe {
+        max-width: 100%;
+    }
+</style>
+<script type="text/javascript">
+
+   
+</script>
