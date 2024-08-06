@@ -1,24 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using HSharp.Business.OrganizationManage;
+﻿using HSharp.Business.OrganizationManage;
 using HSharp.Business.SystemManage;
+using HSharp.Entity.OrganizationManage;
 using HSharp.Entity.SystemManage;
 using HSharp.Enum;
-using HSharp.IdGenerator;
 using HSharp.Model.Result;
-using HSharp.Util.Extension;
-using HSharp.Web.Code;
-using HSharp.Util.Model;
 using HSharp.Util;
-using HSharp.Entity.OrganizationManage;
-using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.DependencyInjection;
+using HSharp.Util.Extension;
+using HSharp.Util.Model;
+using HSharp.Web.Code;
 using HSharp.Web.Code.State;
-using HSharp.Admin.Web.Hubs;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.DependencyInjection;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace HSharp.Admin.Web.Controllers
 {
@@ -29,7 +26,9 @@ namespace HSharp.Admin.Web.Controllers
         private LogLoginBLL logLoginBLL = new LogLoginBLL();
         private MenuAuthorizeBLL menuAuthorizeBLL = new MenuAuthorizeBLL();
         private SysMessageBLL sysMessageBLL = new SysMessageBLL();
+
         #region 视图功能
+
         [HttpGet]
         [AuthorizeFilter]
         public async Task<IActionResult> Index()
@@ -76,6 +75,7 @@ namespace HSharp.Admin.Web.Controllers
             if (user != null)
             {
                 #region 退出系统
+
                 // 如果不允许同一个用户多次登录，当用户登出的时候，就不在线了
                 if (!GlobalContext.SystemConfig.LoginMultiple)
                 {
@@ -99,7 +99,8 @@ namespace HSharp.Admin.Web.Controllers
                 new CookieHelper().RemoveCookie("RememberMe");
 
                 return Json(new TData { Tag = 1 });
-                #endregion
+
+                #endregion 退出系统
             }
             else
             {
@@ -125,9 +126,11 @@ namespace HSharp.Admin.Web.Controllers
         {
             return View();
         }
-        #endregion
+
+        #endregion 视图功能
 
         #region 获取数据
+
         public IActionResult GetCaptchaImage()
         {
             string sessionId = GlobalContext.ServiceProvider?.GetService<IHttpContextAccessor>().HttpContext.Session.Id;
@@ -145,11 +148,13 @@ namespace HSharp.Admin.Web.Controllers
             var obj = await sysMessageBLL.GetUnreadCount(userId);
             return Json(obj);
         }
-        #endregion
+
+        #endregion 获取数据
 
         #region 提交数据
+
         [HttpPost]
-        public async Task<IActionResult> LoginJson(string userName, string password, string captchaCode="")
+        public async Task<IActionResult> LoginJson(string userName, string password, string captchaCode = "")
         {
             TData obj = new TData();
             //if (string.IsNullOrEmpty(captchaCode))
@@ -168,7 +173,6 @@ namespace HSharp.Admin.Web.Controllers
                 await new UserBLL().UpdateUser(userObj.Data);
                 await Operator.Instance.AddCurrent(userObj.Data.WebToken);
             }
-
 
             string ip = NetHelper.Ip;
             string browser = NetHelper.Browser;
@@ -197,15 +201,17 @@ namespace HSharp.Admin.Web.Controllers
             AsyncTaskHelper.StartTask(taskAction);
             if (userObj.Tag == 1)
             {
-				Action taskAddUnreadMsg = async () => {
-					await sysMessageBLL.SendUnreadMessageToUser(userObj.Data.Id.ParseToLong());
-				};
-				AsyncTaskHelper.StartTask(taskAddUnreadMsg);
-			} 
+                Action taskAddUnreadMsg = async () =>
+                {
+                    await sysMessageBLL.SendUnreadMessageToUser(userObj.Data.Id.ParseToLong());
+                };
+                AsyncTaskHelper.StartTask(taskAddUnreadMsg);
+            }
             obj.Tag = userObj.Tag;
             obj.Message = userObj.Message;
             return Json(obj);
         }
-        #endregion
+
+        #endregion 提交数据
     }
 }

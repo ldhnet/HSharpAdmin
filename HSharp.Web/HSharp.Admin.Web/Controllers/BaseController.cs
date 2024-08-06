@@ -1,20 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using HSharp.Business.SystemManage;
+using HSharp.Entity.SystemManage;
+using HSharp.Enum;
+using HSharp.Util;
+using HSharp.Util.Extension;
+using HSharp.Util.Model;
+using HSharp.Web.Code;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Newtonsoft.Json;
-using HSharp.Util.Extension;
-using HSharp.Util.Model;
-using HSharp.Util;
+using System;
 using System.Diagnostics;
-using HSharp.Entity.SystemManage;
-using System.Reflection;
+using System.Linq;
 using System.Text;
-using HSharp.Web.Code;
-using HSharp.Business.SystemManage;
-using HSharp.Enum;
+using System.Threading.Tasks;
 
 namespace HSharp.Admin.Web.Controllers
 {
@@ -59,6 +57,7 @@ namespace HSharp.Admin.Web.Controllers
             if (!notLogAction.Select(p => p.ToUpper()).Contains(action.ToUpper()))
             {
                 #region 获取请求参数
+
                 switch (context.HttpContext.Request.Method.ToUpper())
                 {
                     case "GET":
@@ -77,9 +76,11 @@ namespace HSharp.Admin.Web.Controllers
                         }
                         break;
                 }
-                #endregion
+
+                #endregion 获取请求参数
 
                 #region 异常获取
+
                 StringBuilder sbException = new StringBuilder();
                 if (resultContext.Exception != null)
                 {
@@ -97,9 +98,11 @@ namespace HSharp.Admin.Web.Controllers
                 {
                     operateEntity.LogStatus = OperateStatusEnum.Success.ParseToInt();
                 }
-                #endregion
 
-                #region 日志实体                  
+                #endregion 异常获取
+
+                #region 日志实体
+
                 if (user != null)
                 {
                     operateEntity.BaseCreatorId = user.UserId;
@@ -109,7 +112,8 @@ namespace HSharp.Admin.Web.Controllers
                 operateEntity.IpAddress = ip;
                 operateEntity.ExecuteUrl = currentUrl.Replace("//", "/");
                 operateEntity.ExecuteResult = TextHelper.GetSubString(sbException.ToString(), 4000);
-                #endregion
+
+                #endregion 日志实体
 
                 Action taskAction = async () =>
                 {
