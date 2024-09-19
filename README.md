@@ -42,3 +42,13 @@
 2. 创建开发分支 (`git checkout -b dev`)
 3. 提交更改 (`git commit -m 'Add something'`)
 4. 推送到分支 (`git push origin dev`) 
+
+
+##  捐赠支持
+😀 你可以请作者喝杯咖啡表示鼓励
+<table>
+    <tr>
+        <td><img src="https://gitee.com/ldhnet/AntFlow-Vue3/raw/master/public/images/wxpay.jpg"/></td>
+        <td><img src="https://gitee.com/ldhnet/AntFlow-Vue3/raw/master/public/images/alipay.jpg"/></td>
+    </tr>  
+</table>
