@@ -473,5 +473,17 @@ namespace HSharp.Util.Extension
         }
 
         #endregion 强制转换类型
+
+        /// <summary>
+        /// 将DateTime转换为时间戳（秒）
+        /// </summary>
+        /// <param name="dateTime">要转换的DateTime对象</param>
+        /// <returns>返回表示时间戳的整数</returns>
+        public static int ConvertToTimestamp(this DateTime dateTime)
+        {
+            DateTime origin = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
+            TimeSpan diff = dateTime.ToUniversalTime() - origin;
+            return (int)Math.Floor(diff.TotalSeconds);
+        }
     }
 }

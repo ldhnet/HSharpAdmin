@@ -44,33 +44,47 @@ namespace HSharp.Business.AuthThirdManage
 
         public async Task<TData> LoginHandle(AuthThirdToken token)
         {
-            TData obj = new TData();
+            TData<UserEntity> obj = new TData<UserEntity>();
 
             var thirdUser = await _authThirdService.GetThirdUserDetail(token.access_token);
 
-            var userObj =  await _userBLL.GetEntity(thirdUser.id);
+            obj =  await _userBLL.IsExistGiteeEntity(thirdUser.id);
 
-            if (userObj.Tag == 0 && userObj.Data == null) 
+            if (obj.Tag == 0 && obj.Data == null)
             {
                 var userEntity = new UserEntity();
-                userEntity.Id = thirdUser.id;
                 userEntity.RealName = thirdUser.name;
                 userEntity.UserName = thirdUser.login;
+                userEntity.Password = "123456";
                 userEntity.Email = thirdUser.email;
-                userEntity.Password = "3f0ea22060c164bf4bdc3a67d0e12cdf";
-                userEntity.Salt = "28585";
                 userEntity.DepartmentId = 16508640061124405;
                 userEntity.Gender = 1;
                 userEntity.Portrait = thirdUser.avatar_url;
                 userEntity.UserStatus = 1;
+                userEntity.LoginCount = 1;
+                userEntity.IsSystem = 0;
+                userEntity.IsOnline = 0;
+                userEntity.FirstVisit = DateTime.Now;
+                userEntity.PreviousVisit = DateTime.Now;
+                userEntity.LastVisit = DateTime.Now;
+                userEntity.GiteeId = thirdUser.id;
                 userEntity.WebToken = token.access_token;
-
+                userEntity.RoleIds = "16508640061130147,16508640061130146";
                 var addResult = await _userBLL.SaveForm(userEntity);
-                if (addResult.Tag == 1)
-                {
-                    await Operator.Instance.AddCurrent(token.access_token);
-                }
-            }  
+                obj.Tag = addResult.Tag;
+                userEntity.Id = addResult.Data?.ParseToLong();
+                obj.Data = userEntity;
+                await Operator.Instance.AddCurrent(token.access_token);
+            } 
+            else if (obj.Tag == 1)
+            {
+                obj.Data.LoginCount = obj.Data.LoginCount + 1;
+                obj.Data.LastVisit = DateTime.Now;
+                obj.Data.GiteeId = thirdUser.id;
+                obj.Data.WebToken = token.access_token;
+                await new UserBLL().UpdateUser(obj.Data);
+                await Operator.Instance.AddCurrent(token.access_token);
+            }
             string ip = NetHelper.Ip;
             string browser = NetHelper.Browser;
             string os = NetHelper.GetOSVersion();
@@ -80,14 +94,14 @@ namespace HSharp.Business.AuthThirdManage
             {
                 LogLoginEntity logLoginEntity = new LogLoginEntity
                 {
-                    LogStatus = userObj.Tag == 1 ? OperateStatusEnum.Success.ParseToInt() : OperateStatusEnum.Fail.ParseToInt(),
-                    Remark = userObj.Message,
+                    LogStatus = obj.Tag == 1 ? OperateStatusEnum.Success.ParseToInt() : OperateStatusEnum.Fail.ParseToInt(),
+                    Remark = obj.Message,
                     IpAddress = ip,
                     IpLocation = IpLocationHelper.GetIpLocation(ip),
                     Browser = browser,
                     OS = os,
                     ExtraRemark = userAgent,
-                    BaseCreatorId = userObj.Data?.Id
+                    BaseCreatorId = obj.Data?.Id
                 };
 
                 // 让底层不用获取HttpContext

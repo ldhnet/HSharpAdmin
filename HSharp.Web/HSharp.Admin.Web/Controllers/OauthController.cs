@@ -31,11 +31,11 @@ namespace HSharp.Admin.Web.Controllers
             var result =await _authThirdBLL.LoginHandle(tokenResult);
             if (result.Tag == 1)
             {
-                return Redirect("/Home/Index");
+                return RedirectToAction("Index", "Home");
             }
             else
             {
-                return Redirect("/Home/Login");
+                return RedirectToAction("Login", "Home");
             }
          
         }

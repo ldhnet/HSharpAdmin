@@ -5,6 +5,7 @@ using HSharp.Model.Param.OrganizationManage;
 using HSharp.Util;
 using HSharp.Util.Extension;
 using HSharp.Util.Model;
+using NPOI.SS.Formula.Functions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -36,11 +37,14 @@ namespace HSharp.Service.OrganizationManage
             return await this.BaseRepository().FindEntity<UserEntity>(id);
         }
 
+        public async Task<UserEntity> GetEntity(Expression<Func<UserEntity, bool>> condition)
+        {
+            return await this.BaseRepository().FindEntity<UserEntity>(condition);
+        }
         public async Task<UserEntity> GetEntity(string userName)
         {
             return await this.BaseRepository().FindEntity<UserEntity>(p => p.UserName == userName);
         }
-
         public async Task<UserEntity> CheckLogin(string userName)
         {
             var expression = LinqExtensions.True<UserEntity>();

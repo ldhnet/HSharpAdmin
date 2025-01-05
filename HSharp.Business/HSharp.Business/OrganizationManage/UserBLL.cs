@@ -57,7 +57,21 @@ namespace HSharp.Business.OrganizationManage
             obj.Tag = 1;
             return obj;
         }
-
+        public async Task<TData<UserEntity>> IsExistGiteeEntity(long id)
+        {
+            TData<UserEntity> obj = new TData<UserEntity>();
+            obj.Data = await userService.GetEntity(c=>c.GiteeId == id);
+            if (obj.Data != null)
+            { 
+                obj.Tag = 1;
+            }
+            else
+            {
+                obj.Tag = 0;
+                obj.Message = "用户不存在";
+            }
+            return obj;
+        }
         public async Task<TData<UserEntity>> GetEntity(long id)
         {
             TData<UserEntity> obj = new TData<UserEntity>();
