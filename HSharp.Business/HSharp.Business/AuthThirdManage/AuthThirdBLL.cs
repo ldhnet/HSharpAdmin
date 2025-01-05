@@ -59,7 +59,7 @@ namespace HSharp.Business.AuthThirdManage
                 userEntity.UserName = thirdUser.login;
                 userEntity.Password = "123456";
                 userEntity.Email = thirdUser.email;
-                userEntity.DepartmentId = 16508640061124405;
+                userEntity.DepartmentId = 16508640061124402;//总公司
                 userEntity.Gender = 1;
                 userEntity.Portrait = thirdUser.avatar_url;
                 userEntity.UserStatus = 1;
@@ -71,7 +71,7 @@ namespace HSharp.Business.AuthThirdManage
                 userEntity.LastVisit = DateTime.Now;
                 userEntity.GiteeId = thirdUser.id;
                 userEntity.WebToken = token.access_token;
-                userEntity.RoleIds = "16508640061130147,16508640061130146";
+                userEntity.RoleIds = "16508640061130146";//管理员
                 var addResult = await _userBLL.SaveForm(userEntity);
                 obj.Tag = addResult.Tag;
                 userEntity.Id = addResult.Data?.ParseToLong();
