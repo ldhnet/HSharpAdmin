@@ -8,7 +8,7 @@ namespace HSharp.Model.Param.AuthThirdManage
 {
     public class AuthThirdUser
     {
-        public string id;
+        public long id;
 
         /// <summary>
         /// 三方用户id

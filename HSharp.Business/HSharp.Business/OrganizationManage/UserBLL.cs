@@ -62,19 +62,26 @@ namespace HSharp.Business.OrganizationManage
         {
             TData<UserEntity> obj = new TData<UserEntity>();
             obj.Data = await userService.GetEntity(id);
-
-            await GetUserBelong(obj.Data);
-
-            if (obj.Data.DepartmentId > 0)
+            if (obj.Data != null)
             {
-                DepartmentEntity departmentEntity = await departmentService.GetEntity(obj.Data.DepartmentId.Value);
-                if (departmentEntity != null)
-                {
-                    obj.Data.DepartmentName = departmentEntity.DepartmentName;
-                }
-            }
+                await GetUserBelong(obj.Data);
 
-            obj.Tag = 1;
+                if (obj.Data.DepartmentId > 0)
+                {
+                    DepartmentEntity departmentEntity = await departmentService.GetEntity(obj.Data.DepartmentId.Value);
+                    if (departmentEntity != null)
+                    {
+                        obj.Data.DepartmentName = departmentEntity.DepartmentName;
+                    }
+                }
+
+                obj.Tag = 1;
+            }
+            else
+            {
+                obj.Tag = 0;
+                obj.Message = "用户不存在";
+            }
             return obj;
         }
 
@@ -372,6 +379,10 @@ namespace HSharp.Business.OrganizationManage
         /// <param name="user"></param>
         private async Task GetUserBelong(UserEntity user)
         {
+            if (user == null)
+            {
+                return;
+            }
             List<UserBelongEntity> userBelongList = await userBelongService.GetList(new UserBelongEntity { UserId = user.Id });
 
             List<UserBelongEntity> roleBelongList = userBelongList.Where(p => p.BelongType == UserBelongTypeEnum.Role.ParseToInt()).ToList();

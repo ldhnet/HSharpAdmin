@@ -61,7 +61,10 @@ namespace HSharp.Enum
         Web = 1,
 
         [Description("WebApi")]
-        WebApi = 2
+        WebApi = 2,
+
+        [Description("Gitee")]
+        Gitee = 3,
     }
 
     public enum PayStatusEnum
