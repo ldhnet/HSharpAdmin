@@ -24,8 +24,9 @@ namespace HSharp.Admin.Web.Controllers
         /// <returns></returns>
         public async Task<IActionResult> Callback(string code)
         {
-            var result = await _authThirdBLL.Callback(code);
-            return Ok(result);
+            var result = await _authThirdBLL.Callback(code); 
+            var user = await _authThirdBLL.GetThirdUserDetail(result.access_token);
+            return Ok(user);
         }
     }
 }

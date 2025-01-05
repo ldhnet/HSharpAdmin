@@ -13,17 +13,7 @@ namespace HSharp.Model.Param.AuthThirdManage
         /// <summary>
         /// 三方用户id
         /// </summary>
-        public string thirdId;
-
-        /// <summary>
-        /// 系统用户id
-        /// </summary>
-        public string userId;
-
-        /// <summary>
-        /// 头像
-        /// </summary>
-        public string avatar;
+        public string login; 
 
         /// <summary>
         /// 姓名
@@ -31,19 +21,32 @@ namespace HSharp.Model.Param.AuthThirdManage
         public string name;
 
         /// <summary>
-        /// 昵称
+        /// 头像
         /// </summary>
-        public string nickname;
+        public string avatar_url;
 
         /// <summary>
-        /// 性别
+        /// htmlurl
         /// </summary>
-        public string gender;
+        public string html_url;
 
         /// <summary>
-        /// 分类
+        /// type
         /// </summary>
-        public string category;
+        public string type;
+
+        /// <summary>
+        /// 简介
+        /// </summary>
+        public string bio;
+        /// <summary>
+        /// 邮箱
+        /// </summary>
+        public string email;
+        /// <summary>
+        /// 备注
+        /// </summary>
+        public string remark;
         /// <summary>
         /// 扩展信息
         /// </summary>

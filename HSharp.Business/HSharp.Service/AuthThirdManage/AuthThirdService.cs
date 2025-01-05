@@ -89,7 +89,7 @@ namespace HSharp.Service.AuthThirdManage
        public async Task<AuthThirdUser> GetThirdUserDetail(string token)
         {
             AuthThirdUser thirdUser = new AuthThirdUser();
-            string getUserDetailUri = GITEE_URI + "/api/v5/user";
+            string getUserDetailUri = GITEE_URI + $"/api/v5/user?access_token={token}";
             using (HttpClient client = new HttpClient())
             {
                 try
@@ -97,6 +97,9 @@ namespace HSharp.Service.AuthThirdManage
                     HttpResponseMessage response = await client.GetAsync(getUserDetailUri);
                     response.EnsureSuccessStatusCode();
                     string result = await response.Content.ReadAsStringAsync(); 
+                    thirdUser = JsonHelper.ToObject<AuthThirdUser>(result);
+                    thirdUser.extJson = result;
+                    return thirdUser;
                 }
                 catch (HttpRequestException e)
                 {
