@@ -6,7 +6,7 @@ namespace HSharp.Util
 {
     public class LogHelper
     {
-        private static readonly Logger log = LogManager.GetLogger(string.Empty);
+        private static readonly Logger log = LogManager.GetCurrentClassLogger();// LogManager.GetLogger(string.Empty);
 
         public static void Trace(object msg, Exception ex = null)
         {

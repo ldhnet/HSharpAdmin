@@ -5,12 +5,14 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\HSharp.Util\HSharp.Util\HSharp.Util.csproj" />
-    <ProjectReference Include="..\HSharp.Entity\HSharp.Entity.csproj" />
+    <Compile Remove="Param\ToolManage\**" />
+    <EmbeddedResource Remove="Param\ToolManage\**" />
+    <None Remove="Param\ToolManage\**" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Param\ToolManage\" />
+    <ProjectReference Include="..\..\HSharp.Util\HSharp.Util\HSharp.Util.csproj" />
+    <ProjectReference Include="..\HSharp.Entity\HSharp.Entity.csproj" />
   </ItemGroup>
 
 </Project>

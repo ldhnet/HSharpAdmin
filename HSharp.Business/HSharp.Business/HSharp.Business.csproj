@@ -5,15 +5,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="ToolManage\**" />
+    <EmbeddedResource Remove="ToolManage\**" />
+    <None Remove="ToolManage\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\..\HSharp.Entity\HSharp.Entity\HSharp.Entity.csproj" />
     <ProjectReference Include="..\..\HSharp.Entity\HSharp.Enum\HSharp.Enum.csproj" />
     <ProjectReference Include="..\..\HSharp.Util\HSharp.CodeGenerator\HSharp.CodeGenerator.csproj" />
     <ProjectReference Include="..\HSharp.Business.Cache\HSharp.Business.Cache.csproj" />
     <ProjectReference Include="..\HSharp.Service\HSharp.Service.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="ToolManage\" />
   </ItemGroup>
 
 </Project>

@@ -207,13 +207,13 @@ CREATE TABLE IF NOT EXISTS `SysUser` (
   `LoginCount`         int(11)             NOT NULL       COMMENT '登录次数',
   `UserStatus`         int(11)             NOT NULL       COMMENT '用户状态(0禁用 1启用)',
   `IsSystem`           int(11)             NOT NULL       COMMENT '系统用户(0不是 1是[系统用户拥有所有的权限])',
-  `IsOnline`           int(11)             NOT NULL       COMMENT '在线(0不是 1是)',
+  `IsOnline`           int(11)             NOT NULL       COMMENT '在线(0不是 1是)', 
+  `WebToken`           varchar(32)         NOT NULL       COMMENT '后台Token',
+  `ApiToken`           varchar(32)         NOT NULL       COMMENT 'ApiToken',
   `FirstVisit`         datetime            NOT NULL       COMMENT '首次登录时间',
   `PreviousVisit`      datetime            NOT NULL       COMMENT '上一次登录时间',
   `LastVisit`          datetime            NOT NULL       COMMENT '最后一次登录时间',
   `Remark`              varchar(200)        NOT NULL       COMMENT '备注',
-  `WebToken`           varchar(32)         NOT NULL       COMMENT '后台Token',
-  `ApiToken`           varchar(32)         NOT NULL       COMMENT 'ApiToken',
   PRIMARY KEY (`Id`)
 ) ENGINE=InnoDB COMMENT '用户表';
 
