@@ -25,7 +25,7 @@ namespace HSharp.Service.AuthThirdManage
         public const string GITEE_STATE = "hsharpadmin";
         public const string GITEE_CLIENT_ID = "e6b611e97a54e5c80ae99c03c6934133d7de88df0f219a1cda210389f2664cf6";
         public const string GITEE_CLIENT_SECRET_KEY = "da170f47d3aab74d1453c7a161cda2988cd03e8c5bc68ac3b40252da7e74a778";
-        public const string GITEE_REDIRECT_URL_KEY = "http://localhost:9000/Oauth/Callback";
+        public const string GITEE_REDIRECT_URL_KEY = "http://117.72.70.166:9000/Oauth/Callback";
         /// <summary>
         /// 第三方登录页面渲染
         /// </summary>

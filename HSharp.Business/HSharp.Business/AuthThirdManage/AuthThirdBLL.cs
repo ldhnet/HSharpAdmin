@@ -48,13 +48,10 @@ namespace HSharp.Business.AuthThirdManage
 
         public async Task<TData> LoginHandle(AuthThirdToken token)
         {
-           // var aaa = await IsCheckStarred(token.access_token); 
+            //var aaa = await IsCheckStarred(token.access_token); 
             TData<UserEntity> obj = new TData<UserEntity>();
-
             var thirdUser = await _authThirdService.GetThirdUserDetail(token.access_token);
-
             obj =  await _userBLL.IsExistGiteeEntity(thirdUser.id);
-
             if (obj.Tag == 0 && obj.Data == null)
             {
                 var userEntity = new UserEntity();
