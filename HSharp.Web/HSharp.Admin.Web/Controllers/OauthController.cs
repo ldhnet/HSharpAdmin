@@ -29,7 +29,7 @@ namespace HSharp.Admin.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> Callback(string code)
         {
-            var tokenResult = await _authThirdBLL.Callback(code); 
+            var tokenResult = await _authThirdBLL.Callback(code);  
             var result =await _authThirdBLL.LoginHandle(tokenResult);
             if (result.Tag == 1)
             {

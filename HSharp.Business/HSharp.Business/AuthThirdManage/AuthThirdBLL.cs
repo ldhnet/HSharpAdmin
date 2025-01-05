@@ -41,9 +41,14 @@ namespace HSharp.Business.AuthThirdManage
         {
             return await _authThirdService.GetThirdUserDetail(token);
         }
+        public async Task<bool> IsCheckStarred(string token)
+        {
+            return await _authThirdService.IsCheckStarred(token);
+        }
 
         public async Task<TData> LoginHandle(AuthThirdToken token)
         {
+           // var aaa = await IsCheckStarred(token.access_token); 
             TData<UserEntity> obj = new TData<UserEntity>();
 
             var thirdUser = await _authThirdService.GetThirdUserDetail(token.access_token);
