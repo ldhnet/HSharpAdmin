@@ -116,9 +116,9 @@
 
 /** 表单验证 样式布局 */
 label.error {
-    position: absolute;
+/*    position: absolute;
     right: 18px;
-    top: 7px;
+    top: 7px;*/
     color: #ef392b;
     font-size: 12px;
     z-index: 1;

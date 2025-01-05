@@ -11,15 +11,23 @@
     @BundlerHelper.Render(HostingEnvironment.ContentRootPath, Url.Content("~/lib/jquery.validation/1.14.0/jquery.validate.min.js"))
 }
 <div class="login-panel">
-    <div class="row section">
-        <div class="col-sm-12">
+    <div class="row section"> 
             <form id="form">
                 <h1 class="no-margin">HSarpAdmin</h1>
                 <p style="margin-top: 10px !important;">用户名/密码:推荐使用Gitee登录</p>
                 <p>或加QQ群：972107977联系管理员</p>
-                <input id="userName" name="userName" class="form-control uname" col="UserName" type="text" placeholder="用户名" value="@ViewBag.UserName" />
-                <input id="password" name="password" class="form-control pword m-b" col="Password" type="password" placeholder="密码" value="@ViewBag.Password" />
-             @*    <div class="row">
+                 <div class="row">
+                    <div class="col-xs-12">
+                            <input id="userName" name="userName" class="form-control uname" col="UserName" type="text" placeholder="用户名" value="@ViewBag.UserName" />
+                    </div> 
+                </div>
+                <div class="row">
+                    <div class="col-xs-12">
+                         <input id="password" name="password" class="form-control pword m-b" col="Password" type="password" placeholder="密码" value="@ViewBag.Password" />
+                    </div> 
+                </div>
+                
+                @* <div class="row">
                     <div class="col-xs-6">
                         <input id="captchaCode" name="captchaCode" type="text" col="CaptchaCode" class="form-control code" placeholder="验证码" maxlength="3">
                     </div>
@@ -29,8 +37,13 @@
                         </a>
                     </div>
                 </div> *@
-                <div class="checkbox-custom">
-                    <input id="rememberMe" name="rememberMe" type="checkbox"> <label for="rememberMe">记住我</label>
+             
+                <div class="row">
+                    <div class="col-xs-12">
+                           <div class="checkbox-custom">
+                                <input id="rememberMe" name="rememberMe" type="checkbox"> <label for="rememberMe">记住我</label>
+                            </div>
+                    </div> 
                 </div>
                 <button class="btn btn-success btn-block" onclick="loginForm(); return false;">登录</button>
                 <div style="text-align:center;border-top: solid 1px rgba(255, 255, 255, .3); margin-top: 10px;">
@@ -41,8 +54,7 @@
                         </svg>
                     </a>
                 </div>
-            </form>
-        </div>
+            </form> 
     </div>
     <div class="login-footer">
         @*<div style="text-align:center">

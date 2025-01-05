@@ -5248,7 +5248,7 @@ label.error {
 }
 
 .form-control.error {
-    border: 1px dotted #cc5965;
+    border: 2px solid #cc5965;
 }
 /* ngGrid */
 .gridStyle {
