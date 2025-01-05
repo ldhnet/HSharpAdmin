@@ -15,6 +15,7 @@ namespace HSharp.Admin.Web.Controllers
         /// 第三方登录
         /// </summary>
         /// <returns></returns>
+        [HttpGet]
         public async Task<IActionResult> Login()
         {
             var result = await _authThirdBLL.Render();
@@ -24,7 +25,8 @@ namespace HSharp.Admin.Web.Controllers
         /// 回调地址
         /// </summary>
         /// <param name="code"></param>
-        /// <returns></returns>
+        /// <returns></returns> 
+        [HttpGet]
         public async Task<IActionResult> Callback(string code)
         {
             var tokenResult = await _authThirdBLL.Callback(code); 
@@ -37,7 +39,6 @@ namespace HSharp.Admin.Web.Controllers
             {
                 return RedirectToAction("Login", "Home");
             }
-         
         }
          
     }
