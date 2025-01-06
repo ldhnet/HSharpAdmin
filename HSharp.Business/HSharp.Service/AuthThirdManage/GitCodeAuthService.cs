@@ -90,6 +90,7 @@ namespace HSharp.Service.AuthThirdManage
                     response.EnsureSuccessStatusCode();
                     string result = await response.Content.ReadAsStringAsync();
                     thirdUser = JsonHelper.ToObject<AuthThirdUser>(result);
+                    thirdUser.login = "gitcode-" + thirdUser.login;
                     thirdUser.extJson = result;
                     return thirdUser;
                 }
