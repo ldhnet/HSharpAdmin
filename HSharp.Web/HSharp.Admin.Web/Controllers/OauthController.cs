@@ -1,8 +1,5 @@
-﻿using HSharp.Business.AuthThirdManage;
-using HSharp.Business.SystemManage;
-using HSharp.Model.Param.AuthThirdManage;
-using HSharp.Model.Result.AuthThirdManage;
-using HSharp.Util.Model;
+﻿using HSharp.Business.AuthThirdManage; 
+using HSharp.Model.Result.AuthThirdManage; 
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 

@@ -114,7 +114,7 @@ namespace HSharp.Service.AuthThirdManage
         public async Task<bool> IsCheckStarred(string token)
         {
             AuthThirdUser thirdUser = new AuthThirdUser();
-            string getCheckStarredUri = GITEE_URI + $"/api/v5/user/starred/ldhnet/HSahrpAdmin?access_token={token}";
+            string getCheckStarredUri = GITEE_URI + $"/api/v5/user/starred/ldhnet/HSharpAdmin?access_token={token}";
             using (HttpClient client = new HttpClient())
             {
                 try
@@ -130,17 +130,6 @@ namespace HSharp.Service.AuthThirdManage
                 }
             }
             return true;
-        }
-        /// <summary>
-        /// 获取三方用户分页
-        /// </summary>
-        /// <param name="authThirdUserPageParam"></param>
-        /// <returns></returns> 
-        public async Task<List<AuthThirdUser>> GetUserPage(string token, Pagination pagination)
-        {
-            string getUserPageUri = GITEE_URI + "/api/v5/user"; 
-            return await Task.FromResult(new List<AuthThirdUser>());
         } 
-
     }
 }

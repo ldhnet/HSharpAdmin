@@ -1,22 +1,16 @@
-﻿using Azure;
-using HSharp.Business.OrganizationManage;
-using HSharp.Business.SystemManage;
+﻿using HSharp.Business.OrganizationManage; 
 using HSharp.Entity.OrganizationManage;
 using HSharp.Entity.SystemManage;
 using HSharp.Enum;
 using HSharp.Model.Param.AuthThirdManage;
 using HSharp.Model.Result.AuthThirdManage;
-using HSharp.Service.AuthThirdManage;
-using HSharp.Service.OrganizationManage;
+using HSharp.Service.AuthThirdManage; 
 using HSharp.Service.SystemManage;
 using HSharp.Util;
 using HSharp.Util.Extension;
 using HSharp.Util.Model;
 using HSharp.Web.Code;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System; 
 using System.Threading.Tasks;
 
 namespace HSharp.Business.AuthThirdManage
