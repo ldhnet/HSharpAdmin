@@ -14,4 +14,12 @@ namespace HSharp.Model.Result.AuthThirdManage
         public string refresh_token { get; set; }
         public string example_parameter { get; set; }
     }
+
+    public class ThirdAuthorizeResult
+    {
+        public string code { get; set; }
+        public string error { get; set; }
+        public string error_description { get; set; }
+        public int state { get; set; }
+    }
 }

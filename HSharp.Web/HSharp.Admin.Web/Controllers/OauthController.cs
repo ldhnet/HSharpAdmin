@@ -27,9 +27,12 @@ namespace HSharp.Admin.Web.Controllers
         /// <param name="code"></param>
         /// <returns></returns> 
         [HttpGet]
-        public async Task<IActionResult> Callback(string code)
+        public async Task<IActionResult> Callback([FromQuery]ThirdAuthorizeResult param)
         {
-            var tokenResult = await _authThirdBLL.Callback(code);  
+            if (!string.IsNullOrWhiteSpace(param.error) || string.IsNullOrWhiteSpace(param.code)) {
+                return RedirectToAction("Error", "Home", new { message ="用户授权失败！"+ param.error + param.error_description });
+            }
+            var tokenResult = await _authThirdBLL.Callback(param.code);  
             var result =await _authThirdBLL.LoginHandle(tokenResult);
             if (result.Tag == 1)
             {
