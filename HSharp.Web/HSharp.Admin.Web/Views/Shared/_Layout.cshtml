@@ -45,9 +45,7 @@
 <body class="fixed-sidebar full-height-layout gray-bg login">
 @*     <mini-profiler /> *@
     @RenderBody()
-    @RenderSection("footer", false)
-
-    @BundlerHelper.Render(HostingEnvironment.ContentRootPath, Url.Content("~/hsharp/css/hsharp.min.css"))
+    @RenderSection("footer", false) 
     @BundlerHelper.Render(HostingEnvironment.ContentRootPath, Url.Content("~/hsharp/js/hsharp-init.min.js"))
 
 @* 

@@ -18,9 +18,7 @@
 </head>
 <body class="gray-bg">
     @RenderBody()
-    @RenderSection("footer", false)
-
-    @BundlerHelper.Render(HostingEnvironment.ContentRootPath, Url.Content("~/hsharp/css/hsharp.min.css"))
+    @RenderSection("footer", false) 
     @BundlerHelper.Render(HostingEnvironment.ContentRootPath, Url.Content("~/hsharp/js/hsharp-init.min.js"))
 </body>
 </html>
