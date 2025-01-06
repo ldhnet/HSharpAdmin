@@ -3,12 +3,14 @@ using HSharp.Entity.OrganizationManage;
 using HSharp.Enum;
 using HSharp.Enum.OrganizationManage;
 using HSharp.Model.Param;
+using HSharp.Model.Param.AuthThirdManage;
 using HSharp.Model.Param.OrganizationManage;
 using HSharp.Service.OrganizationManage;
 using HSharp.Util;
 using HSharp.Util.Extension;
 using HSharp.Util.Model;
 using HSharp.Web.Code;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -185,6 +187,49 @@ namespace HSharp.Business.OrganizationManage
         #endregion 获取数据
 
         #region 提交数据
+
+        public async Task<TData<UserEntity>> SaveOrUpdateOAuthUser(AuthThirdUser thirdUser,string accessToken)
+        { 
+            var obj = await this.IsExistGiteeEntity(thirdUser.id);
+            if (obj.Tag == 0 && obj.Data == null)
+            {
+                #region add user
+                var userEntity = new UserEntity();
+                userEntity.RealName = thirdUser.name;
+                userEntity.UserName = thirdUser.login;
+                userEntity.Password = "123456";
+                userEntity.Email = thirdUser.email;
+                userEntity.DepartmentId = 16508640061124402;//总公司
+                userEntity.Gender = 1;
+                userEntity.Portrait = thirdUser.avatar_url;
+                userEntity.UserStatus = 1;
+                userEntity.LoginCount = 1;
+                userEntity.IsSystem = 0;
+                userEntity.IsOnline = 0;
+                userEntity.FirstVisit = DateTime.Now;
+                userEntity.PreviousVisit = DateTime.Now;
+                userEntity.LastVisit = DateTime.Now;
+                userEntity.GiteeId = thirdUser.id;
+                userEntity.WebToken = accessToken;
+                userEntity.RoleIds = "16508640061130146";//管理员
+                var addResult = await this.SaveForm(userEntity);
+                obj.Tag = addResult.Tag;
+                userEntity.Id = addResult.Data?.ParseToLong();
+                obj.Data = userEntity;
+                #endregion
+            }
+            else if (obj.Tag == 1)
+            {
+                obj.Data.LoginCount = obj.Data.LoginCount + 1;
+                obj.Data.LastVisit = DateTime.Now;
+                obj.Data.GiteeId = thirdUser.id;
+                obj.Data.WebToken = accessToken;
+                var updateResult = await this.UpdateUser(obj.Data);
+                obj.Tag = updateResult.Tag; 
+            }
+            return obj;
+        }
+
 
         public async Task<TData<string>> SaveForm(UserEntity entity)
         {
