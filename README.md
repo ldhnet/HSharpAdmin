@@ -1,12 +1,16 @@
-<table>
-    <tr>
-       <src src="./HSharp.Web/HSharp.Admin.Web/wwwroot/image/hsharplogo.png"></src>
-    </tr>  
-</table>
+
+
 
 ## HSharpAdmin
+
+ <table>
+    <tr> 
+       <td><img width="150px" src="https://gitee.com/ldhnet/HSharpAdmin/raw/master/HSharp.Web/HSharp.Admin.Web/wwwroot/image/hsharplogo.png"/></td>
+    </tr>  
+</table>
  HSharpAdmin 基于.NET Core Web开发，让你开发Web管理系统和移动端Api更简单，它是完全开源的。
  它可以用于所有的Web应用程序，例如网站管理后台、CMS、CRM、ERP、OA这类的系统和移动端Api。
+ 
 - QQ技术交流群（972107977）
 - 预览入口 [在线预览](http://117.72.70.166:9000/Home/Login)
 - HSharpAdmin 版本 [.Net Core 6](https://gitee.com/ldhnet/HSharpAdmin/) 
@@ -31,7 +35,7 @@
    
 ## 演示图
 
-![登录页面](https://gitee.com/ldhnet/HSharpAdmin/raw/master/HSharp.Web/HSharp.Admin.Web/wwwroot/image/demo_1.jpg)
+![登录页面](https://gitee.com/ldhnet/HSharpAdmin/raw/master/HSharp.Web/HSharp.Admin.Web/wwwroot/image/demo_1.png)
 ![登录进去首页](https://gitee.com/ldhnet/HSharpAdmin/raw/master/HSharp.Web/HSharp.Admin.Web/wwwroot/image/demo_2.png)
 ![用户列表](https://gitee.com/ldhnet/HSharpAdmin/raw/master/HSharp.Web/HSharp.Admin.Web/wwwroot/image/demo_3.png)
 ![用户列表修改](https://gitee.com/ldhnet/HSharpAdmin/raw/master/HSharp.Web/HSharp.Admin.Web/wwwroot/image/demo_4.png)
