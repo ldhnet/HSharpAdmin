@@ -16,7 +16,7 @@ namespace HSharp.Service.AuthThirdManage
         public const string GITCODE_CLIENT_ID = "838c5aa3c35547a594a29a8ea90f907e";
         public const string GITCODE_CLIENT_SECRET_KEY = "972651438018400a8b6d6622fe1aa00a";
         //public const string GITCODE_REDIRECT_URL_KEY = "http://117.72.70.166:9000/Oauth/GitCodeCallback";
-        public const string GITCODE_REDIRECT_URL_KEY = "http://localhost:9000/Oauth/GitCodeCallback";
+        public const string GITCODE_REDIRECT_URL_KEY = "http://117.72.70.166:9000/Oauth/GitCodeCallback";
 
         /// <summary>
         /// 第三方登录页面渲染
@@ -28,7 +28,10 @@ namespace HSharp.Service.AuthThirdManage
             AuthThirdRenderResult authThirdRenderResult = new AuthThirdRenderResult();
             string url = GITCODE_URI + "/oauth/authorize?" + 
                 "client_id=" + GITCODE_CLIENT_ID + 
-                "&redirect_uri=" + GITCODE_REDIRECT_URL_KEY;
+                "&redirect_uri=" + GITCODE_REDIRECT_URL_KEY +
+                "&response_type=" + GITCODE_RESPONSE_TYPE +
+                "&scope=user" +
+                "&state=" + GITCODE_STATE;
             authThirdRenderResult.authorizeUrl = url;
 
             return await Task.FromResult(authThirdRenderResult);
@@ -42,24 +45,21 @@ namespace HSharp.Service.AuthThirdManage
         /// <param name="authCallback"></param>
         /// <returns></returns>
         public async Task<AuthThirdToken> Callback(string code)
-        {
-            string getTokenUri = GITCODE_URI + "/oauth/token";
-            AuthThirdToken token = new AuthThirdToken();
-            var jsonContent = new StringContent(
-                JsonSerializer.Serialize(new
-                {
-                    grant_type = "authorization_code",
-                    code,
-                    client_id = GITCODE_CLIENT_ID,
-                    client_secret = GITCODE_CLIENT_SECRET_KEY,
-                    redirect_uri = GITCODE_REDIRECT_URL_KEY,
-                }), Encoding.UTF8, "application/json");
+        { 
+            string getTokenUri = GITCODE_URI + "/oauth/token?" +
+            "client_id=" + GITCODE_CLIENT_ID +
+            "&grant_type=authorization_code" +
+            "&code=" + code +
+            "&redirect_uri=" + GITCODE_REDIRECT_URL_KEY; 
+            var formContent = new MultipartFormDataContent();
+            formContent.Add(new StringContent(GITCODE_CLIENT_SECRET_KEY), "client_secret");
 
+            var token = new AuthThirdToken();
             using (HttpClient client = new HttpClient())
             {
                 try
                 {
-                    HttpResponseMessage response = await client.PostAsync(getTokenUri, jsonContent);
+                    HttpResponseMessage response = await client.PostAsync(getTokenUri, formContent);
                     response.EnsureSuccessStatusCode();
                     string tokenResult = await response.Content.ReadAsStringAsync();
                     return JsonHelper.ToObject<AuthThirdToken>(tokenResult);

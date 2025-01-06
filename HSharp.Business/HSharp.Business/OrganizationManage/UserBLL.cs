@@ -59,10 +59,10 @@ namespace HSharp.Business.OrganizationManage
             obj.Tag = 1;
             return obj;
         }
-        public async Task<TData<UserEntity>> IsExistGiteeEntity(long id)
+        public async Task<TData<UserEntity>> IsExistGiteeEntity(string id)
         {
             TData<UserEntity> obj = new TData<UserEntity>();
-            obj.Data = await userService.GetEntity(c=>c.GiteeId == id);
+            obj.Data = await userService.GetEntity(c=>c.AuthLoginId == id);
             if (obj.Data != null)
             { 
                 obj.Tag = 1;
@@ -209,7 +209,7 @@ namespace HSharp.Business.OrganizationManage
                 userEntity.FirstVisit = DateTime.Now;
                 userEntity.PreviousVisit = DateTime.Now;
                 userEntity.LastVisit = DateTime.Now;
-                userEntity.GiteeId = thirdUser.id;
+                userEntity.AuthLoginId = thirdUser.id;
                 userEntity.WebToken = accessToken;
                 userEntity.RoleIds = "16508640061130146";//管理员
                 var addResult = await this.SaveForm(userEntity);
@@ -222,7 +222,7 @@ namespace HSharp.Business.OrganizationManage
             {
                 obj.Data.LoginCount = obj.Data.LoginCount + 1;
                 obj.Data.LastVisit = DateTime.Now;
-                obj.Data.GiteeId = thirdUser.id;
+                obj.Data.AuthLoginId = thirdUser.id;
                 obj.Data.WebToken = accessToken;
                 var updateResult = await this.UpdateUser(obj.Data);
                 obj.Tag = updateResult.Tag; 

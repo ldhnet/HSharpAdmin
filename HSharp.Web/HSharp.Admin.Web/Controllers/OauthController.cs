@@ -63,6 +63,11 @@ namespace HSharp.Admin.Web.Controllers
                 return RedirectToAction("Error", "Home", new { message = "用户授权失败！" + param.error + param.error_description });
             }
             var tokenResult = await _gitCodeAuthBLL.Callback(param.code);
+            if (string.IsNullOrWhiteSpace(tokenResult.access_token))
+            {
+                return RedirectToAction("Error", "Home", new { message = "用户授权获取access_token失败！" });
+            }
+
             var result = await _gitCodeAuthBLL.LoginHandle(tokenResult);
             if (result.Tag == 1)
             {

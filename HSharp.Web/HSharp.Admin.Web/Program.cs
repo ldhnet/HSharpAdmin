@@ -11,14 +11,12 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;  
 using Microsoft.Extensions.Hosting; 
 using Newtonsoft.Json.Serialization;
-//using StackExchange.Profiling.Storage;
-using System;
+//using StackExchange.Profiling.Storage; 
 using System.IO;
 using System.Text;
 using System.Text.Encodings.Web;
 using System.Text.Unicode;
-using HSharp.Admin.Web.Hubs;
-using Microsoft.Extensions.FileProviders;
+using HSharp.Admin.Web.Hubs; 
 
 var builder = WebApplication.CreateBuilder(args);
 

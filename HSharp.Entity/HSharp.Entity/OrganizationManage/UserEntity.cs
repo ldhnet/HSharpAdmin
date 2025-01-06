@@ -39,7 +39,7 @@ namespace HSharp.Entity.OrganizationManage
         public string Remark { get; set; }
         public string WebToken { get; set; }
         public string ApiToken { get; set; }
-        public long? GiteeId { get; set; }
+        public string AuthLoginId { get; set; }
 
         [JsonConverter(typeof(StringJsonConverter))]
         public long? DepartmentId { get; set; }

@@ -6,7 +6,8 @@
     "inputFiles": [
       "wwwroot/hsharp/css/animate.css",
       "wwwroot/hsharp/css/style.css",
-      "wwwroot/hsharp/css/skins.css"
+      "wwwroot/hsharp/css/skins.css",
+      "wwwroot/hsharp/css/hsharp.css"
     ],
     "minify": {
       "enabled": false,
@@ -23,18 +24,7 @@
       "enabled": true,
       "renameLocals": true
     }
-  },
-
-  {
-    "outputFileName": "wwwroot/hsharp/css/hsharp.min.css",
-    "inputFiles": [
-      "wwwroot/hsharp/css/hsharp.css"
-    ],
-    "minify": {
-      "enabled": true,
-      "renameLocals": true
-    }
-  },
+  }, 
   {
     "outputFileName": "wwwroot/hsharp/js/hsharp-init.min.js",
     "inputFiles": [
