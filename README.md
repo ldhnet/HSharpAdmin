@@ -5,7 +5,7 @@
 
  <table>
     <tr> 
-       <td><img width="150px" src="https://gitee.com/ldhnet/HSharpAdmin/raw/master/HSharp.Web/HSharp.Admin.Web/wwwroot/image/hsharplogo.png"/></td>
+       <td><img width="150px" src="./HSharp.Web/HSharp.Admin.Web/wwwroot/image/hsharplogo.png"/></td>
     </tr>  
 </table>
  HSharpAdmin 基于.NET Core Web开发，让你开发Web管理系统和移动端Api更简单，它是完全开源的。
@@ -14,7 +14,7 @@
 - QQ技术交流群（972107977）
 - 预览入口 [在线预览](http://117.72.70.166:9000/Home/Login)
 - HSharpAdmin 版本 [.Net Core 6](https://gitee.com/ldhnet/HSharpAdmin/) 
- 
+- 仓库地址 [Gitee仓库](https://gitee.com/ldhnet/HSharpAdmin/) | [Github仓库](https://github.com/ldhnet/HSharpAdmin/) | [GitCode仓库](https://gitcode.com/ldhnet/HSharpAdmin/) 
 ## 内置功能
 
 - 员工管理：员工是系统操作者，该功能主要完成系统用户配置
@@ -35,10 +35,10 @@
    
 ## 演示图
 
-![登录页面](https://gitee.com/ldhnet/HSharpAdmin/raw/master/HSharp.Web/HSharp.Admin.Web/wwwroot/image/demo_1.png)
-![登录进去首页](https://gitee.com/ldhnet/HSharpAdmin/raw/master/HSharp.Web/HSharp.Admin.Web/wwwroot/image/demo_2.png)
-![用户列表](https://gitee.com/ldhnet/HSharpAdmin/raw/master/HSharp.Web/HSharp.Admin.Web/wwwroot/image/demo_3.png)
-![用户列表修改](https://gitee.com/ldhnet/HSharpAdmin/raw/master/HSharp.Web/HSharp.Admin.Web/wwwroot/image/demo_4.png)
+![登录页面](./HSharp.Web/HSharp.Admin.Web/wwwroot/image/demo_1.png)
+![登录进去首页](./HSharp.Web/HSharp.Admin.Web/wwwroot/image/demo_2.png)
+![用户列表](./HSharp.Web/HSharp.Admin.Web/wwwroot/image/demo_3.png)
+![用户列表修改](./HSharp.Web/HSharp.Admin.Web/wwwroot/image/demo_4.png)
 
 ## 如何参与开源项目
 
@@ -54,7 +54,7 @@
 😀 你可以请作者喝杯咖啡表示鼓励
 <table>
     <tr>
-        <td><img src="https://gitee.com/ldhnet/AntFlow-Vue3/raw/master/public/images/wxpay.jpg"/></td>
-        <td><img src="https://gitee.com/ldhnet/AntFlow-Vue3/raw/master/public/images/alipay.jpg"/></td>
+        <td><img src="./HSharp.Web/HSharp.Admin.Web/wwwroot/image/wxpay.jpg"/></td>
+        <td><img src="./HSharp.Web/HSharp.Admin.Web/wwwroot/image/alipay.jpg"/></td>
     </tr>  
 </table>
