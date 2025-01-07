@@ -17,7 +17,7 @@ namespace HSharp.Util
                     ipLocation =await GetIpLocationFromTaoBao(ipAddress);
                     if (string.IsNullOrEmpty(ipLocation))
                     {
-                        ipLocation = GetIpLocationFromPCOnline(ipAddress);
+                        ipLocation = await GetIpLocationFromPCOnline(ipAddress);
                     }
                 }
             }
@@ -47,9 +47,9 @@ namespace HSharp.Util
             return ipLocation;
         }
 
-        private static string GetIpLocationFromPCOnline(string ipAddress)
+        private static async Task<string> GetIpLocationFromPCOnline(string ipAddress)
         {
-            HttpResult httpResult = new HttpHelper().GetHtml(new HttpItem
+            HttpResult httpResult = await HttpHelper.GetHtml(new HttpItem
             {
                 URL = "http://whois.pconline.com.cn/ip.jsp?ip=" + ipAddress,
                 ContentType = "text/html; charset=gb2312"

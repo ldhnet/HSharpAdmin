@@ -2,17 +2,18 @@
 using System.Text;
 using NUnit.Framework;
 using HSharp.Util;
+using System.Threading.Tasks;
 
 namespace HSharp.UtilTest
 {
     public class HttpHelperTest
     {
         [Test]
-        public void TestMD5Encrypt()
+        public async Task TestMD5Encrypt()
         {
             Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);  // 注册Encoding
-
-            HttpResult httpResult = new HttpHelper().GetHtml(new HttpItem
+       
+            HttpResult httpResult =await HttpHelper.GetHtml(new HttpItem
             {
                 //URL = "http://whois.pconline.com.cn/ip.jsp?ip=117.64.156.76",
 
