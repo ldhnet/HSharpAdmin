@@ -172,41 +172,16 @@ namespace HSharp.Admin.Web.Controllers
             {
                 await new UserBLL().UpdateUser(userObj.Data);
                 await Operator.Instance.AddCurrent(userObj.Data.WebToken);
-            }
-
-            string ip = NetHelper.Ip;
-            string browser = NetHelper.Browser;
-            string os = NetHelper.GetOSVersion();
-            string userAgent = NetHelper.UserAgent;
-
-            Action taskAction = async () =>
-            {
-                LogLoginEntity logLoginEntity = new LogLoginEntity
-                {
-                    LogStatus = userObj.Tag == 1 ? OperateStatusEnum.Success.ParseToInt() : OperateStatusEnum.Fail.ParseToInt(),
-                    Remark = userObj.Message,
-                    IpAddress = ip,
-                    IpLocation = IpLocationHelper.GetIpLocation(ip),
-                    Browser = browser,
-                    OS = os,
-                    ExtraRemark = userAgent,
-                    BaseCreatorId = userObj.Data?.Id
-                };
-
-                // 让底层不用获取HttpContext
-                logLoginEntity.BaseCreatorId = logLoginEntity.BaseCreatorId ?? 0;
-
-                await logLoginBLL.SaveForm(logLoginEntity);
-            };
-            AsyncTaskHelper.StartTask(taskAction);
+            } 
             if (userObj.Tag == 1)
             {
                 Action taskAddUnreadMsg = async () =>
-                {
+                { 
                     await sysMessageBLL.SendUnreadMessageToUser(userObj.Data.Id.ParseToLong());
                 };
                 AsyncTaskHelper.StartTask(taskAddUnreadMsg);
             }
+            await logLoginBLL.SaveLoginLog(userObj.Data?.Id, userObj.Tag, userObj.Message);
             obj.Tag = userObj.Tag;
             obj.Message = userObj.Message;
             return Json(obj);

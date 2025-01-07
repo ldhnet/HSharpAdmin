@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 
 namespace HSharp.Util
 {
@@ -6,14 +7,14 @@ namespace HSharp.Util
     {
         #region IP位置查询
 
-        public static string GetIpLocation(string ipAddress)
+        public static async Task<string> GetIpLocation(string ipAddress)
         {
             string ipLocation = string.Empty;
             try
             {
                 if (!IsInnerIP(ipAddress))
                 {
-                    ipLocation = GetIpLocationFromTaoBao(ipAddress);
+                    ipLocation =await GetIpLocationFromTaoBao(ipAddress);
                     if (string.IsNullOrEmpty(ipLocation))
                     {
                         ipLocation = GetIpLocationFromPCOnline(ipAddress);
@@ -27,11 +28,11 @@ namespace HSharp.Util
             return ipLocation;
         }
 
-        private static string GetIpLocationFromTaoBao(string ipAddress)
+        private static async Task<string> GetIpLocationFromTaoBao(string ipAddress)
         {
             string url = "http://ip.taobao.com/service/getIpInfo2.php";
             string postData = string.Format("ip={0}", ipAddress);
-            string result = HttpHelper.HttpPost(url, postData);
+            string result =await HttpHelper.HttpPost(url, postData);
             string ipLocation = string.Empty;
             if (!string.IsNullOrEmpty(result))
             {

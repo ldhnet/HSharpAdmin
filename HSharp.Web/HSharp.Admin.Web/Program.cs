@@ -16,7 +16,8 @@ using System.IO;
 using System.Text;
 using System.Text.Encodings.Web;
 using System.Text.Unicode;
-using HSharp.Admin.Web.Hubs; 
+using HSharp.Admin.Web.Hubs;
+using System;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -60,7 +61,15 @@ builder.Services.AddSession();
 builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddOptions();
-builder.Services.AddSignalR();
+builder.Services.AddSignalR(options =>
+{
+    // 设置客户端超时时间（默认30秒）
+    options.ClientTimeoutInterval = TimeSpan.FromSeconds(60);
+    // 设置服务器超时时间，客户端未发送消息的最大间隔时间（默认15秒）
+    options.KeepAliveInterval = TimeSpan.FromSeconds(10);
+    // 设置连接最大寿命时间（可选）
+    options.HandshakeTimeout = TimeSpan.FromSeconds(15);
+});
 
     //builder.Services.AddSignalR(hubOptions =>
     //{

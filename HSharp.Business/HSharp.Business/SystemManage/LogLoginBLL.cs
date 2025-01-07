@@ -1,8 +1,10 @@
 ﻿using HSharp.Entity.SystemManage;
+using HSharp.Enum;
 using HSharp.Model.Param.SystemManage;
 using HSharp.Service.SystemManage;
+using HSharp.Util;
 using HSharp.Util.Extension;
-using HSharp.Util.Model;
+using HSharp.Util.Model; 
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -42,6 +44,28 @@ namespace HSharp.Business.SystemManage
         #endregion 获取数据
 
         #region 提交数据
+        public async Task SaveLoginLog(long? userId, int tag, string message)
+        {
+            string ip = NetHelper.Ip;
+            string browser = NetHelper.Browser;
+            string os = NetHelper.GetOSVersion();
+            string userAgent = NetHelper.UserAgent; 
+            LogLoginEntity logLoginEntity = new LogLoginEntity
+            {
+                LogStatus = tag == 1 ? OperateStatusEnum.Success.ParseToInt() : OperateStatusEnum.Fail.ParseToInt(),
+                Remark = message,
+                IpAddress = ip,
+                IpLocation = await IpLocationHelper.GetIpLocation(ip),
+                Browser = browser,
+                OS = os,
+                ExtraRemark = userAgent,
+                BaseCreatorId = userId??0
+            }; 
+            // 让底层不用获取HttpContext
+            logLoginEntity.BaseCreatorId = logLoginEntity.BaseCreatorId ?? 0; 
+            await this.SaveForm(logLoginEntity);
+        }
+
 
         public async Task<TData<string>> SaveForm(LogLoginEntity entity)
         {

@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Net;
 using System.Net.Sockets;
+using System.Threading.Tasks;
 
 namespace HSharp.Util
 {
@@ -78,13 +79,13 @@ namespace HSharp.Util
             return string.Empty;
         }
 
-        public static string GetWanIp()
+        public static async Task<string> GetWanIp()
         {
             string ip = string.Empty;
             try
             {
                 string url = "http://www.net.cn/static/customercare/yourip.asp";
-                string html = HttpHelper.HttpGet(url);
+                string html =await HttpHelper.HttpGet(url);
                 if (!string.IsNullOrEmpty(html))
                 {
                     ip = HtmlHelper.Resove(html, "<h2>", "</h2>");

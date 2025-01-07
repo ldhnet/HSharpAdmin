@@ -1,13 +1,17 @@
-﻿using HSharp.Util.Extension;
+﻿using HSharp.Util.Extension; 
+using NPOI.SS.Formula.Functions;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
 using System.Net;
+using System.Net.Http; 
 using System.Net.Security;
-using System.Security.Cryptography.X509Certificates;
+using System.Security.Cryptography.X509Certificates; 
 using System.Text;
+using System.Text.Json;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks; 
 
 namespace HSharp.Util
 {
@@ -31,8 +35,7 @@ namespace HSharp.Util
             }
         }
 
-        #endregion 是否是网址
-
+        #endregion 是否是网址 
         #region 模拟GET
 
         /// <summary>
@@ -41,21 +44,17 @@ namespace HSharp.Util
         /// <param name="url">The URL.</param>
         /// <param name="postDataStr">The post data string.</param>
         /// <returns>System.String.</returns>
-        public static string HttpGet(string url, int timeout = 10 * 1000)
+        public static async Task<string> HttpGet(string url, int timeout = 10 * 1000)
         {
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
-            request.Method = "GET";
-            request.ContentType = "text/html;charset=UTF-8";
-            request.Timeout = timeout;
-
-            HttpWebResponse response = (HttpWebResponse)request.GetResponse();
-            Stream myResponseStream = response.GetResponseStream();
-            StreamReader myStreamReader = new StreamReader(myResponseStream, Encoding.GetEncoding("utf-8"));
-            string retString = myStreamReader.ReadToEnd();
-            myStreamReader.Close();
-            myResponseStream.Close();
-
-            return retString;
+            using (HttpClient client = new HttpClient())
+            {
+                client.Timeout = TimeSpan.FromSeconds(timeout);
+                client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("text/html;charset=UTF-8"));
+                client.DefaultRequestHeaders.Add("User-Agent", "HttpClientFactory-Sample");
+                HttpResponseMessage response = await client.GetAsync(url);
+                response.EnsureSuccessStatusCode();
+                return await response.Content.ReadAsStringAsync();
+            }
         }
 
         #endregion 模拟GET
@@ -68,45 +67,18 @@ namespace HSharp.Util
         /// <param name="posturl">The posturl.</param>
         /// <param name="postData">The post data.</param>
         /// <returns>System.String.</returns>
-        public static string HttpPost(string posturl, string postData, string contentType = "application/x-www-form-urlencoded", int timeout = 10 * 1000)
+        public static async Task<string> HttpPost(string posturl, string postData, string contentType = "application/x-www-form-urlencoded", int timeout = 10 * 1000)
         {
-            Stream outstream = null;
-            Stream instream = null;
-            StreamReader sr = null;
-            HttpWebResponse response = null;
-            HttpWebRequest request = null;
-            Encoding encoding = Encoding.GetEncoding("utf-8");
-            byte[] data = encoding.GetBytes(postData);
-            // 准备请求...
-            try
+            using (HttpClient client = new HttpClient())
             {
-                // 设置参数
-                request = WebRequest.Create(posturl) as HttpWebRequest;
-                CookieContainer cookieContainer = new CookieContainer();
-                request.CookieContainer = cookieContainer;
-                request.AllowAutoRedirect = true;
-                request.Method = "POST";
-                request.ContentType = contentType;
-                request.Timeout = timeout;
-                request.ContentLength = data.Length;
-                outstream = request.GetRequestStream();
-                outstream.Write(data, 0, data.Length);
-                outstream.Close();
-                //发送请求并获取相应回应数据
-                response = request.GetResponse() as HttpWebResponse;
-                //直到request.GetResponse()程序才开始向目标网页发送Post请求
-                instream = response.GetResponseStream();
-                sr = new StreamReader(instream, encoding);
-                //返回结果网页（html）代码
-                string content = sr.ReadToEnd();
-                string err = string.Empty;
-                return content;
-            }
-            catch (Exception ex)
-            {
-                string err = ex.Message;
-                return string.Empty;
-            }
+                client.Timeout = TimeSpan.FromSeconds(timeout);
+                client.DefaultRequestHeaders.Add("ContentType", "application/x-www-form-urlencoded"); 
+                client.DefaultRequestHeaders.Add("User-Agent", "HttpClientFactory-Sample");
+                var jsonContent = new StringContent(JsonSerializer.Serialize(postData), Encoding.UTF8, "application/json");
+                HttpResponseMessage response = await client.PostAsync(posturl, jsonContent);                 
+                response.EnsureSuccessStatusCode();
+                return await response.Content.ReadAsStringAsync();  
+            } 
         }
 
         /// <summary>
@@ -209,7 +181,7 @@ namespace HSharp.Util
                     {
                         string temp = Encoding.Default.GetString(RawResponse, 0, RawResponse.Length);
                         //<meta(.*?)charset([\s]?)=[^>](.*?)>
-                        Match meta = Regex.Match(temp, "<meta([^<]*)charset=([^<]*)[\"']", RegexOptions.IgnoreCase | RegexOptions.Multiline);
+                        System.Text.RegularExpressions.Match meta = Regex.Match(temp, "<meta([^<]*)charset=([^<]*)[\"']", RegexOptions.IgnoreCase | RegexOptions.Multiline);
                         string charter = (meta.Groups.Count > 2) ? meta.Groups[2].Value : string.Empty;
                         charter = charter.Replace("\"", string.Empty).Replace("'", string.Empty).Replace(";", string.Empty);
                         if (charter.Length > 0)

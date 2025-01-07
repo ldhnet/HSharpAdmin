@@ -9,6 +9,7 @@ using HSharp.Admin.Web.Controllers;
 using HSharp.Model.Result.SystemManage;
 using HSharp.Util;
 using HSharp.Util.Model;
+using System.Threading.Tasks;
 
 namespace HSharp.Admin.Web.Areas.ToolManage.Controllers
 {
@@ -44,11 +45,11 @@ namespace HSharp.Admin.Web.Areas.ToolManage.Controllers
             return Json(obj);
         }
 
-        public IActionResult GetServerIpJson()
+        public async Task<IActionResult> GetServerIpJson()
         {
             TData<string> obj = new TData<string>();
-            string ip = NetHelper.GetWanIp();
-            string ipLocation = IpLocationHelper.GetIpLocation(ip);
+            string ip =await NetHelper.GetWanIp();
+            string ipLocation = await IpLocationHelper.GetIpLocation(ip);
             obj.Data = string.Format("{0} ({1})", ip, ipLocation);
             obj.Tag = 1;
             return Json(obj);

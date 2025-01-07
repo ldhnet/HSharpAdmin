@@ -1,4 +1,5 @@
-﻿using HSharp.Business.OrganizationManage;  
+﻿using HSharp.Business.OrganizationManage;
+using HSharp.Business.SystemManage;
 using HSharp.Entity.SystemManage;
 using HSharp.Enum;
 using HSharp.Model.Param.AuthThirdManage;
@@ -18,7 +19,7 @@ namespace HSharp.Business.AuthThirdManage
     {
         private UserBLL _userBLL = new UserBLL();
         private GiteeAuthService _giteeAuthService = new GiteeAuthService();
-        private LogLoginService _logLoginService = new LogLoginService();
+        private LogLoginBLL _logLoginBLL = new LogLoginBLL();
         /// <summary>
         /// Render申请code url
         /// </summary>
@@ -64,30 +65,10 @@ namespace HSharp.Business.AuthThirdManage
             //var aaa = await IsCheckStarred(token.access_token);  
             var thirdUser = await _giteeAuthService.GetThirdUserDetail(token.access_token);
             var returnUser = await _userBLL.SaveOrUpdateOAuthUser(thirdUser, token.access_token); 
-            await Operator.Instance.AddCurrent(token.access_token);
-            string ip = NetHelper.Ip;
-            string browser = NetHelper.Browser;
-            string os = NetHelper.GetOSVersion();
-            string userAgent = NetHelper.UserAgent;
-
+            await Operator.Instance.AddCurrent(token.access_token); 
             Action taskAction = async () =>
             {
-                LogLoginEntity logLoginEntity = new LogLoginEntity
-                {
-                    LogStatus = returnUser.Tag == 1 ? OperateStatusEnum.Success.ParseToInt() : OperateStatusEnum.Fail.ParseToInt(),
-                    Remark = returnUser.Message,
-                    IpAddress = ip,
-                    IpLocation = IpLocationHelper.GetIpLocation(ip),
-                    Browser = browser,
-                    OS = os,
-                    ExtraRemark = userAgent,
-                    BaseCreatorId = returnUser.Data?.Id
-                };
-
-                // 让底层不用获取HttpContext
-                logLoginEntity.BaseCreatorId = logLoginEntity.BaseCreatorId ?? 0;
-
-                await _logLoginService.SaveForm(logLoginEntity);
+                await _logLoginBLL.SaveLoginLog(returnUser.Data?.Id, returnUser.Tag, returnUser.Message); 
             };
             AsyncTaskHelper.StartTask(taskAction);
             return returnUser;
