@@ -1,0 +1,15 @@
+{
+  //Smtp邮箱配置
+  "MailConfig": {
+    //主机IP
+    "Host": "qq.com",
+    //端口
+    "Port": "443",
+    //用户名
+    "UserName": "574427343@qq.com",
+    //密码
+    "Password": "574427343",
+    //发送者邮箱
+    "SenderAddress": "123456@qq.com"
+  }
+}

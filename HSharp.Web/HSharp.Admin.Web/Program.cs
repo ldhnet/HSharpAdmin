@@ -30,6 +30,10 @@ builder.WebHost.ConfigureLogging(logging =>
                    });
 builder.WebHost.UseNLog();
 
+builder.Configuration.SetBasePath(Directory.GetCurrentDirectory());
+builder.Configuration.AddJsonFile("appsettings.json", true, true);
+builder.Configuration.AddJsonFile("emailconfig.json", true, true);
+builder.Configuration.AddJsonFile("rabbitmqconfig.json", true, true);
 var Configuration = builder.Configuration;
 var env = builder.Environment;
 
@@ -55,12 +59,19 @@ builder.Services.AddControllersWithViews(options =>
     // 返回数据首字母不小写，CamelCasePropertyNamesContractResolver是小写
     options.SerializerSettings.ContractResolver = new DefaultContractResolver();
 });
-
+#region 支持ASP.NET CORE内存缓存组件
 builder.Services.AddMemoryCache();
+#endregion
+
+#region 支持ASP.NET CORESession组件
 builder.Services.AddSession();
+#endregion
+
 builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddOptions();
+
+#region 启用系统SignalR应用
 builder.Services.AddSignalR(options =>
 {
     // 设置客户端超时时间（默认30秒）
@@ -71,11 +82,12 @@ builder.Services.AddSignalR(options =>
     options.HandshakeTimeout = TimeSpan.FromSeconds(15);
 });
 
-    //builder.Services.AddSignalR(hubOptions =>
-    //{
-    //    //如果客户端在定义的时间跨度内没有响应，它将触发OnDisconnectedAsync
-    //    hubOptions.KeepAliveInterval = TimeSpan.FromSeconds(60 * 60);
-    //});
+//builder.Services.AddSignalR(hubOptions =>
+//{
+//    //如果客户端在定义的时间跨度内没有响应，它将触发OnDisconnectedAsync
+//    hubOptions.KeepAliveInterval = TimeSpan.FromSeconds(60 * 60);
+//});
+#endregion
 
 builder.Services.AddDataProtection().PersistKeysToFileSystem(new DirectoryInfo(env.ContentRootPath + Path.DirectorySeparatorChar + "DataProtection"));
 
@@ -87,14 +99,14 @@ GlobalContext.Services = builder.Services;
 
 InitConfiguration();
 
-    //全局静态配置热更新
-    //ChangeToken.OnChange(() => Configuration.GetReloadToken(), () =>
-    //{
-    //    InitConfiguration();
-    //});
+//全局静态配置热更新
+//ChangeToken.OnChange(() => Configuration.GetReloadToken(), () =>
+//{
+//    InitConfiguration();
+//});
 
 #endregion
- 
+
 #region 注册MiniProfiler性能分析组件
 
 //builder.Services.AddMiniProfiler(options =>
@@ -110,16 +122,18 @@ InitConfiguration();
 #endregion
 
 //env.ContentRootPath = env.ContentRootPath + "wwwroot";
-
+#region 初始化启动日志
 GlobalContext.LogWhenStart(env);
 GlobalContext.HostingEnvironment = env;
+#endregion
 
-var app= builder.Build();
+var app = builder.Build();
 
 if (!string.IsNullOrEmpty(GlobalContext.SystemConfig.VirtualDirectory))
 {
     app.UsePathBase(new PathString(GlobalContext.SystemConfig.VirtualDirectory)); // 让 Pathbase 中间件成为第一个处理请求的中间件， 才能正确的模拟虚拟路径
 }
+#region 系统全局默认启用项目
 if (env.IsDevelopment())
 {
     GlobalContext.SystemConfig.Debug = true;
@@ -153,7 +167,11 @@ app.UseEndpoints(endpoints =>
     endpoints.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
     endpoints.MapHub<ChatHub>("/chathub");
 });
+#endregion
+
+#region 初始化系统全局配置
 GlobalContext.ServiceProvider = app.Services;
+#endregion
 
 app.MapControllers();
 app.Run();
@@ -166,6 +184,8 @@ app.Run();
 /// </summary>
 void InitConfiguration()
 {
+    GlobalContext.LogConfig = Configuration.GetSection("LogDevConfig").Get<LogConfig>();
+
     GlobalContext.Configuration = Configuration;
     GlobalContext.SystemConfig = Configuration.GetSection("SystemConfig").Get<SystemConfig>();
     GlobalContext.RedisConfig = Configuration.GetSection("RedisConfig").Get<RedisConfig>();
