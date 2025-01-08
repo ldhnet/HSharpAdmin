@@ -128,10 +128,26 @@
                         </div>
                     </div>
                 </div>
+            </div> 
+            <div class="col-sm-4">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>服务器信息</h5>
+                        <div class="ibox-tools">
+                            <a class="collapse-link">
+                                <i class="fa fa-chevron-up"></i>
+                            </a>
+                            <a class="close-link"><i class="fa fa-times"></i></a>
+                        </div>
+                    </div>
+                    <div class="ibox-content" style="font-size:14px">
+                        <div id="status">
+                            <p>Loading...</p>
+                        </div>
+                    </div>
+                </div>
             </div>
-            
-        </div>
-
+        </div> 
     </div>
 </div>
 <script>
@@ -163,4 +179,20 @@
 
     });
 
+    const eventSource = new EventSource('/api/serverstatus/status');
+    eventSource.onmessage = function (event) {
+    const status = JSON.parse(event.data); 
+    document.getElementById('status').innerHTML = `
+         <p><strong>MachineName:</strong> ${status.MachineName}</p>
+         <p><strong>ProcessID:</strong> ${status.ProcessID}</p>
+         <p><strong>ProcessName:</strong> ${status.ProcessName}</p>
+         <p><strong>CPU Usage:</strong> ${status.CPU}</p>
+         <p><strong>Memory Usage:</strong> ${status.Memory}</p>
+         <p><strong>Uptime:</strong> ${status.Uptime}</p>
+         <p><strong>Disk Usage:</strong> ${status.DiskUsage}</p> 
+         <p><strong>Timestamp:</strong> ${status.Timestamp}</p>`;
+    }; 
+    eventSource.onerror = function (error) {
+       console.error("Error occurred: ", error);
+    };
 </script>

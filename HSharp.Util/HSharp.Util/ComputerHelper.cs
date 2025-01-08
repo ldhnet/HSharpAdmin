@@ -1,5 +1,7 @@
 ﻿using HSharp.Util.Extension;
 using System;
+using System.IO;
+using System.Linq;
 using System.Runtime.InteropServices;
 
 namespace HSharp.Util
@@ -17,6 +19,7 @@ namespace HSharp.Util
                 computerInfo.RAMRate = Math.Ceiling(100 * memoryMetrics.Used / memoryMetrics.Total).ToString() + " %";
                 computerInfo.CPURate = Math.Ceiling(GetCPURate().ParseToDouble()) + " %";
                 computerInfo.RunTime = GetRunTime();
+                computerInfo.DiskUsage = GetDiskUsage();
             }
             catch (Exception ex)
             {
@@ -47,6 +50,39 @@ namespace HSharp.Util
             return cpuRate;
         }
 
+        /// <summary>
+        ///  获取磁盘使用情况（Windows）
+        /// </summary>
+        /// <returns></returns>
+        public static string GetDiskUsage()
+        {
+            try
+            {
+                if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+                {
+                    var drive = DriveInfo.GetDrives().FirstOrDefault(d => d.IsReady);
+                    if (drive != null)
+                    {
+                        return $"{drive.TotalFreeSpace / (1024 * 1024 * 1024)} GB free of {drive.TotalSize / (1024 * 1024 * 1024)} GB";
+                    }
+                }
+                if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+                {
+                    var drive = DriveInfo.GetDrives().FirstOrDefault(d => d.IsReady);
+                    if (drive != null)
+                    {
+                        return $"{drive.TotalFreeSpace / (1024 * 1024 * 1024)} GB free of {drive.TotalSize / (1024 * 1024 * 1024)} GB";
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+
+              return  $"Error retrieving network usage on Windows: {ex.Message}";
+            }
+       
+            return "N/A";
+        }
         public static string GetRunTime()
         {
             string runTime = string.Empty;
@@ -147,5 +183,9 @@ namespace HSharp.Util
         /// 系统运行时间
         /// </summary>
         public string RunTime { get; set; }
+        /// <summary>
+        /// 获取磁盘使用情况（Windows/Linux）
+        /// </summary>
+        public string DiskUsage { get; set; }
     }
 }
