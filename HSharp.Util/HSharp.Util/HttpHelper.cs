@@ -1,19 +1,13 @@
-﻿using HSharp.Util.Extension; 
-using NPOI.SS.Formula.Functions;
+﻿using HSharp.Util.Extension;  
 using System;
 using System.Collections.Generic;
-using System.IO;
-using System.IO.Compression;
+using System.IO; 
 using System.Net;
-using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Net.Security;
+using System.Net.Http; 
 using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates; 
 using System.Text;
-using System.Text.Json;
-using System.Text.RegularExpressions;
-using System.Threading;
+using System.Text.Json; 
 using System.Threading.Tasks; 
 
 namespace HSharp.Util
@@ -52,8 +46,7 @@ namespace HSharp.Util
         {
             using (HttpClient client = new HttpClient())
             {
-                client.Timeout = TimeSpan.FromSeconds(timeout);
-                client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("text/html;charset=UTF-8"));
+                client.Timeout = TimeSpan.FromSeconds(timeout); 
                 client.DefaultRequestHeaders.Add("User-Agent", "HttpClientFactory-Sample");
                 HttpResponseMessage response = await client.GetAsync(url);
                 response.EnsureSuccessStatusCode();
@@ -75,8 +68,7 @@ namespace HSharp.Util
         {
             using (HttpClient client = new HttpClient())
             {
-                client.Timeout = TimeSpan.FromSeconds(timeout);
-                client.DefaultRequestHeaders.Add("Content-Type", "application/x-www-form-urlencoded"); 
+                client.Timeout = TimeSpan.FromSeconds(timeout); 
                 client.DefaultRequestHeaders.Add("User-Agent", "HttpClientFactory-Sample");
                 var jsonContent = new StringContent(JsonSerializer.Serialize(postData), Encoding.UTF8, "application/json");
                 HttpResponseMessage response = await client.PostAsync(posturl, jsonContent);                 
@@ -206,8 +198,7 @@ namespace HSharp.Util
         }
          
         #endregion 预定义方法或者变更
-
-  
+          
     } 
     /// <summary>
     /// Http请求参考类

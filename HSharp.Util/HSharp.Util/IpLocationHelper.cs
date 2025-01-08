@@ -15,10 +15,11 @@ namespace HSharp.Util
                 if (!IsInnerIP(ipAddress))
                 {
                     ipLocation =await GetIpLocationFromTaoBao(ipAddress);
+                    //内网IP判断
                     if (string.IsNullOrEmpty(ipLocation))
                     {
                         ipLocation = await GetIpLocationFromPCOnline(ipAddress);
-                    }
+                    }                    
                 }
             }
             catch (Exception ex)

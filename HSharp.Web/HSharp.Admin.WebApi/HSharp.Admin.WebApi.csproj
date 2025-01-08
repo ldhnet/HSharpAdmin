@@ -6,11 +6,17 @@
     <FileVersion>6.0.0.0</FileVersion>
     <Copyright>HSharpAdmin</Copyright>
   </PropertyGroup>
-
+	
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>HSharp.Admin.WebApi.xml</DocumentationFile>
+	 <NoWarn>1701;1702;CS1591</NoWarn>
+	 <DocumentationFile>HSharp.Admin.WebApi.xml</DocumentationFile>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+	 <NoWarn>1701;1702;CS1591</NoWarn>
+	 <DocumentationFile>HSharp.Admin.WebApi.xml</DocumentationFile>
+  </PropertyGroup> 
+	
   <ItemGroup>
     <Content Include="dotnet_run.bat">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
