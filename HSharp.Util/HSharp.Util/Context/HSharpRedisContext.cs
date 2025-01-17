@@ -25,13 +25,13 @@ namespace HSharp.Util.Context
         {
             if (!GlobalContext.RedisConfig.SupportRedisSentinel)
             {
-                var redisClient = new CSRedis.CSRedisClient(GlobalContext.RedisConfig.ConnectionString);
+                var redisClient = new CSRedisClient(GlobalContext.RedisConfig.ConnectionString);
                 RedisHelper.Initialization(redisClient);
                 return redisClient;
             }
             else
             {
-                var redisClient = new CSRedis.CSRedisClient(
+                var redisClient = new CSRedisClient(
                     GlobalContext.RedisConfig.ConnectionString,
                     GlobalContext.RedisConfig.RedisSentinels.Split(',')
                     );
