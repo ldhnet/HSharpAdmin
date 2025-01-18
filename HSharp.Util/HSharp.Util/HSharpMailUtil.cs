@@ -26,9 +26,7 @@ namespace HSharp.Util
             var userName = GlobalContext.MailConfig.UserName;
             var password = GlobalContext.MailConfig.Password;
             var senderAddress = GlobalContext.MailConfig.SenderAddress;
-
             SmtpClient mailClient = null;
-
             try
             {
                 if (port != null && port > 0)
@@ -39,40 +37,33 @@ namespace HSharp.Util
                 {
                     mailClient = new SmtpClient(host);
                 }
-
                 //SMTP服务器身份验证
                 mailClient.Credentials = new NetworkCredential(userName, password);
-
                 //发件人地址、收件人地址
                 MailMessage message = new MailMessage(senderAddress, to);
-
                 //邮件主题
                 message.Subject = subject;
-
                 //邮件内容
                 message.Body = body;
-
                 //是否html格式
                 if (isBodyHtml)
                 {
                     message.IsBodyHtml = true;
                 }
-
                 foreach (var file in files)
                 {
                     //附件
                     Attachment att = new Attachment(file.FullName);
-
                     //添加附件
                     message.Attachments.Add(att);
                 }
-
                 //发送
                 mailClient.Send(message);
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
+                LogHelper.Error(ex);
             }
         }
     }
