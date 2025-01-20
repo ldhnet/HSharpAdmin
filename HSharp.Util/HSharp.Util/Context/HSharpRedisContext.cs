@@ -1,5 +1,4 @@
-﻿using CSRedis;
-using StackExchange.Redis;
+﻿using CSRedis; 
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -429,23 +428,25 @@ namespace HSharp.Util.Context
             var value = pattern.Split('=')[1];
             return value;
         }
-
+        ///  如果不存在则执行，存在则忽略
+        /// <param name="value"></param>
+        public static bool SetNx(string key, string value)
+        {
+            var res = Instance.SetNx(key, value);
+            return res;
+        }  
         /// <summary>
         /// 分布式锁
         /// </summary>
         /// <param name="lockKey">锁名称，不可重复</param>
         /// <param name="action">委托事件</param>
         /// <returns>bool</returns>
-        public static bool LockTake(String lockKey, Action action)
+        public static bool LockTake(string lockKey, Action action)
         {
-            var result = false;
-
-            var multiplexer = HSharpRedisContext.GetConnectionMultiplexer();
-            var database = multiplexer.GetDatabase();
+            var result = false; 
             //token用来标识谁拥有该锁并用来释放锁。
-            RedisValue token = Environment.MachineName;
-            //TimeSpan表示该锁的有效时间。10秒后自动释放，避免死锁。
-            if (database.LockTake(lockKey, token, TimeSpan.FromSeconds(10)))
+            var token = Environment.MachineName; 
+            if (Instance.SetNx(lockKey, token))
             {
                 try
                 {
@@ -454,73 +455,34 @@ namespace HSharp.Util.Context
                 }
                 finally
                 {
-                    database.LockRelease(lockKey, token);//释放锁
-                    multiplexer.Close();
+                    //释放锁
+                   ReleaseLock(lockKey, token);
                 }
-            }
-
+            } 
             return result;
         }
-
         /// <summary>
-        /// 模糊匹配
+        /// 删除共享锁
         /// </summary>
-        /// <param name="pattern">匹配表达式</param>
-        /// <returns>RedisKey列表</returns>
-        public static List<RedisKey> PatternSearch(String pattern)
-        {
-            var list = new List<RedisKey>();
-
-            var multiplexer = HSharpRedisContext.GetConnectionMultiplexer();
-            var database = multiplexer.GetDatabase();
-            foreach (var endPoint in multiplexer.GetEndPoints())
-            {
-                var _server = multiplexer.GetServer(endPoint);
-                //StackExchange.Redis 会根据redis版本决定用keys还是scan(>2.8)
-                var keys = _server.Keys(database: database.Database, pattern: pattern);
-                list.AddRange(keys.ToList());
-            }
-            multiplexer.Close();
-
-            return list;
-        }
-        /// <summary>
-        /// 获取ConnectionMultiplexer
-        /// </summary>
+        /// <param name="key">锁名称，不可重复</param>
         /// <returns></returns>
-        public static ConnectionMultiplexer GetConnectionMultiplexer()
+        public static bool ReleaseLock(string key, string token)
         {
-            var connStr = GlobalContext.RedisConfig.ConnectionString;
-            if (!GlobalContext.RedisConfig.SupportRedisSentinel)
+            var script = GetReleaseLockScript();
+            var res = Instance.Eval(script, key, token);
+            if (0 == (long)res)
             {
-                ConnectionMultiplexer multiplexer = ConnectionMultiplexer.Connect(connStr);
-                return multiplexer;
+                return false;
             }
-            else
-            {
-                //ConfigurationOptions sentinelOptions = new ConfigurationOptions();
-                //foreach (var item in GlobalContext.RedisConfig.RedisSentinels.Split(','))
-                //{
-                //    sentinelOptions.EndPoints.Add(item);
-                //}
-                //sentinelOptions.TieBreaker = "";
-                //sentinelOptions.CommandMap = CommandMap.Sentinel;
-                //sentinelOptions.AbortOnConnectFail = true;
-                //ConnectionMultiplexer sentinelConnection = ConnectionMultiplexer.Connect(sentinelOptions);
+            return true;
+        }
 
-                //ConfigurationOptions redisServiceOptions = new ConfigurationOptions();
-                ////Sentinel连接串："mymaster1,password=redis_pwd,defaultDatabase=1,ssl=false,writeBuffer=10240"
-                //redisServiceOptions.ServiceName = connStr.Split(',')[0];//master名称，例如"mymaster1"
-                //redisServiceOptions.Password = GlobalContext.GetDefaultValue(connStr, "password");//master访问密码，例如"redis_pwd"
-                //redisServiceOptions.AbortOnConnectFail = true;
-                //redisServiceOptions.AllowAdmin = true;
-                //ConnectionMultiplexer masterConnection = sentinelConnection.GetSentinelMasterConnection(redisServiceOptions);
-
-                //return masterConnection;
-
-                throw new InvalidOperationException("暂时不支持哨兵模式");
-
-            }
+        ///  lua脚本删除共享锁
+        ///  解决在A申请锁 xxkey  过期的瞬间，B 申请锁xxkey,
+        ///  此时恰好A执行到释放xxkey从而引起的异常释放
+        private static string GetReleaseLockScript()
+        {
+            return "if redis.call(\"get\",KEYS[1]) == ARGV[1] \nthen\nreturn redis.call(\"del\", KEYS[1])\nelse\nreturn 0\nend";
         }
     }
 }
