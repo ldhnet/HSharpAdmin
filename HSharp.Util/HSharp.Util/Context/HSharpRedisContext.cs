@@ -48,13 +48,17 @@ namespace HSharp.Util.Context
         /// 是否已创建
         /// </summary>
         public static bool IsInstanceCreated { get { return LazyInstance.IsValueCreated; } }
+        /// <summary>
+        /// 用于单元测试
+        /// </summary>
+        /// <returns></returns>
 
-        //public static CSRedisClient GetRedisClient()
-        //{
-        //    var redisClient = new CSRedis.CSRedisClient(GlobalContext.RedisConfig.ConnectionString);
-        //    RedisHelper.Initialization(redisClient);
-        //    return redisClient;
-        //}
+        public static CSRedisClient GetRedisClient()
+        {
+            var redisClient = new CSRedisClient("127.0.0.1:6379");
+            RedisHelper.Initialization(redisClient);
+            return redisClient;
+        }
 
         /// <summary>
         /// 依据Key获取字符串
@@ -428,11 +432,16 @@ namespace HSharp.Util.Context
             var value = pattern.Split('=')[1];
             return value;
         }
+
         ///  如果不存在则执行，存在则忽略
         /// <param name="value"></param>
-        public static bool SetNx(string key, string value)
+        public static bool SetNx(string key, string value, TimeSpan? expire = null)
         {
-            var res = Instance.SetNx(key, value);
+            var res = false;
+            if (Instance.SetNx(key, value)) {
+                var expireSeconds = expire ?? TimeSpan.FromSeconds(5);
+                res = Instance.Expire(key, expireSeconds);
+            }
             return res;
         }  
         /// <summary>
@@ -445,22 +454,15 @@ namespace HSharp.Util.Context
         {
             var result = false; 
             //token用来标识谁拥有该锁并用来释放锁。
-            var token = Environment.MachineName; 
-            if (Instance.SetNx(lockKey, token))
+            var token = "lockNX:"+ Environment.MachineName; 
+            if (SetNx(lockKey, token))
             {
-                try
-                {
-                    action();
-                    result = true;
-                }
-                finally
-                {
-                    //释放锁
-                   ReleaseLock(lockKey, token);
-                }
+                action();
+                result = true;
             } 
             return result;
         }
+
         /// <summary>
         /// 删除共享锁
         /// </summary>
