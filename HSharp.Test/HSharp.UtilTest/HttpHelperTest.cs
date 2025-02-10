@@ -27,12 +27,10 @@ namespace HSharp.UtilTest
         }
 
         [Test]
-        public async Task TestHttpClientFactoryUtil()
+        public async Task TestHttpClientSingleton()
         { 
-            string getTokenUri = "https://www.baidu.com/";
-
-            var client = HttpClientFactoryUtil.Instance.CreateClient();
-
+            string getTokenUri = "https://www.baidu.com/"; 
+            var client = HttpClientFactoryUtil.Instance.CreateClient(); 
             try
             {
                 HttpResponseMessage response = await client.GetAsync(getTokenUri);
@@ -49,21 +47,72 @@ namespace HSharp.UtilTest
         [Test]
         public async Task TestHttpClientUtil()
         {
-            string getTokenUri = "http://117.72.70.166/";
-
+            string getTokenUri = "http://117.72.70.166/"; 
             using (HttpClient client = new HttpClient())
             {
                 try
                 {
                     HttpResponseMessage response = await client.GetAsync(getTokenUri);
-                    response.EnsureSuccessStatusCode();
-                  
+                    response.EnsureSuccessStatusCode(); 
                     string result = await response.Content.ReadAsStringAsync(); 
                 }
                 catch (HttpRequestException e)
                 {
                     LogHelper.Error(e.Message, e);
                 }
+            }
+        }
+
+        [Test]
+        public async Task TestHttpClient_loop()
+        {
+            for (int i = 1; i <= 100; i++)
+            {
+                await TestHttp(i);
+            }
+        }
+
+        [Test]
+        public async Task TestHttpClientSingleton_loop()
+        {
+            for (int i = 1; i <= 100; i++)
+            {
+                await TestHttpSingleton(i);
+            } 
+        }
+        private async Task TestHttp(int times)
+        {
+            string baiduUri = "https://www.baidu.com/";
+            using (HttpClient client = new HttpClient())
+            {
+                try
+                {
+                    HttpResponseMessage response = await client.GetAsync(baiduUri);
+                    response.EnsureSuccessStatusCode();
+                    string result = await response.Content.ReadAsStringAsync();
+                    LogHelper.Info($"HttpClient第{times}次执行");
+                }
+                catch (HttpRequestException e)
+                {
+                    LogHelper.Error($"HttpClient第{times}次抛出异常：" + e.Message, e);
+                }
+            }
+        }
+
+        private async Task TestHttpSingleton(int times)
+        {
+            string baiduUri = "https://www.baidu.com/";
+            var client = HttpClientFactoryUtil.Instance.CreateClient();
+            try
+            {
+                HttpResponseMessage response = await client.GetAsync(baiduUri);
+                response.EnsureSuccessStatusCode();
+                string tokenResult = await response.Content.ReadAsStringAsync();
+                LogHelper.Info($"HttpSingleton第{times}次执行");
+            }
+            catch (HttpRequestException e)
+            {
+                LogHelper.Error($"HttpSingleton第{times}次抛出异常：" + e.Message, e);
             }
         }
     }
