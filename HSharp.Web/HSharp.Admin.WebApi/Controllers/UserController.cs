@@ -22,7 +22,17 @@ namespace HSharp.Admin.WebApi.Controllers
     {
         private UserBLL userBLL = new UserBLL();
 
-        #region 获取数据      
+        #region 获取数据  
+        /// <summary>
+        /// 获取全部用户信息
+        /// </summary> 
+        /// <returns></returns>
+        [HttpGet]
+        public async Task<TData<List<UserEntity>>> GetAllUserList()
+        {
+            TData<List<UserEntity>> obj = await userBLL.GetAllUserList();
+            return obj;
+        }
         /// <summary>
         /// 获取用户信息
         /// </summary>

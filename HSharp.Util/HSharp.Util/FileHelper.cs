@@ -36,7 +36,17 @@ namespace HSharp.Util
         #endregion 创建文本文件
 
         #region 上传单个文件
-
+        /// <summary>
+        /// 上传单个文件
+        /// </summary>
+        /// <param name="fileModule"></param>
+        /// <param name="fileCollection"></param>
+        /// <returns></returns>
+        public static async Task<TData<string>> UploadFile(int fileModule, IFormFile file)
+        {
+            TData<string> obj = new TData<string>();
+            return await HandleFile(fileModule, file, obj);
+        }
         /// <summary>
         /// 上传单个文件
         /// </summary>
@@ -44,8 +54,7 @@ namespace HSharp.Util
         /// <param name="fileCollection"></param>
         /// <returns></returns>
         public static async Task<TData<string>> UploadFile(int fileModule, IFormFileCollection files)
-        {
-            string dirModule = string.Empty;
+        { 
             TData<string> obj = new TData<string>();
             if (files == null || files.Count == 0)
             {
@@ -57,8 +66,19 @@ namespace HSharp.Util
                 obj.Message = "一次只能上传一个文件！";
                 return obj;
             }
-            TData objCheck = null;
-            IFormFile file = files[0];
+           return await HandleFile(fileModule, files[0], obj);
+        }
+        /// <summary>
+        /// 处理文件
+        /// </summary>
+        /// <param name="fileModule"></param>
+        /// <param name="file"></param>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        private static async Task<TData<string>> HandleFile(int fileModule, IFormFile file, TData<string> obj) 
+        {
+            string dirModule = string.Empty; 
+            TData objCheck = null; 
             switch (fileModule)
             {
                 case (int)UploadFileType.Portrait:

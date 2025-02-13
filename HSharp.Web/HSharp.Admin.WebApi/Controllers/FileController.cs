@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using HSharp.Util;
 using HSharp.Util.Extension;
 using HSharp.Util.Model;
+using HSharp.Enum;
 
 namespace HSharp.Admin.WebApi.Controllers
 {
@@ -17,6 +18,13 @@ namespace HSharp.Admin.WebApi.Controllers
     public class FileController : ControllerBase
     {
         #region 上传单个文件
+        [HttpPost]
+        public async Task<TData<string>> Upload(IFormFile file)
+        { 
+            TData<string> obj = await FileHelper.UploadFile((int)UploadFileType.Import, file);
+            return obj;
+        }
+
         [HttpPost]
         public async Task<TData<string>> UploadFile(int fileModule, IFormCollection fileList)
         {

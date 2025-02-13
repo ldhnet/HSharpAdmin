@@ -17,6 +17,11 @@ namespace HSharp.Service.OrganizationManage
     public class UserService : RepositoryFactory
     {
         #region 获取数据
+        public async Task<List<UserEntity>> GetAllUserList()
+        { 
+            var list = await this.BaseRepository().FindList<UserEntity>();
+            return list.ToList();
+        }
 
         public async Task<List<UserEntity>> GetList(UserListParam param)
         {

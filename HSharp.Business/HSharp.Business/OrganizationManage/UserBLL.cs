@@ -28,6 +28,15 @@ namespace HSharp.Business.OrganizationManage
 
         #region 获取数据
 
+        public async Task<TData<List<UserEntity>>> GetAllUserList()
+        {
+            TData<List<UserEntity>> obj = new TData<List<UserEntity>>();
+            obj.Data = await userService.GetAllUserList();
+            obj.Tag = 1;
+            return obj;
+        }
+
+
         public async Task<TData<List<UserEntity>>> GetList(UserListParam param)
         {
             TData<List<UserEntity>> obj = new TData<List<UserEntity>>();
