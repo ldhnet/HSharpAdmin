@@ -53,6 +53,16 @@ namespace HSharp.Admin.WebApi
 
             services.AddMemoryCache();
 
+            //解决跨域
+            services.AddCors(options =>
+            {
+                options.AddPolicy("CorsPolicy", builder => builder
+                    .SetIsOriginAllowed((host) => true)
+                    .AllowAnyMethod()
+                    .AllowAnyHeader()
+                    .AllowCredentials());
+            });
+
             services.AddDataProtection().PersistKeysToFileSystem(new DirectoryInfo(GlobalContext.HostingEnvironment.ContentRootPath + Path.DirectorySeparatorChar + "DataProtection"));
             Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);  // 注册Encoding
 
@@ -73,7 +83,7 @@ namespace HSharp.Admin.WebApi
             {
                 app.UseDeveloperExceptionPage();
             }
-
+            app.UseCors("CorsPolicy");//解决跨域
             string resource = Path.Combine(env.ContentRootPath, "Resource");
             FileHelper.CreateDirectory(resource);
              
