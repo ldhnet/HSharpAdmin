@@ -25,7 +25,13 @@ namespace HSharp.Admin.WebApi.Controllers
             obj.Data = "http://117.72.70.166:9001" + obj.Data;
             return obj;
         }
-
+        [HttpPost]
+        public async Task<TData<string>> UploadImages(IFormFile file)
+        {
+            TData<string> obj = await FileHelper.UploadFile((int)UploadFileType.Portrait, file);
+            obj.Data = "http://117.72.70.166:9001" + obj.Data;
+            return obj;
+        }
         [HttpPost]
         public async Task<TData<string>> UploadFile(int fileModule, IFormCollection fileList)
         {
