@@ -22,6 +22,7 @@ namespace HSharp.Admin.WebApi.Controllers
         public async Task<TData<string>> Upload(IFormFile file)
         { 
             TData<string> obj = await FileHelper.UploadFile((int)UploadFileType.Import, file);
+            obj.Data = "http://117.72.70.166:9001" + obj.Data;
             return obj;
         }
 
