@@ -11,6 +11,14 @@
             <param name="param"></param>
             <returns></returns>
         </member>
+        <member name="M:HSharp.Admin.WebApi.Controllers.FileController.Upload(Microsoft.AspNetCore.Http.IFormFile)">
+            <summary>
+            工作流上传文件专用
+            支持格式 .jpg|.jpeg|.gif|.png|.xls|.xlsx|.doc|.docx|.pdf|.txt
+            </summary>
+            <param name="file"></param>
+            <returns></returns>
+        </member>
         <member name="M:HSharp.Admin.WebApi.Controllers.NewsController.GetPageList(HSharp.Model.Param.OrganizationManage.NewsListParam,HSharp.Util.Model.Pagination)">
             <summary>
             获取文章列表

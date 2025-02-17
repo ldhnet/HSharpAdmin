@@ -33,4 +33,8 @@
     <ProjectReference Include="..\..\HSharp.Util\HSharp.Util\HSharp.Util.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Resource\Workflow\" />
+  </ItemGroup>
+
 </Project>

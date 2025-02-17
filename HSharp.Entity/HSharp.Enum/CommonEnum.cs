@@ -47,10 +47,10 @@ namespace HSharp.Enum
     {
         [Description("头像")]
         Portrait = 1,
-
         [Description("新闻图片")]
         News = 2,
-
+        [Description("工作流附件")]
+        Workflow = 3,
         [Description("导入的文件")]
         Import = 10
     }

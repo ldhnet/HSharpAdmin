@@ -123,7 +123,7 @@ namespace HSharp.Util
             string fileExtension = TextHelper.GetCustomValue(Path.GetExtension(file.FileName), ".png");
 
             string newFileName = SecurityHelper.GetGuid(true) + fileExtension;
-            string dir = "Resource" + Path.DirectorySeparatorChar + dirModule + Path.DirectorySeparatorChar + DateTime.Now.ToString("yyyy-MM-dd").Replace('-', Path.DirectorySeparatorChar) + Path.DirectorySeparatorChar;
+            string dir = "Resource" + Path.DirectorySeparatorChar + dirModule + Path.DirectorySeparatorChar + DateTime.Now.ToString("yyyy-MM-dd") + Path.DirectorySeparatorChar;
 
             string absoluteDir = Path.Combine(GlobalContext.HostingEnvironment.ContentRootPath, dir);
             string absoluteFileName = string.Empty;
@@ -152,6 +152,55 @@ namespace HSharp.Util
         }
 
         #endregion 上传单个文件
+
+        #region
+        /// <summary>
+        /// 处理文件
+        /// </summary> 
+        /// <param name="file"></param> 
+        /// <returns></returns>
+        public static async Task<TData<string>> HSharpFileUpload(IFormFile file)
+        {
+            TData<string> obj = new TData<string>();
+            string dirModule = UploadFileType.Workflow.ToString();
+            TData objCheck = CheckFileExtension(Path.GetExtension(file.FileName), ".jpg|.jpeg|.gif|.png|.xls|.xlsx|.doc|.docx|.pdf|.txt");
+            if (objCheck.Tag != 1)
+            {
+                obj.Message = objCheck.Message;
+                return obj;
+            }
+            string fileExtension = TextHelper.GetCustomValue(Path.GetExtension(file.FileName), ".png");
+            string fileNameWithoutExt = Path.GetFileNameWithoutExtension(TextHelper.GetCustomValue(file.FileName, "NULL"));
+            string newFileName = fileNameWithoutExt + SecurityHelper.GetGuid(true) + fileExtension;
+            string dir = "Resource" + Path.DirectorySeparatorChar + dirModule + Path.DirectorySeparatorChar + DateTime.Now.ToString("yyyyMMdd") + Path.DirectorySeparatorChar;
+
+            string absoluteDir = Path.Combine(GlobalContext.HostingEnvironment.ContentRootPath, dir);
+            string absoluteFileName = string.Empty;
+            if (!Directory.Exists(absoluteDir))
+            {
+                Directory.CreateDirectory(absoluteDir);
+            }
+            absoluteFileName = absoluteDir + newFileName;
+            try
+            {
+                using (FileStream fs = File.Create(absoluteFileName))
+                {
+                    await file.CopyToAsync(fs);
+                    fs.Flush();
+                }
+                obj.Data = Path.AltDirectorySeparatorChar + ConvertDirectoryToHttp(dir) + newFileName;
+                obj.Message = TextHelper.GetCustomValue(file.FileName, newFileName);
+                obj.Description = (file.Length / 1024).ToString()+ "KB"; // KB
+                obj.Tag = 1;
+            }
+            catch (Exception ex)
+            {
+                obj.Message = ex.Message;
+            }
+            return obj;
+        }
+
+        #endregion
 
         #region 删除单个文件
 

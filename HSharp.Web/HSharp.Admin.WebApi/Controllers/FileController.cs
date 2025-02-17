@@ -18,20 +18,20 @@ namespace HSharp.Admin.WebApi.Controllers
     public class FileController : ControllerBase
     {
         #region 上传单个文件
+        /// <summary>
+        /// 工作流上传文件专用
+        /// 支持格式 .jpg|.jpeg|.gif|.png|.xls|.xlsx|.doc|.docx|.pdf|.txt
+        /// </summary>
+        /// <param name="file"></param>
+        /// <returns></returns>
         [HttpPost]
         public async Task<TData<string>> Upload(IFormFile file)
         { 
-            TData<string> obj = await FileHelper.UploadFile((int)UploadFileType.Import, file);
+            TData<string> obj = await FileHelper.HSharpFileUpload(file);
             obj.Data = "http://117.72.70.166:9001" + obj.Data;
             return obj;
         }
-        [HttpPost]
-        public async Task<TData<string>> UploadImages(IFormFile file)
-        {
-            TData<string> obj = await FileHelper.UploadFile((int)UploadFileType.Portrait, file);
-            obj.Data = "http://117.72.70.166:9001" + obj.Data;
-            return obj;
-        }
+        
         [HttpPost]
         public async Task<TData<string>> UploadFile(int fileModule, IFormCollection fileList)
         {
