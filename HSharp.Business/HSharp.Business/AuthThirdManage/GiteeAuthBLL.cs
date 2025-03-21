@@ -51,9 +51,14 @@ namespace HSharp.Business.AuthThirdManage
         /// </summary>
         /// <param name="token"></param>
         /// <returns></returns>
-        public async Task<bool> IsCheckStarred(string token)
+        public async Task<TData> IsCheckStarred(string token)
         {
-            return await _giteeAuthService.IsCheckStarred(token);
+            TData<bool> obj = new TData<bool>();
+            var result = await _giteeAuthService.IsCheckStarred(token);
+            obj.Tag = result?1:2;
+            obj.Data = result;
+            obj.Message = result ? "已star" : "检测到未star本项目,请先点Star";
+            return obj;
         }
         /// <summary>
         /// 登录逻辑处理

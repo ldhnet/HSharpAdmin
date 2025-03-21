@@ -29,7 +29,7 @@ namespace HSharp.Admin.Web.Controllers
             if (!string.IsNullOrWhiteSpace(param.error) || string.IsNullOrWhiteSpace(param.code)) {
                 return RedirectToAction("Error", "Home", new { message ="用户授权失败！"+ param.error + param.error_description });
             }
-            var tokenResult = await _giteeAuthBLL.Callback(param.code);  
+            var tokenResult = await _giteeAuthBLL.Callback(param.code);   
             var result =await _giteeAuthBLL.LoginHandle(tokenResult);
             if (result.Tag == 1)
             {

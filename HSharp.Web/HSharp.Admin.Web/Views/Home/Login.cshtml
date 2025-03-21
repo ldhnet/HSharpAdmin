@@ -61,7 +61,9 @@
                             </path>
                         </svg>
                     </a>
+                <a href="https://gitee.com/ldhnet/HSharpAdmin" style="padding:5px; float: right;width:120px;color:#fff; font-size: 14px;font-weight: 700;background-color: red;border-radius:30px;margin-top:10px;" target="_blank"> Gitee去Star </a>
                 </div>
+                
             </form> 
     </div>
     <div class="login-footer">
@@ -84,15 +86,17 @@
                 $.removeCookie("UserToken", { path: '/' });
             }
         }
-        $("#rememberMe").click(function () {
-            if ($(this).prop("checked")) {
-                $.cookie('RememberMe', 1, { expires: 30, path: '/' });
-            }
-        });
+  
 
         // $("#imgCaptchaCode").click(function () {
         //     $(this).attr("src", '@Url.Content("~/Home/GetCaptchaImage")' + '?t=' + new Date().getTime());
         // });
+        $("#goStar").click(function () {
+            if ($(this).prop("checked")) {
+                $.cookie('RememberMe', 1, { expires: 30, path: '/' });
+            }
+        });
+        
 
         $("#form").validate({
             rules: {
@@ -119,7 +123,7 @@
                     if (obj.Tag == 1) {
                         ys.msgSuccess(obj.Message);
                         redirectToIndex();
-                    }
+                    } 
                     else {
                         ys.msgError(obj.Message);
                     }
