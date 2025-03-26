@@ -1,5 +1,4 @@
-﻿using HSharp.Util;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using System;
@@ -22,7 +21,7 @@ namespace HSharp.Util.Context
         /// <summary>
         /// Lazy对象
         /// </summary>
-        private static readonly Lazy<IConnection> LazyConnection = new Lazy<IConnection>(() =>
+        private  static readonly  Lazy<IConnection> LazyConnection = new Lazy<IConnection>( () =>
         {
             ConnectionFactory factory = null;
             IConnection connection = null;
@@ -40,7 +39,7 @@ namespace HSharp.Util.Context
                     TopologyRecoveryEnabled = true//连接恢复后，连接的交换机，队列等是否一同恢复
                 };
                 //创建连接对象
-                connection = factory.CreateConnection(GlobalContext.RabbitMQConfig.HostName.Split(','));
+                connection =  factory.CreateConnectionAsync(GlobalContext.RabbitMQConfig.HostName.Split(',')).Result; 
             }
             else
             {
@@ -53,7 +52,7 @@ namespace HSharp.Util.Context
                     Port = GlobalContext.RabbitMQConfig.Port
                 };
                 //创建连接对象
-                connection = factory.CreateConnection();
+                connection = factory.CreateConnectionAsync().Result;
             }
 
             #endregion
@@ -75,84 +74,78 @@ namespace HSharp.Util.Context
         /// 发送消息
         /// </summary>
         /// <param name="message">消息体</param>
-        public static void SendMessage(string message)
+        public static async Task SendMessageAsync(string message)
         {
             IConnection connection = ConnectionInstance;
             //定义通道
-            var channel = connection.CreateModel();
+            var channel =await connection.CreateChannelAsync();
             //定义交换机
-            channel.ExchangeDeclare(GlobalContext.RabbitMQConfig.ExchangeName, ExchangeType.Topic, true, false);
+            await channel.ExchangeDeclareAsync(GlobalContext.RabbitMQConfig.ExchangeName, ExchangeType.Topic, true, false);
             //定义队列
-            channel.QueueDeclare(GlobalContext.RabbitMQConfig.QueueName, false, false, false, null);
+            await channel.QueueDeclareAsync(GlobalContext.RabbitMQConfig.QueueName, false, false, false, null);
             //将队列绑定到交换机
-            channel.QueueBind(GlobalContext.RabbitMQConfig.QueueName, GlobalContext.RabbitMQConfig.ExchangeName, "", null);
+            await channel.QueueBindAsync(GlobalContext.RabbitMQConfig.QueueName, GlobalContext.RabbitMQConfig.ExchangeName, "", null);
             //发布消息
-            channel.BasicPublish(GlobalContext.RabbitMQConfig.ExchangeName, "", null, Encoding.Default.GetBytes(message));
+            await channel.BasicPublishAsync(GlobalContext.RabbitMQConfig.ExchangeName, "", false, Encoding.Default.GetBytes(message));
         }
 
-        /// <summary>
-        /// 异步发送消息
-        /// </summary>
-        /// <param name="message">消息体</param>
-        /// <returns></returns>
-        public static async Task SendMessageAsynce(string message)
-        {
-            await Task.Run(() => SendMessage(message)).ConfigureAwait(false);
-        }
+   
         /// <summary>
         /// 发送消息
         /// </summary>
         /// <param name="message">消息体</param>
-        public static void Publish<T>(T message)
+        public static async Task PublishAsync<T>(T message)
         {
             string routeKey = "*";
             IConnection connection = ConnectionInstance;
             //定义通道
-            var channel = connection.CreateModel();
+            var channel =await connection.CreateChannelAsync();
 
             //声明一个队列 (durable=true 持久化消息）
-            channel.QueueDeclare(GlobalContext.RabbitMQConfig.QueueName, false, false, false, null);
+            await channel.QueueDeclareAsync(GlobalContext.RabbitMQConfig.QueueName, false, false, false, null);
 
             if (!string.IsNullOrEmpty(GlobalContext.RabbitMQConfig.ExchangeName))
             {
-                channel.ExchangeDeclare(GlobalContext.RabbitMQConfig.ExchangeName, ExchangeType.Topic, true, false, null);
+                await channel.ExchangeDeclareAsync(GlobalContext.RabbitMQConfig.ExchangeName, ExchangeType.Topic, true, false, null);
                 //将队列绑定到交换机
-                channel.QueueBind(GlobalContext.RabbitMQConfig.QueueName, GlobalContext.RabbitMQConfig.ExchangeName, routeKey, null);
+                await channel.QueueBindAsync(GlobalContext.RabbitMQConfig.QueueName, GlobalContext.RabbitMQConfig.ExchangeName, routeKey, null);
             }
 
             var sendBytes = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(message));
 
-            var properties = channel.CreateBasicProperties();
-            properties.Persistent = true;
+            var properties = new BasicProperties
+            {
+                Persistent = true // 设置消息持久化
+            };
 
-            channel.BasicPublish(GlobalContext.RabbitMQConfig.ExchangeName, routeKey, properties, sendBytes);
+            await channel.BasicPublishAsync(GlobalContext.RabbitMQConfig.ExchangeName, routeKey,false, properties, sendBytes);
         }
 
         /// <summary>
         /// 消费消息
         /// </summary> 
-        public static void Consume<T>(Action<T> action= null) where T : class
+        public static async Task ConsumeAsync<T>(Action<T> action= null) where T : class
         {
             string routeKey = "*";
 
             IConnection connection = ConnectionInstance;
             //定义通道
-            var channel = connection.CreateModel();
+            var channel =await connection.CreateChannelAsync();
 
             //声明一个队列 (durable=true 持久化消息）
-            channel.QueueDeclare(GlobalContext.RabbitMQConfig.QueueName, false, false, false, null);
+            await channel.QueueDeclareAsync(GlobalContext.RabbitMQConfig.QueueName, false, false, false, null);
 
             if (!string.IsNullOrEmpty(GlobalContext.RabbitMQConfig.ExchangeName))
             {
-                channel.ExchangeDeclare(GlobalContext.RabbitMQConfig.ExchangeName, ExchangeType.Topic, true, false, null);
+                await channel.ExchangeDeclareAsync(GlobalContext.RabbitMQConfig.ExchangeName, ExchangeType.Topic, true, false, null);
                 //将队列绑定到交换机
-                channel.QueueBind(GlobalContext.RabbitMQConfig.QueueName, GlobalContext.RabbitMQConfig.ExchangeName, routeKey, null);
+                await channel.QueueBindAsync(GlobalContext.RabbitMQConfig.QueueName, GlobalContext.RabbitMQConfig.ExchangeName, routeKey, null);
             }
 
-            channel.BasicQos(prefetchSize: 0, prefetchCount: 1, global: false);
+            await channel.BasicQosAsync(prefetchSize: 0, prefetchCount: 1, global: false);
 
-            var consumer = new EventingBasicConsumer(channel);
-            consumer.Received += (model, ea) =>
+            var consumer = new AsyncEventingBasicConsumer(channel);
+            consumer.ReceivedAsync += async (model, ea) =>
             {
                 var body = ea.Body.ToArray();
                 var message = Encoding.UTF8.GetString(body);
@@ -169,10 +162,10 @@ namespace HSharp.Util.Context
                 {
                     //throw ex;
                 }
-                channel.BasicAck(deliveryTag: ea.DeliveryTag, multiple: false);
+                await channel.BasicAckAsync(deliveryTag: ea.DeliveryTag, multiple: false);
             };
 
-            channel.BasicConsume(queue: GlobalContext.RabbitMQConfig.QueueName, autoAck: false, consumer: consumer);
+            await channel.BasicConsumeAsync(queue: GlobalContext.RabbitMQConfig.QueueName, autoAck: false, consumer: consumer);
         }
     }
 }

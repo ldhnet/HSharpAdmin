@@ -1,7 +1,5 @@
 ﻿using NLog;
-using System;
-using System.IO;
-
+using System; 
 namespace HSharp.Util.Context
 {
     public class HSharpLoggerContext

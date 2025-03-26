@@ -4,6 +4,7 @@ using NUnit.Framework;
 using HSharp.Util;
 using HSharp.Util.Global;
 using HSharp.Util.Context;
+using System.Threading.Tasks;
 
 namespace HSharp.UtilTest
 {
@@ -25,25 +26,23 @@ namespace HSharp.UtilTest
         }
 
         [Test]
-        public void SendMessage_RabbitMQSimple()
+        public async Task SendMessage_RabbitMQSimple()
         {
-            HSharpRabbitMQContext.SendMessage("HSharp=RabbitMQ 测试消息发布！" + DateTime.Now.ToString());
+           await HSharpRabbitMQContext.SendMessageAsync("HSharp=RabbitMQ 测试消息发布！" + DateTime.Now.ToString());
 
 
         }
         [Test]
-        public void Publish_RabbitMQSimple()
+        public async Task Publish_RabbitMQSimple()
         {
-            HSharpRabbitMQContext.Publish("HSharp=RabbitMQ-Publish 测试消息发布！" + DateTime.Now.ToString());
-
-
+            await HSharpRabbitMQContext.PublishAsync("HSharp=RabbitMQ-Publish 测试消息发布！" + DateTime.Now.ToString());
         }
         [Test]
-        public void Consume_RabbitMQSimple()
+        public async Task Consume_RabbitMQSimple()
         {
             Action<string> action = (value) => { Console.WriteLine("消费成功" + value); };
 
-            HSharpRabbitMQContext.Consume(action);
+            await HSharpRabbitMQContext.ConsumeAsync(action);
 
         }
     }

@@ -5,6 +5,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="NLog.Web.AspNetCore" Version="5.4.0" />
+    <PackageReference Include="RabbitMQ.Client" Version="7.1.2" />
+    <PackageReference Include="StackExchange.Redis" Version="2.8.31" />
+    <PackageReference Include="System.Drawing.Common" Version="9.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\..\HSharp.Cache\HSharp.Cache.Factory\HSharp.Cache.Factory.csproj" />
     <ProjectReference Include="..\..\HSharp.Entity\HSharp.Entity\HSharp.Entity.csproj" />
     <ProjectReference Include="..\HSharp.Service\HSharp.Service.csproj" />
