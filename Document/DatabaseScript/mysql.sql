@@ -212,8 +212,8 @@ CREATE TABLE IF NOT EXISTS `SysUser` (
   `ApiToken`           varchar(32)          NULL       COMMENT 'ApiToken',
   `FirstVisit`         datetime             NULL       COMMENT '首次登录时间',
   `PreviousVisit`      datetime             NULL       COMMENT '上一次登录时间',
-  `LastVisit`          datetime             NULL       COMMENT '最后一次登录时间',
-  `GiteeId`            bigint(20)           NULL       COMMENT 'Gitee用户Id',
+  `LastVisit`          datetime             NULL       COMMENT '最后一次登录时间', 
+  `AuthLoginId`        bigint(20)           NULL       COMMENT '授权平台账户ID',
   `Remark`              varchar(200)         NULL       COMMENT '备注',
   PRIMARY KEY (`Id`)
 ) ENGINE=InnoDB COMMENT '用户表';

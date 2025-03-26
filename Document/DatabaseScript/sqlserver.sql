@@ -412,7 +412,8 @@ CREATE TABLE [dbo].[SysUser](
 	[LastVisit]				[datetime]			NOT NULL,
 	[Remark]				[nvarchar](200)		NOT NULL,
 	[WebToken]				[varchar](32)		NOT NULL,
-	[ApiToken]				[varchar](32)		NOT NULL,
+	[ApiToken]				[varchar](32)		NOT NULL, 
+	[AuthLoginId]			[varchar](32)		NOT NULL,
  CONSTRAINT [PK_SysUser] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
